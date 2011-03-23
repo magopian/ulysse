@@ -115,12 +115,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.admin',
-    'django_extensions',
+    'django.contrib.admin',    
     'compositeurs',
-    'concours',
+    'concours',    
+    'reference',
     'jury',
-    'reference'
 )
 
 # A sample logging configuration. The only tangible logging
