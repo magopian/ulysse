@@ -1,22 +1,22 @@
-# Django settings for ulysse3 project.
+# Django settings for ulysse project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+     ('Thomas Petillon', 'petillon@topic.fr'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+   'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': 'mysql.alwaysdata.com',
+        'NAME': 'topic_ulysse',        
+        'USER': 'topic_ulysse',
+        'PASSWORD': 'crt64vmz',
+        'OPTIONS' :  {"init_command": "SET storage_engine=INNODB",},
     }
 }
 
@@ -27,7 +27,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Europe/Paris'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -56,7 +56,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '/home/topic/www/ulysse/static'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
