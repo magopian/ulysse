@@ -2,8 +2,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class JuryMember(models.Model):
-    user        = models.OneToOneField(User)    
+class Jury(models.Model):
+    user        = models.ForeignKey(User,unique=True)    
     phone       = models.CharField(verbose_name=u"téléphone",max_length=100,blank=True,null=True)
     
     def email(self):
@@ -16,11 +16,11 @@ class JuryMember(models.Model):
         return self.user.last_name
     
     def __unicode__(self):
-        return self.user.username
+        return "%s, %s" % (self.user.last_name,self.user.first_name)
     
     class Meta:
-        verbose_name         = "membre du jury"
-        verbose_name_plural  = "membres du jury"
+        verbose_name         = "jury"
+        verbose_name_plural  = "jurys"
         
 
     

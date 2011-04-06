@@ -1,0 +1,17 @@
+body
+{
+    margin:0px;
+    padding:0px;
+}
+
+TABLE#MainTable
+{
+    width:100%;
+    border-spacing:0px;
+}
+
+SPAN.Button
+{
+    padding-left:10px;
+    padding-right:10px;
+}

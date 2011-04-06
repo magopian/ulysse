@@ -1,23 +1,22 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 import settings
+import jury
+import concours
+
+from concours.ircam import cursus1
+from concours.ircam import residence
 
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'ulysse3.views.home', name='home'),
-    # url(r'^ulysse3/', include('ulysse3.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
+    # Use old-style static file management    
+    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+    url(r'^admin/', include(admin.site.urls)),    
+    url(r'^jury/admin/', include(jury.site.urls)),
+    url(r'^ircam/cursus1-2011/admin/',   include(concours.ircam.cursus1.site.urls)),
+    url(r'^ircam/residence-2011/admin/', include(concours.ircam.residence.site.urls)),
+    (r'^$', 'web.views.show_home'),
 )
 
-if settings.DEBUG:
-    urlpatterns += patterns('django.contrib.staticfiles.views',
-        url(r'^static/(?P<path>.*)$', 'serve'),
-    )

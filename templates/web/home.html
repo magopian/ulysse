@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+<html lang="fr"
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>    
+    <title>Plate-forme Ulysse</title>    	    
+    <LINK href="/static/css/ulysse.css" type="text/css" rel="stylesheet">        
+</head>
+<body>
+<table id="MainTable">
+    <tr style="height:25px;background-image:url('/files/images/fond-top-header.png');">
+        <td>
+            <div style="margin-left:auto;margin-right:auto;width:720px;text-align:right;">
+                {% if user.is_authenticated %}			
+                <span>Connecté : {{user}}</span><span style="color:white;padding-left:8px;padding-right:8px;">|</span><a href="/logout" >Se déconnecter</a></span>                
+                {% else %}
+		<span style="padding-right:15px;font-family:Arial;font-size:13px;"><span style="color:white;">Vous n'êtes pas connecté</span><span style="color:white;padding-left:8px;padding-right:8px;">|</span><a href="/signin" style="color:white;">Se connecter</a></span>
+		{% endif %}
+            </div>
+        </td>
+    </tr>
+    <tr style="height:80px;background-color:#e7e7e7;">
+        <td>
+            <div style="margin-left:auto;margin-right:auto;width:860px;">
+            <table style="width:100%">
+            <tr>
+                <td>
+                    <h1>Plate-forme Ulysse</h1>
+                    <div><span class="Button"><a href="/">Le réseau Ulysse</a></span>|<span class="Button"><a href="/concours">Concours</a></span>|<span class="Button"><a href="/actualites">Actualités</a></span>|<span class="Button"><a href="/aide">Aide</a></span></div>                    
+                </td>                
+            </tr>
+            </table>
+            </div>
+        </td>
+    </tr>        
+</table>
+<div style="margin-left:auto;margin-right:auto;width:1000px;padding-top:20px;">
+<table cellpadding="0" cellspacing="0" style="width:100%;">
+Contenu
+</table>
+<div style="margin-left:auto;margin-right:auto;width:1000px;margin-top:50px;margin-bottom:50px;">
+<table cellpadding="0" cellspacing="0" style="width:100%;">
+    <tr style="background-color:#efefef;text-align:right;">        
+        <td style="padding:10px;" >
+            <a href="#">Mentions légales</a> | <a href="#">Contact</a>
+        </td>        
+    </tr>    
+</table>
+</div>
+</body>
+</html>
+

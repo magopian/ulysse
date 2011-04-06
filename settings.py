@@ -106,6 +106,17 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    '/home/topic/www/ulysse/templates'
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+     "django.contrib.auth.context_processors.auth",
+     "django.core.context_processors.debug",
+     "django.core.context_processors.i18n",
+     "django.core.context_processors.media",
+     "django.core.context_processors.static",
+     "django.contrib.messages.context_processors.messages",
+     "context_processors.ulysse_context_processor",
 )
 
 INSTALLED_APPS = (
@@ -117,9 +128,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',    
     'compositeurs',
-    'concours',    
+    'concours',
+    'concours.ircam.cursus1',
+    'concours.ircam.residence',
+    'partenaires',
     'reference',
     'jury',
+    'south'
 )
 
 # A sample logging configuration. The only tangible logging
