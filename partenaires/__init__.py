@@ -1,1 +1,0 @@
-print "in partenaires.__init__"
