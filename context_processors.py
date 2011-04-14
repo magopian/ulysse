@@ -1,4 +1,4 @@
-from concours import get_active_competition
+from competitions import get_active_competition
 
 def ulysse_context_processor(request):    
     competition = get_active_competition(request)
