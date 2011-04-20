@@ -1,0 +1,72 @@
+
+from competitions.sites import CompetitionAdminSite
+
+site = CompetitionAdminSite(name="ircam_cursus1_2011")
+
+# Register competitions models (generic)
+
+from competitions.models import Competition
+from competitions.models import JuryMember
+from competitions.models import CandidateJuryAllocation
+from competitions.models import CompetitionStepFollowUp
+from competitions.models import CompetitionStepResults
+
+
+from competitions.admin import CompetitionAdmin
+from competitions.admin import JuryMemberAdmin
+from competitions.admin import CandidateJuryAllocationAdmin
+from competitions.admin import CompetitionStepFollowUpAdmin
+from competitions.admin import CompetitionStepResultsAdmin
+
+site.register(JuryMember,JuryMemberAdmin)
+site.register(CandidateJuryAllocation,CandidateJuryAllocationAdmin)
+site.register(CompetitionStepFollowUp,CompetitionStepFollowUpAdmin)
+site.register(CompetitionStepResults,CompetitionStepResultsAdmin)
+
+# Register competitions models (specific to Ircam Cursus Ircam 1)
+
+from specific.ircam.cursus1.models import CandidateCursus1
+from specific.ircam.cursus1.prejury.models import CandidateJuryAllocationIrcamCursus1PreJury
+from specific.ircam.cursus1.prejury.models import CompetitionStepResultsIrcamCursus1PreJury
+from specific.ircam.cursus1.prejury.models import CompetitionStepFollowUpIrcamCursus1PreJury
+from specific.ircam.cursus1.jury.models import CandidateJuryAllocationIrcamCursus1Jury
+from specific.ircam.cursus1.jury.models import CompetitionStepResultsIrcamCursus1Jury
+from specific.ircam.cursus1.jury.models import CompetitionStepFollowUpIrcamCursus1Jury
+
+from specific.ircam.cursus1.admin import CandidateCursus1Admin
+from specific.ircam.cursus1.prejury.admin import CandidateJuryAllocationIrcamCursus1PreJuryAdmin
+from specific.ircam.cursus1.prejury.admin import CompetitionStepResultsIrcamCursus1PreJuryAdmin
+from specific.ircam.cursus1.prejury.admin import CompetitionStepFollowUpIrcamCursus1PreJuryAdmin
+from specific.ircam.cursus1.jury.admin import CandidateJuryAllocationIrcamCursus1JuryAdmin
+from specific.ircam.cursus1.jury.admin import CompetitionStepResultsIrcamCursus1JuryAdmin
+from specific.ircam.cursus1.jury.admin import CompetitionStepFollowUpIrcamCursus1JuryAdmin
+
+site.register(CandidateCursus1,CandidateCursus1Admin)
+site.register(CompetitionStepResultsIrcamCursus1PreJury,CompetitionStepResultsIrcamCursus1PreJuryAdmin)
+site.register(CompetitionStepFollowUpIrcamCursus1PreJury,CompetitionStepFollowUpIrcamCursus1PreJuryAdmin)
+site.register(CandidateJuryAllocationIrcamCursus1PreJury,CandidateJuryAllocationIrcamCursus1PreJuryAdmin)
+
+site.register(CompetitionStepResultsIrcamCursus1Jury,CompetitionStepResultsIrcamCursus1JuryAdmin)
+site.register(CompetitionStepFollowUpIrcamCursus1Jury,CompetitionStepFollowUpIrcamCursus1JuryAdmin)
+site.register(CandidateJuryAllocationIrcamCursus1Jury,CandidateJuryAllocationIrcamCursus1JuryAdmin)
+
+# Register partners models
+
+from partners.models import Partner
+from partners.admin import PartnerAdmin
+
+site.register(Partner,PartnerAdmin)
+
+# Register composer models
+
+from composers.models import Composer
+from composers.models import Work
+from composers.models import AdministrativeDocument
+
+from composers.admin import ComposerAdmin
+from composers.admin import WorkAdmin
+from composers.admin import AdministrativeDocumentAdmin
+
+site.register(Composer,ComposerAdmin)
+site.register(Work,WorkAdmin)
+site.register(AdministrativeDocument,AdministrativeDocumentAdmin)

@@ -1,10 +1,31 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
 
+{% block extrastyle %}<link rel="stylesheet" type="text/css" href="/static/css/ulysse.css" />{% endblock %}
+
 {% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
 
 {% block branding %}
 <h1 id="site-name">{% if admin_title %}{{admin_title}}{% else %}Administration Ulysse{% endif %}</h1>
 {% endblock %}
 
-{% block nav-global %}{% endblock %}
+{% block nav-global %}
+{% if nav_buttons %}
+        <div class="NavBar">
+        {% for button in nav_buttons %}
+            <span class="NavButton{% if button.is_selected %}Selected{% endif %}"><a class="NavButton" href="/{{active_competition.url}}/{{button.url}}">{{button.label}}</a></span><span class="Separator"></span>            
+        {% endfor %}        
+        </div>
+        {% for button in nav_buttons %}            
+            {% if button.is_selected %}
+                {% if button.children %}
+                    <div class="NavBar2">
+                    {% for children_button in button.children %}                    
+                    <span class="NavButton2{% if children_button.is_selected %}Selected{% endif %}"><a class="NavButton2" href="/{{active_competition.url}}/{{children_button.url}}">{{children_button.label}}</a></span><span class="Separator"></span>                    
+                    {% endfor %}
+                    </div>
+                {% endif %}
+            {% endif %}                    
+        {% endfor %}          
+{% endif %}
+{% endblock %}

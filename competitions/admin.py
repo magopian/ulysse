@@ -5,14 +5,38 @@ from competitions.models import Partner
 from competitions.models import Competition
 from competitions.models import CompetitionStep
 from competitions.models import CompetitionNews
-from competitions.models import Candidate
-from competitions.models import CandidateGroup
 from competitions.models import JuryMember
 from competitions.models import JuryMemberGroup
 from competitions.models import CompetitionManager
-from competitions.models import Evaluation
 
 import jury
+
+class CandidateAdmin(admin.ModelAdmin):    
+    list_display  = ('nom_','prenom_')
+    
+    def save_model(self, request, obj, form, change):
+        from competitions import get_active_competition
+        obj.competition = get_active_competition(request)
+        obj.save()
+        
+class CandidateJuryAllocationAdmin(admin.ModelAdmin):
+    list_display  = ('nom_','prenom_','jury_')
+    list_filter = ['jury_members']
+    filter_vertical = ['jury_members',]
+
+
+class CandidateGroupAdmin(admin.ModelAdmin):
+    fields = ('name','members')
+    filter_vertical = ['members',]
+    list_display = ("name",)
+    
+    def save_model(self, request, obj, form, change):
+        from competitions import get_active_competition
+        obj.competition = get_active_competition(request)
+        obj.save()
+
+class CompetitionStepResultsAdmin(admin.ModelAdmin):
+    list_display   = ('nom_','prenom_','evaluations_')   
 
 
 class CompetitionStepInline(TabularInline):
@@ -27,7 +51,7 @@ class CompetitionAdmin(admin.ModelAdmin):
     inlines = (CompetitionStepInline,)    
     
     fieldsets = (
-        ('Informations générales', {
+        ('Titre & présentation', {
             'classes': ('wide',),
             'fields': ('title','url','subtitle','presentation')
         }),
@@ -71,24 +95,6 @@ class CompetitionNewsAdmin(admin.ModelAdmin):
         obj.competition = get_active_competition(request)
         obj.save()
 
-class CandidateAdmin(admin.ModelAdmin):    
-    list_display  = ('nom_','prenom_')
-    
-    def save_model(self, request, obj, form, change):
-        from competitions import get_active_competition
-        obj.competition = get_active_competition(request)
-        obj.save()
-
-
-class CandidateGroupAdmin(admin.ModelAdmin):
-    fields = ('name','members')
-    filter_vertical = ['members',]
-    list_display = ("name",)
-    
-    def save_model(self, request, obj, form, change):
-        from competitions import get_active_competition
-        obj.competition = get_active_competition(request)
-        obj.save()
 
 
 class JuryMemberAdmin(admin.ModelAdmin):
@@ -113,11 +119,14 @@ class JuryMemberGroupAdmin(admin.ModelAdmin):
         obj.save()
     
 
-class EvaluationAdmin(admin.ModelAdmin):
-    pass
 
 class CompetitionManagerAdmin(admin.ModelAdmin):
     pass
+
+class CompetitionStepFollowUpAdmin(admin.ModelAdmin):
+    list_display   = ('jury','total_','en_attente_','en_cours_','terminees_')   
+
+
 
 def register(site):
     site.register(JuryMember,JuryMemberAdmin)

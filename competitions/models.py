@@ -1,10 +1,14 @@
 #-*- coding: utf-8 -*- 
 from django.db import models
 from jury.models import Jury
+from composers.models import AdministrativeDocument
 from composers.models import Composer
+from composers.models import Work
 from partners.models  import Partner
 from django.contrib.auth.models import User
 from competitions import get_active_competition
+
+
 
 
 class Competition(models.Model):
@@ -25,9 +29,12 @@ class Competition(models.Model):
     def __unicode__(self):
         return self.title
     
+    def steps(self):
+        return CompetitionStep.objects.filter(competition=self)
+    
     class Meta:
         verbose_name         = "concours"
-        verbose_name_plural  = "concours"
+        verbose_name_plural  = "concours"        
         
 class CompetitionManager(models.Model):
     user                 = models.ForeignKey(User,unique=True)    
@@ -41,6 +48,7 @@ class CompetitionManager(models.Model):
 class CompetitionStep(models.Model):
     competition      = models.ForeignKey(Competition,verbose_name=u"concours")
     name             = models.CharField(verbose_name=u"nom",max_length=200)    
+    url              = models.CharField(verbose_name=u"url",max_length=200)    
     is_open          = models.BooleanField(verbose_name=u"ouvert",help_text=u"lorsque cette case est cochée, l'étape est ouverte (i.e, les évaluations sont possibles)")
     closing_date     = models.DateField(verbose_name="date de clôture d'étape",help_text=u"date indicative de fin d'étape")
     
@@ -61,7 +69,52 @@ class CompetitionNews(models.Model):
         verbose_name         = u"actualité"
         verbose_name_plural  = u"actualités"
     
+
+class JuryMember(models.Model):
+    jury        = models.ForeignKey(Jury,verbose_name=u"jury")
+    competition = models.ForeignKey(Competition,verbose_name=u"concours")
     
+    def __unicode__(self):
+        return "%s, %s" % (self.jury.user.last_name,self.jury.user.first_name)
+     
+    class Meta:        
+        verbose_name         = "membre du jury"
+        verbose_name_plural  = "membres du jury"
+        unique_together = (('jury', 'competition'),)
+        
+        
+
+class JuryMemberGroup(models.Model):
+    competition = models.ForeignKey(Competition,verbose_name=u"concours")
+    name    = models.CharField(verbose_name=u"nom",max_length=200)
+    members = models.ManyToManyField(JuryMember,verbose_name=u"membres du groupe")
+     
+    class Meta:
+        verbose_name         = "groupe de membres du jury"
+        verbose_name_plural  = "groupes de membres du jury"
+        
+
+class CompetitionStepFollowUp(JuryMember):
+    
+    def total_(self):
+        return u"à implémenter"
+    
+    def en_attente_(self):
+        return u"à implémenter"
+    
+    def en_cours_(self):
+        return u"à implémenter"
+    
+    def terminees_(self):
+        return u"à implémenter"    
+    
+    
+    class Meta:
+        proxy = True
+        verbose_name        = u"suivi évaluations"
+        verbose_name_plural = u"suivis évaluations"
+        
+
 class Candidate(models.Model):    
     composer    = models.ForeignKey(Composer,verbose_name=u"compositeur")
     competition = models.ForeignKey(Competition,verbose_name=u"concours")
@@ -77,11 +130,32 @@ class Candidate(models.Model):
     
     class Meta:
         verbose_name  = "candidat"
+        db_table      = "candidates_candidate"
         unique_together = (('composer', 'competition'),)
         
+class CandidateJuryAllocation(models.Model):
+    composer     = models.ForeignKey(Composer,verbose_name=u"compositeur")
+    step         = models.ForeignKey(CompetitionStep,verbose_name=u"étape du concours")
+    jury_members = models.ManyToManyField(JuryMember,verbose_name=u"membres du jury")
+    
+    def nom_(self):
+        return self.composer.user.last_name
+    
+    def prenom_(self):
+        return self.composer.user.first_name
+    
+    def jury_(self):        
+        if len(self.jury_members.all())>0:
+            return ", ".join(["%s %s" % (member.jury.user.first_name,member.jury.user.last_name) for member in self.jury_members.all()])
+        else:
+            return u"Aucun membre du jury n'est associé à ce candidat pour cette étape"        
+        
+    class Meta:
+        db_table = "candidates_candidatejuryallocation"
+        verbose_name        = "affectation candidat / jury"
+        verbose_name_plural = "affectations candidat / jury"
 
         
-    
 class CandidateGroup(models.Model):
     competition = models.ForeignKey(Competition,verbose_name=u"concours")
     name        = models.CharField(verbose_name=u"nom du groupe",max_length=200)
@@ -89,34 +163,25 @@ class CandidateGroup(models.Model):
      
     class Meta:
         verbose_name         = "groupe de candidat"
-        verbose_name_plural  = "groupes de candidat"
+        verbose_name_plural  = "groupes de candidat"        
+        
 
-class JuryMember(models.Model):
-    jury        = models.ForeignKey(Jury,verbose_name=u"jury")
-    competition = models.ForeignKey(Competition,verbose_name=u"concours")
+class CompetitionStepResults(Candidate):
     
-    def __unicode__(self):
-        return "%s, %s" % (self.jury.user.last_name,self.jury.user.first_name)
-     
+    def nom_(self):
+        return self.composer.user.last_name
+    
+    def prenom_(self):
+        return self.composer.user.first_name
+    
+    def evaluations_(self):
+        return u"synthèse des évaluations par membre du jury (à implémenter)"
+    
     class Meta:
-        verbose_name         = "membre du jury"
-        verbose_name_plural  = "membres du jury"
-        unique_together = (('jury', 'competition'),)
+        proxy = True
+        verbose_name        = u"résultat évaluation"
+        verbose_name_plural = u"résultats évaluation"
 
-class JuryMemberGroup(models.Model):
-    competition = models.ForeignKey(Competition,verbose_name=u"concours")
-    name    = models.CharField(verbose_name=u"nom",max_length=200)
-    members = models.ManyToManyField(JuryMember,verbose_name=u"membres du groupe")
-     
-    class Meta:
-        verbose_name         = "groupe de membres du jury"
-        verbose_name_plural  = "groupes de membres du jury"
 
-class Evaluation(models.Model):
-    competition_step   = models.ForeignKey(CompetitionStep,verbose_name=u"étape du concours")
-    candidate          = models.ForeignKey(Candidate,verbose_name=u"candidat")
-    jury_member        = models.ForeignKey(JuryMember,verbose_name=u"membre du jury")    
 
-    class Meta:
-        verbose_name  = u"évaluation"
         

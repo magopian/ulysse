@@ -50,6 +50,9 @@ class WorkAdmin(ModelAdmin):
     list_display_links  = ('title',)
     list_filter         = ['composer',]
     search_fields       = ['composer__user__last_name','title']
+    
+class AdministrativeDocumentAdmin(ModelAdmin):
+    pass
 
 
 def register(site):

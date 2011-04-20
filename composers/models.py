@@ -28,7 +28,6 @@ class Composer(models.Model):
     
     class Meta:
         verbose_name  = "compositeur"
-
         
 
 class Work(models.Model):
@@ -54,7 +53,7 @@ class AdministrativeDocument(models.Model):
     
     class Meta:
         verbose_name         = u"document administratif"
-        verbose_name_plural  = u"documents administratifs"
+        verbose_name_plural  = u"documents administratifs"        
         
 class BiographicElement(models.Model):
     composer = models.ForeignKey(Composer,verbose_name=u"compositeur")
