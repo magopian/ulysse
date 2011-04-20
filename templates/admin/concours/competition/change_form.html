@@ -1,8 +1,0 @@
-{% extends "admin/change_form.html" %}
-
-{% block form_top %}
-{% if original.url and original.managing_partner.url %}
-<div style="padding-top:15px;padding-bottom:15px;">Lien vers l'<a href="/{{original.managing_partner.url}}/{{original.url}}/admin/">interface d'administration du concours "{{original.title}}"</a></div>
-{% endif %}
-{% endblock %}
-
