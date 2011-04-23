@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*- 
 
-from competitions.evaluations.models import EvaluationBase
+from competitions.models import EvaluationBase
 
 class EvaluationResidence(EvaluationBase):
     technical_novelty     = models.ForeignKey(EvaluationLevel,related_name="technical_novelty")

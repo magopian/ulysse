@@ -1,7 +1,50 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
 
-{% block extrastyle %}<link rel="stylesheet" type="text/css" href="/static/css/ulysse.css" />{% endblock %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="/static/css/ulysse.css" />
+<style type="text/css">
+ul.tab-list
+{
+    list-style-type:none;
+    margin-top:20px;
+    font-weight:bold;
+    padding-left:120px;    
+}
+
+ul.tab-list li
+{
+    background-color:#e7e7e7;
+    list-style-type:none;
+    float:left; 
+    border-style:solid;
+    border-width:1px;
+    margin-left:px;
+    margin-right:5px;
+    padding:5px;
+    width:120px;
+    text-align:center;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-width:0px;
+    cursor:pointer;
+}
+
+ul.tab-list li:hover
+{
+    border-color:black;
+    background-color:lightyellow;
+    color:white;
+}
+
+ul.tab-list li.selected 
+{
+    border-color:black;
+    background-color:lightyellow;
+    color:white;
+}
+</style>
+{% endblock %}
 
 {% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
 
@@ -9,23 +52,14 @@
 <h1 id="site-name">{% if admin_title %}{{admin_title}}{% else %}Administration Ulysse{% endif %}</h1>
 {% endblock %}
 
-{% block nav-global %}
-{% if nav_buttons %}
-        <div class="NavBar">
-        {% for button in nav_buttons %}
-            <span class="NavButton{% if button.is_selected %}Selected{% endif %}"><a class="NavButton" href="/{{active_competition.url}}/{{button.url}}">{{button.label}}</a></span><span class="Separator"></span>            
-        {% endfor %}        
-        </div>
-        {% for button in nav_buttons %}            
-            {% if button.is_selected %}
-                {% if button.children %}
-                    <div class="NavBar2">
-                    {% for children_button in button.children %}                    
-                    <span class="NavButton2{% if children_button.is_selected %}Selected{% endif %}"><a class="NavButton2" href="/{{active_competition.url}}/{{children_button.url}}">{{children_button.label}}</a></span><span class="Separator"></span>                    
-                    {% endfor %}
-                    </div>
-                {% endif %}
-            {% endif %}                    
-        {% endfor %}          
-{% endif %}
+
+{% block tabs %}
+<div style="border-bottom-style:solid;border-bottom-width:1px;">
+<ul class="tab-list">        
+    {% for button in nav_buttons %}
+        <li {% if button.is_selected %}class="selected"{% endif %}><a class="NavButton" href="/{{active_competition.url}}/{{button.url}}">{{button.label}}</a></li>          
+    {% endfor %}                
+</ul>
+<div style="clear:both"></div> 
+</div>
 {% endblock %}

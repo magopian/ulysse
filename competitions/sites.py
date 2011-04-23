@@ -4,36 +4,32 @@ from django.contrib.admin.sites import AdminSite
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
 from django.template import RequestContext
-import competitions
+from composers.models import Composer
+from admin import CandidateAdmin
+from partners.models import Partner
+from partners.admin import PartnerAdmin
+from composers.models import Composer, Work, AdministrativeDocument
+from composers.admin import ComposerAdmin, WorkAdmin, AdministrativeDocumentAdmin
+from competitions.models import Competition, CompetitionStep, JuryMember, CandidateJuryAllocation, CompetitionStepFollowUp, CompetitionStepResults
+from competitions.admin import CompetitionAdmin, JuryMemberAdmin, CandidateJuryAllocationAdmin, CompetitionStepFollowUpAdmin, CompetitionStepResultsAdmin
+from session import get_active_competition
 
-## Nota : this is specific to Ircam - Cursus 1 and should therefore must be moved in "specific.ircam.cursus1"
-
-REDIRECTIONS = {
-    u'candidates' : u'cursus1/candidatecursus1/',
-    u'jury'       : u'competitions/jurymember/',    
-    u'step/pre-jury/allocations' : u'prejury/candidatejuryallocationircamcursus1prejury/',
-    u'step/pre-jury/evaluations' : u'prejury/competitionstepfollowupircamcursus1prejury/',
-    u'step/pre-jury/results' : u'prejury/competitionstepresultsircamcursus1prejury/',
-    u'step/jury/allocations' : u'jury/candidatejuryallocationircamcursus1jury/',
-    u'step/jury/evaluations' : u'jury/competitionstepfollowupircamcursus1jury/',
-    u'step/jury/results' : u'jury/competitionstepresultsircamcursus1jury/'    
-}
-
-
-        
-#############################################################################################################
-
-def internal_redirect(request,internal_url):
-    from competitions import get_active_competition
-    active_competition = get_active_competition(request)
-    return redirect("/%s/%s" % (active_competition.url,internal_url))
-
-class CompetitionAdminSite(AdminSite):
-        
+    
+class CompetitionAdminSite(AdminSite):          
+    
     def index(self, request, extra_context=None):
        return redirect('%sinfos' % request.META["PATH_INFO"])
-    
            
+    def register_models(self):
+        self.register(Partner,PartnerAdmin)
+        self.register(Composer,ComposerAdmin)
+        self.register(Work,WorkAdmin)
+        self.register(AdministrativeDocument,AdministrativeDocumentAdmin)
+        self.register(JuryMember,JuryMemberAdmin)
+        self.register(CandidateJuryAllocation,CandidateJuryAllocationAdmin)
+        self.register(CompetitionStepFollowUp,CompetitionStepFollowUpAdmin)
+        self.register(CompetitionStepResults,CompetitionStepResultsAdmin)
+            
     def show_informations(self,request):        
         from models import Competition
         from admin import CompetitionAdmin
@@ -41,38 +37,37 @@ class CompetitionAdminSite(AdminSite):
         context['competition_admin'] = True
         context['title'] = ''
         return CompetitionAdmin(Competition,self).change_view(request,'1',context)        
-        
-    def show_candidates(self,request):        
-        return internal_redirect(request,REDIRECTIONS['candidates'])        
-        
-    def show_jury(self,request):
-        return internal_redirect(request,REDIRECTIONS['jury'])        
-        
+                    
     def show_step(self,request,url):
-        return redirect('%s/allocations' % request.META["PATH_INFO"])        
+        return redirect('%s/allocations/' % request.META["PATH_INFO"])               
         
-    def show_step_allocations(self,request,url):
-        return internal_redirect(request,REDIRECTIONS['step/%s/allocations' % url])        
-        
-    def show_step_evaluations(self,request,url):
-        return internal_redirect(request,REDIRECTIONS['step/%s/evaluations' % url])        
-        
-    def show_step_results(self,request,url):
-        return internal_redirect(request,REDIRECTIONS['step/%s/results' % url])                
+    def get_steps(self):
+        raise RuntimeError("Should be overriden in derived class")
     
     def get_urls(self):
-        urls = super(CompetitionAdminSite,self).get_urls()           
+        
+        urls = super(CompetitionAdminSite,self).get_urls()
+        
         my_urls = patterns('',            
             (r'^admin',super(CompetitionAdminSite,self).index),
-            (r'^infos',self.show_informations),
-            (r'^candidates', self.show_candidates) ,           
-            (r'^jury', self.show_jury),            
-            (r'^step/(?P<url>.*)/allocations', self.show_step_allocations),
-            (r'^step/(?P<url>.*)/evaluations', self.show_step_evaluations),
-            (r'^step/(?P<url>.*)/results', self.show_step_results),
-            (r'^step/(?P<url>.*)', self.show_step)
+            (r'^infos',self.show_informations),                                    
+            (r'^jury/', include(self._registry[JuryMember].urls)),                                            
         )
-        return urls + my_urls 
+        
+        for step_name in self.get_steps():
+            my_urls += patterns('',
+                (r'^step/%s/allocations/' % step_name, include(self._registry[CandidateJuryAllocation].urls)),
+                (r'^step/%s/evaluations/' % step_name, include(self._registry[CompetitionStepFollowUp].urls)),
+                (r'^step/%s/results/' % step_name, include(self._registry[CompetitionStepResults].urls)),
+            )
+        
+        # Nota : this should be defined after steps        
+        
+        my_urls += patterns('',                                        
+            (r'^step/(?P<url>.*)', self.show_step),
+        )
+            
+        return my_urls + urls
         
         
 

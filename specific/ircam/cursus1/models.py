@@ -16,5 +16,4 @@ class CandidateCursus1(Candidate):
     class Meta:        
         verbose_name        = u"candidat Cursus 1"
         verbose_name_plural = u"candidats Cursus 1"
-        db_table            = "candidates_candidatecursus1"
         
