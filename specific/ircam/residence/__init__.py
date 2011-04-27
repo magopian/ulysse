@@ -1,1 +1,0 @@
-print "in residence.__init__"

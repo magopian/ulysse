@@ -53,13 +53,27 @@ ul.tab-list li.selected
 {% endblock %}
 
 
-{% block tabs %}
+{% block top_tabs %}
 <div style="border-bottom-style:solid;border-bottom-width:1px;">
 <ul class="tab-list">        
     {% for button in nav_buttons %}
-        <li {% if button.is_selected %}class="selected"{% endif %}><a class="NavButton" href="/{{active_competition.url}}/{{button.url}}">{{button.label}}</a></li>          
+        <li {% if button.is_selected %}class="selected"{% endif %}><a class="NavButton" href="/admin/{{button.url}}">{{button.label}}</a></li>          
     {% endfor %}                
 </ul>
 <div style="clear:both"></div> 
+</div>
+{% endblock %}
+
+{% block left_tabs %}
+<div class="LeftBar">
+{% for button in nav_buttons %}
+{% if button.is_selected %}
+    {% if button.children %}			    
+        {% for children_button in button.children %}			    
+        <div style="height:35px;margin-bottom:10px;{% if children_button.is_selected %}background-color:yellow{% endif %}"><a class="NavButton2" href="/admin/{{children_button.url}}">{{children_button.label}}</a></div>  
+        {% endfor %}			
+    {% endif %}
+{% endif %}                    
+{% endfor %}          
 </div>
 {% endblock %}

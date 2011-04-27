@@ -12,8 +12,6 @@ from models import JuryMember
 from models import JuryMemberGroup
 from models import CompetitionManager
 from models import EvaluationNote
-from models import EvaluationYesNo
-from models import EvaluationYesNoAndNote
 from models import CandidateJuryAllocation    
 from session import get_active_competition
 
@@ -36,6 +34,8 @@ def wrap_queryset(model_admin,qs):
         qs = qs.order_by(*ordering)
     return qs
     
+class CompetitionManagerInline(admin.TabularInline):
+    model = CompetitionManager
 
 class CandidateAdmin(admin.ModelAdmin):    
         
@@ -86,7 +86,7 @@ class CompetitionAdmin(admin.ModelAdmin):
     list_display    = ('title','subtitle','managing_partner','opening_date','closing_date','is_published','is_open')
     list_filter     = ['is_published','is_open','managing_partner','additional_partners']    
     filter_vertical = ['additional_partners']    
-    inlines = (CompetitionStepInline,)    
+    inlines = (CompetitionStepInline,CompetitionManagerInline,)    
     
     fieldsets = (
         ('Titre & présentation', {
@@ -177,14 +177,6 @@ class CompetitionStepFollowUpAdmin(admin.ModelAdmin):
     list_display   = ('jury','total_','en_attente_','en_cours_','terminees_')   
 
 
-class EvaluationYesNoAndNoteAdmin(admin.ModelAdmin):
-    list_filter  = ['yes','candidate','jury_member']
-    list_display  = ('candidate','jury_member','yes','note','comments')
-
-class EvaluationYesNoAdmin(admin.ModelAdmin):
-    list_filter  = ['yes','candidate','jury_member']
-    list_display  = ('candidate','jury_member','yes','comments')
-    
 class EvaluationNoteAdmin(admin.ModelAdmin):
     list_filter  = ['note','candidate','jury_member']
     list_display  = ('candidate','jury_member','note','comments')

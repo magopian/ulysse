@@ -28,7 +28,7 @@
     <!-- Header -->
     <div id="header">
         <div id="branding">
-        {% block branding %}{% endblock %}
+        {% block branding %}{% endblock %}	
         </div>
         {% if user.is_active and user.is_staff %}
         <div id="user-tools">
@@ -69,27 +69,19 @@
 
     <!-- Content -->            	
 	
+	{% if in_competition_admin and active_competition and is_user_authenticated %}
 	<table class="MainTable" cellpadding="0" cellspacing="0">	
 	    <tr>		
 		<td style="border-style:none;" colspan="2">
-		    {% block tabs %}{% endblock %}		    
+		    {% block top_tabs %}{% endblock %}		    
 		</td>
 	    </tr>
 	    <tr>
-		<td style="width:100px;background-color:#e7e7e7;border-style:none;">
-		    <div class="LeftBar">
-		    {% for button in nav_buttons %}            
-		    {% if button.is_selected %}
-			{% if button.children %}			    
-	                    {% for children_button in button.children %}			    
-			    <div style="height:35px;border-bottom-style:solid;border-bottom-width:1px;margin-bottom:10px;{% if children_button.is_selected %}background-color:yellow{% endif %}"><a class="NavButton2" href="/{{active_competition.url}}/{{children_button.url}}">{{children_button.label}}</a></div>  
-	                    {% endfor %}			
-		    {% endif %}
-		    </diV>
-            {% endif %}                    
-        {% endfor %}          
+		<td style="width:100px;border-right-style:solid;border-right-width:1px;border-right-color:#E7E7E7">
+		    {% block left_tabs %}{% endblock %}		    		            
 		</td>
 		<td style="padding:20px;border-style:none;">
+	{% endif  %} 
 		    <div id="content" class="{% block coltype %}colM{% endblock %}">	
 		    {% block pretitle %}{% endblock %}
 		    {% block content_title %}{% if title %}<h1 style="padding-top:5px;padding-bottom:5px;">{{ title }}</h1>{% endif %}{% endblock %}	       
@@ -101,9 +93,11 @@
 		    <br class="clear" />
 		    </div>
 		    <!-- END Content -->
+	{% if in_competition_admin and is_user_authenticated %}
 		</td>
 	    </tr>
 	</table>	
+	{% endif %}
         
 
     {% block footer %}<div id="footer"></div>{% endblock %}

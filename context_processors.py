@@ -1,10 +1,12 @@
-#-*- coding: utf-8 -*- 
-from competitions.session import get_active_competition
+#-*- coding: utf-8 -*-
+from session import get_active_competition
                     
-def ulysse_context_processor(request):    
-    competition = get_active_competition(request)
+def ulysse_context_processor(request):        
     results = {}
-    if competition:        
+    results["in_competition_admin"]  = request.path.startswith("/admin")
+    results["is_user_authenticated"] = request.user.is_authenticated()
+    competition = get_active_competition(request)
+    if competition:
         results["active_competition"]  = competition
         results["admin_title"]         = "Administration concours \"%s\"" % competition        
         results["nav_buttons"]         = competition.get_menu(request)        

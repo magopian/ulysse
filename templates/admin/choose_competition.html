@@ -1,0 +1,16 @@
+{% extends "admin/base_site.html" %}
+{% load adminmedia admin_list i18n %}
+{% block pretitle %}
+    <h1>Choix du concours à administrer</h1>
+    {% if competitions %}    
+    {% for competition in competitions %}
+        <div style="padding:15px;margin-top:25px;border-style:solid;border-width:1px;width:200px;text-align:center;"><a href="/admin/select_competition/{{competition.id}}">{{competition.title}}</a></div>    
+    {% endfor %}    
+    {% else %}
+    {% if is_superuser %}
+    Aucun concours n'est défini dans la base de données
+    {% else %}
+    Aucun concours à administrer n'est associé à votre compte utilisateur. Pour toute question, merci de contacter l'administrateur de la plate-forme.
+    {% endif %}
+    {% endif %}
+{% endblock %}

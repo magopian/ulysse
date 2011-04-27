@@ -98,7 +98,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware'    
 )
 
 ROOT_URLCONF = 'urls'
@@ -117,7 +117,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
      "django.core.context_processors.media",
      "django.core.context_processors.static",
      "django.contrib.messages.context_processors.messages",
-     "context_processors.ulysse_context_processor",
+     "context_processors.ulysse_context_processor"
 )
 
 INSTALLED_APPS = (
@@ -160,6 +160,7 @@ LOGGING = {
     }
 }
 
+COMPETITION_ADMIN_GROUP = 'competition-admins'
 
 # local settings that'll overload the settings defined here
 try:

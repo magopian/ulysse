@@ -1,12 +1,18 @@
 #-*- coding: utf-8 -*- 
 from django.db import models
 from jury.models import Jury
-from composers.models import AdministrativeDocument
 from composers.models import Composer
-from composers.models import Work
+from composers.models import Work, Document, TextElement
 from partners.models  import Partner
 from django.contrib.auth.models import User
 from menu import get_nav_button
+
+def get_nav_button(request,url,label,children=None):        
+    is_selected = request.path.startswith("/admin/%s" % url)
+    result = {'url':url,'label':label,'is_selected':is_selected }
+    if children:
+        results["children"] = children
+    return result
 
 class Competition(models.Model):
     url                  = models.CharField(verbose_name=u"url",max_length=200,unique=True)
@@ -24,8 +30,7 @@ class Competition(models.Model):
     is_archived      = models.BooleanField(verbose_name=u"archivé",help_text=u"lorsque cette case est cochée, le concours est archivé")
      
     def __unicode__(self):
-        return self.title
-    
+        return self.title        
     
     def get_menu(self,request):
         nav_buttons = []    
@@ -34,7 +39,13 @@ class Competition(models.Model):
         nav_buttons.append(get_nav_button(request,"jury","Membres du jury"))
         # Add steps dynamically
         for step in self.steps():
-            nav_buttons.append(get_nav_button(request,"step/%s" % step.url,"Etape : '%s'" % step.name))        
+            step_button = get_nav_button(request,"step/%s" % step.url,"Etape : '%s'" % step.name)
+            children = []
+            children.append(get_nav_button(request,"step/%s/allocations/" % step.url,u"Affectations candidats-jury"))
+            children.append(get_nav_button(request,"step/%s/evaluations/" % step.url,u"Suivi des évaluations"))
+            children.append(get_nav_button(request,"step/%s/results/" % step.url,u"Suivi des résultats"))
+            step_button["children"] = children            
+            nav_buttons.append(step_button)        
         return nav_buttons
     
     def steps(self):
@@ -45,12 +56,13 @@ class Competition(models.Model):
         verbose_name_plural  = "concours"        
         
 class CompetitionManager(models.Model):
-    user                 = models.ForeignKey(User,unique=True)    
-    managed_competitions = models.ManyToManyField(Competition)
+    user         = models.ForeignKey(User) 
+    competition  = models.ForeignKey(Competition)
         
     class Meta:
         verbose_name         = "gestionnaire de concours"
         verbose_name_plural  = "gestionnaires de concours"
+        unique_together      = ('user','competition')
 
 
 class CompetitionStep(models.Model):
@@ -133,8 +145,11 @@ class CompetitionStepFollowUp(JuryMember):
         
 
 class Candidate(models.Model):    
-    composer    = models.ForeignKey(Composer,verbose_name=u"compositeur")
-    competition = models.ForeignKey(Competition,verbose_name=u"concours")
+    composer      = models.ForeignKey(Composer,verbose_name=u"compositeur")
+    competition   = models.ForeignKey(Competition,verbose_name=u"concours")
+    works         = models.ManyToManyField(Work,through='CandidateWork',blank=True,null=True)
+    documents     = models.ManyToManyField(Document,through='CandidateDocument',blank=True,null=True)
+    text_elements = models.ManyToManyField(TextElement,through='CandidateTextElement',blank=True,null=True)
      
     def __unicode__(self):
         return "%s, %s" % (self.composer.user.last_name,self.composer.user.first_name)
@@ -149,6 +164,19 @@ class Candidate(models.Model):
         verbose_name  = "candidat"
         unique_together = (('composer', 'competition'),)
         
+class CandidateWork(models.Model):
+    candidate = models.ForeignKey(Candidate)
+    work      = models.ForeignKey(Work)
+    
+class CandidateDocument(models.Model):
+    candidate = models.ForeignKey(Candidate)
+    document  = models.ForeignKey(Document)
+    
+class CandidateTextElement(models.Model):
+    candidate    = models.ForeignKey(Candidate)
+    text_element = models.ForeignKey(TextElement)
+
+
 class CandidateJuryAllocation(models.Model):
     composer     = models.ForeignKey(Composer,verbose_name=u"compositeur")
     step         = models.ForeignKey(CompetitionStep,verbose_name=u"étape du concours")
@@ -198,43 +226,28 @@ class CompetitionStepResults(CandidateJuryAllocation):
         verbose_name_plural = u"résultats évaluation"
 
 
-class EvaluationBase(models.Model):
-    competition_step   = models.ForeignKey(CompetitionStep,verbose_name=u"étape du concours")
-    candidate          = models.ForeignKey(Candidate,verbose_name=u"candidat")
-    jury_member        = models.ForeignKey(JuryMember,verbose_name=u"membre du jury")    
+class EvaluationNoteType(models.Model):    
+    type = models.CharField(verbose_name=u"type",max_length=20)
+    
+    def __unicode__(self):
+        return "%s" % (self.type)
 
-    class Meta:
-        verbose_name  = u"évaluation"
-        
-class EvaluationLevel(models.Model):
-    note   = models.IntegerField(verbose_name=u"value")
-    legend = models.CharField(verbose_name=u"legend",max_length=20)
+class EvaluationNote(models.Model):    
+    type    = models.ForeignKey(EvaluationNoteType,verbose_name=u"type de note")
+    value   = models.CharField(verbose_name=u"valeur de la note",max_length=200)
     
     def __unicode__(self):
         return "%s - %s " % (self.note,self.legend)
 
-class EvaluationYesNoAndNote(EvaluationBase):
-    yes      = models.BooleanField(verbose_name="candidat retenu", help_text="cocher cette case si le candidat est retenu")    
-    note     = models.IntegerField(verbose_name="note",help_text="note de 1 à 10 (facultative)")    
-    comments = models.TextField(verbose_name="commentaires")
+class Evaluation(models.Model):
+    competition_step   = models.ForeignKey(CompetitionStep,verbose_name=u"étape du concours")
+    candidate          = models.ForeignKey(Candidate,verbose_name=u"candidat")
+    jury_member        = models.ForeignKey(JuryMember,verbose_name=u"membre du jury")
+    notes              = models.ManyToManyField(EvaluationNote)
 
     class Meta:
-        pass
+        verbose_name  = u"évaluation"
         
-class EvaluationNote(EvaluationBase):    
-    note     = models.IntegerField(verbose_name="note",help_text="note de 1 à 10 (facultative)")    
-    comments = models.TextField(verbose_name="commentaires")
-
-    class Meta:
-        pass
-    
-class EvaluationYesNo(EvaluationBase):    
-    yes      = models.BooleanField(verbose_name="candidat retenu", help_text="cocher cette case si le candidat est retenu")    
-    comments = models.TextField(verbose_name="commentaires")
-
-    class Meta:
-        pass
-    
 
         
 

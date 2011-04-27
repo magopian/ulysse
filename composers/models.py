@@ -2,8 +2,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from reference.models import Citizenship
-from reference.models import MediaType
-from reference.models import BiographicElementType
+from reference.models import DocumentType
+from reference.models import TextElementType
 
 class Composer(models.Model):
     user        = models.ForeignKey(User,verbose_name=u"utilisateur",unique=True)
@@ -31,11 +31,16 @@ class Composer(models.Model):
         
 
 class Work(models.Model):
-    composer = models.ForeignKey(Composer,verbose_name=u"compositeur")
-    title    = models.CharField(verbose_name="titre",max_length=400)
-    score    = models.URLField(verbose_name="partition",max_length=400,help_text="Lien (url) vers la partition")    
-    audio    = models.URLField(verbose_name="audio",max_length=400,help_text="Lien (url) vers le fichier audio")    
-    notes    = models.TextField(verbose_name="notes",max_length=4000,blank=True,null=True)        
+    composer      = models.ForeignKey(Composer,verbose_name=u"compositeur")
+    title         = models.CharField(verbose_name="titre",max_length=400)
+    score         = models.FileField(verbose_name="partition",max_length=200,upload_to="composers",blank=True,null=True)
+    audio         = models.FileField(verbose_name="audio",max_length=200,upload_to="composers",blank=True,null=True)
+    score_url     = models.URLField(verbose_name="partition (url)",max_length=400,help_text="Lien (url) vers la partition")    
+    audio_url     = models.URLField(verbose_name="audio (url)",max_length=400,help_text="Lien (url) vers le fichier audio")    
+    notes         = models.TextField(verbose_name="notes",max_length=4000,blank=True,null=True)
+    order_index   = models.IntegerField(verbose_name=u"n° d'ordre",help_text=u"permet de gérer l'ordre d'affichage de l'oeuvre")
+    creation_date = models.DateTimeField(verbose_name=u"date de création")
+    update_date   = models.DateTimeField(verbose_name=u"date de dernière modification",blank=True,null=True)    
     
     def __unicode__(self):
         return "%s %s : %s" % (self.composer.user.first_name,self.composer.user.last_name,self.title)
@@ -43,24 +48,31 @@ class Work(models.Model):
     class Meta:
         verbose_name  = u"oeuvre"
         
-class AdministrativeDocument(models.Model):
-    composer = models.ForeignKey(Composer,verbose_name=u"compositeur")
-    name     = models.CharField(verbose_name="nom",max_length=200)    
-    document = models.FileField(verbose_name="fichier",max_length=200,upload_to="composers")    
+class Document(models.Model):
+    composer      = models.ForeignKey(Composer,verbose_name=u"compositeur")
+    type          = models.ForeignKey(DocumentType,verbose_name="type")
+    title         = models.CharField(verbose_name="nom",max_length=200)    
+    file          = models.FileField(verbose_name="fichier",max_length=200,upload_to="composers")
+    order_index   = models.IntegerField(verbose_name=u"n° d'ordre",help_text=u"permet de gérer l'ordre d'affichage du document")
+    creation_date = models.DateTimeField(verbose_name=u"date de création")
+    update_date   = models.DateTimeField(verbose_name=u"date de dernière modification",blank=True,null=True)    
     
     def __unicode__(self):
         return "%s %s : %s" % (self.composer.user.first_name,self.composer.user.last_name,self.name)
     
     class Meta:
-        verbose_name         = u"document administratif"
-        verbose_name_plural  = u"documents administratifs"        
+        verbose_name         = u"document"        
         
-class BiographicElement(models.Model):
-    composer = models.ForeignKey(Composer,verbose_name=u"compositeur")
-    type     = models.ForeignKey(BiographicElementType,verbose_name="type")
-    text     = models.TextField(verbose_name="texte",max_length=200)
+class TextElement(models.Model):
+    composer      = models.ForeignKey(Composer,verbose_name=u"compositeur")
+    type          = models.ForeignKey(TextElementType,verbose_name="type")
+    title         = models.CharField(verbose_name="nom",max_length=200)    
+    text          = models.TextField(verbose_name="texte",max_length=200)    
+    order_index   = models.IntegerField(verbose_name=u"n° d'ordre",help_text=u"permet de gérer l'ordre d'affichage du document")
+    creation_date = models.DateTimeField(verbose_name=u"date de création")
+    update_date   = models.DateTimeField(verbose_name=u"date de dernière modification",blank=True,null=True)    
          
     
     class Meta:
-        verbose_name         = u"élément biographique"
-        verbose_name_plural  = u"éléments biographiques"
+        verbose_name         = u"élément textuel"
+        verbose_name_plural  = u"éléments textuels"

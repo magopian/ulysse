@@ -5,26 +5,22 @@ from django.contrib.admin import TabularInline
 from django.contrib.admin import ModelAdmin
 from django.contrib.auth.models import User
 from composers.models import Composer
-from composers.models import Work
-from composers.models import BiographicElement
-from composers.models import AdministrativeDocument
-from composers.models import Work
-from composers.models import MediaType
+from composers.models import Work, Document, TextElement
 
 import competitions
 
-class BiographicElementInline(TabularInline):
-    model = BiographicElement
+class TextElementInline(TabularInline):
+    model = TextElement
     
-class AdministrativeDocumentInline(TabularInline):
-    model = AdministrativeDocument
+class DocumentInline(TabularInline):
+    model = Document
 
 
 class ComposerAdmin(ModelAdmin):
     list_display        = ('id','nom_','prenom_','birth_date','zipcode','city')
     list_display_links  = ('id','nom_',)    
     search_fields       = ['user__last_name','user__first_name','user__email']
-    inlines             = [BiographicElementInline,AdministrativeDocumentInline]
+    inlines             = [TextElementInline,DocumentInline]
     
 
     fieldsets = (
@@ -51,7 +47,10 @@ class WorkAdmin(ModelAdmin):
     list_filter         = ['composer',]
     search_fields       = ['composer__user__last_name','title']
     
-class AdministrativeDocumentAdmin(ModelAdmin):
+class DocumentAdmin(ModelAdmin):
+    pass
+
+class TextElementAdmin(ModelAdmin):
     pass
 
 
