@@ -3,12 +3,26 @@
 {% load url from future %}
 
 {% block breadcrumbs %}
-{% if not  competition_admin %} 
+{% if not competition_admin %} 
 {{block.super}}
 {% endif %}
 {% endblock %}
 
-
+{% block pretitle %}
+{% if not competition_admin %} 
+{{block.super}}
+{% else %}
+<div style="color:red;font-weight:bold;font-size:large;">
+    <p>Reste à implémenter :</p>
+    <ul>
+    <li>Ajout en haut de la page d'un tableau synthèse (infos en lecture seule)</li>
+    <li>Possibilité de cliquer sur un lien 'Modifier' qui conduit au formulaire (dans une page séparée)</li>
+    <li>Revoir le filter_vertical sur le M2M 'additional partners' (trop lourd). Remplacer par un raw_id amélioré si ça existe ?</li>
+    <li>Brider la possibilité d'ajouter / supprimer / modifier le nom d'étapes dans cet interface</li>
+    <ul>
+</div>
+{% endif %}
+{% endblock %}
 
 {% block content %}<div id="content-main">
 <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.module_name }}_form">{% csrf_token %}{% block form_top %}{% endblock %}
