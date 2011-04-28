@@ -5,7 +5,6 @@ from composers.models import Composer
 from composers.models import Work, Document, TextElement
 from partners.models  import Partner
 from django.contrib.auth.models import User
-from menu import get_nav_button
 
 def get_nav_button(request,url,label,children=None):        
     is_selected = request.path.startswith("/admin/%s" % url)
