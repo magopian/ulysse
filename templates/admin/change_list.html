@@ -37,6 +37,7 @@
 
 {% if not is_popup %}
   {% block breadcrumbs %}
+    {% if not in_competition_admin %}			    
     <div class="breadcrumbs">
       <a href="../../">
         {% trans "Home" %}
@@ -48,6 +49,7 @@
       &rsaquo;
       {{ cl.opts.verbose_name_plural|capfirst }}
     </div>
+    {% endif %}
   {% endblock %}
 {% endif %}
 

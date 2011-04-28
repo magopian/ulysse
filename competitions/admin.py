@@ -14,6 +14,7 @@ from models import CompetitionManager
 from models import EvaluationNote
 from models import CandidateJuryAllocation    
 from session import get_active_competition
+from context_processors import in_competition_admin
 
 def get_active_competition_step(request):
     # Get step name from url
@@ -41,9 +42,19 @@ class CandidateAdmin(admin.ModelAdmin):
         
     list_display  = ('nom_','prenom_')
     
-    def save_model(self, request, obj, form, change):        
-        obj.competition = get_active_competition(request)
-        obj.save()
+    def queryset(self, request):
+        if in_competition_admin(request):
+            # Get candidates for active competition 
+            qs = Candidate.objects.filter(competition=get_active_competition(request))        
+            return wrap_queryset(self,qs)
+        else:
+            return super(CandidateAdmin,self).queryset(request)
+    
+    def save_model(self, request, obj, form, change):
+        if in_competition_admin(request):
+            obj.competition = get_active_competition(request)
+        # Call base class
+        super(CandidateAdmin,self).save_model(request,obj,form,change)        
         
 class CandidateJuryAllocationAdmin(admin.ModelAdmin):
     
@@ -139,10 +150,19 @@ class JuryMemberAdmin(admin.ModelAdmin):
     list_display   = ('jury','competition')
     list_filter    = ["competition",]
     
-    def save_model(self, request, obj, form, change):        
-        obj.competition = get_active_competition(request)
-        obj.save()
+    def queryset(self, request):
+        if in_competition_admin(request):
+            # Get jury members for active competition 
+            qs = JuryMember.objects.filter(competition=get_active_competition(request))        
+            return wrap_queryset(self,qs)
+        else:
+            return super(JuryMemberAdmin,self).queryset(request)
     
+    def save_model(self, request, obj, form, change):
+        if in_competition_admin(request):
+            obj.competition = get_active_competition(request)
+        # Call base class
+        super(JuryMemberAdmin,self).save_model(request,obj,form,change)            
 
 class JuryMemberGroupAdmin(admin.ModelAdmin):
     fields = ('name','members')
@@ -184,3 +204,4 @@ class EvaluationNoteAdmin(admin.ModelAdmin):
 # Global administration registration    
 admin.site.register(Competition,CompetitionAdmin)
 admin.site.register(Candidate,CandidateAdmin)
+admin.site.register(JuryMember,JuryMemberAdmin)

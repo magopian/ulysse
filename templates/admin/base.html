@@ -58,6 +58,11 @@
         {% endif %}
         {% block nav-global %}{% endblock %}
     </div>
+        {% block breadcrumbs %}
+	    {% if not in_competition_admin %}			    
+	    <div class="breadcrumbs"><a href="/">{% trans 'Home' %}</a>{% if title %} &rsaquo; {{ title }}{% endif %}</div>
+	    {% endif %}
+	{% endblock %}
     <!-- END Header -->    
     {% endif %}
 
