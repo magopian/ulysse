@@ -63,3 +63,50 @@ SPAN.Separator
     padding-left:5px;
     padding-right:5px;
 }
+
+
+SPAN.HeaderBlock
+  {
+      display:inline-block;
+      vertical-align:top;
+      width:350px;
+      border-width:1px;
+      border-style:solid;
+      padding:10px;
+      height:100px;
+      margin:10px;
+      background-color:#EFEFEF;
+  }
+  
+  SPAN.HeaderBlock DIV.Title
+  {
+      font-weight:bold;
+      margin-top:5px;
+      margin-bottom:5px;
+  }
+  
+  SPAN.HeaderBlock DIV.Item
+  {
+      height:15px;
+  }
+  
+  SPAN.HeaderBlock SPAN.Label
+  {
+      display:inline-block;
+      font-style:italic;        
+      white-space:nowrap;
+      width:150px;
+  }
+  
+  DIV.Comment
+  {
+      margin-top:10px;
+      margin-bottom:10px;
+      font-style:italic;
+  }
+  
+  UL.ErrorList
+  {
+    color:red;
+    font-weight:bold;
+  }

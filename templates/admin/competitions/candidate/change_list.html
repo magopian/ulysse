@@ -3,15 +3,10 @@
 {% block pretitle %}
 <div style="color:red;font-weight:bold;font-size:large;">
     <p>Reste à implémenter :</p>
-    <ul>
-    <li>Revoir la structure de Work, Document, TextElement : il faut créer également CandidatWork CandidateDocument et CandidateTextElement (lors de la soumission d'un dossier de candidature, il y a duplication de ces éléments). Tous ces éléments doivent avoir une FK vers Composer (pour Work, Document, TextElement) et vers Candidate (pour CandidateWork,...). Intégrer au passage dans ces tables les champs qui sont actuellement dans les tables intermédiaires (order index, etc.).</li>
-    <li>Pouvoir associer les candidats sélectionnés à un groupe (via le menu action)</li>
-    <li>Pouvoir retirer les candidats sélectionnés à un groupe (via le menu action)</li>
-    <li>Pouvoir rechercher dans la liste des candidats (nom,...)</li>
-    <li>Gérer les colonnes et les filtres en fonction de critères du dossier de candidature</li>
-    <li>Pouvoir filtrer par groupe</li>
-    <li>Pouvoir exporter vers Excel</li>
-    <li>Ajouter le notion de dossier de candidature validé (oui/non) et pouvoir filtrer suivant ce critère</li>
+    <ul>        
+    <li>Pouvoir retirer les candidats sélectionnés à un groupe (via le menu action)</li>    
+    <li>Gérer les colonnes et les filtres en fonction de critères du dossier de candidature</li>    
+    <li>Pouvoir exporter vers Excel</li>    
     <ul>
 </div>
 {% endblock %}

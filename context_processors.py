@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from session import get_active_competition
+from django.utils.translation import ugettext as _
                     
 def in_competition_admin(request):
     return request.path.startswith("/admin")
@@ -11,6 +12,6 @@ def ulysse_context_processor(request):
     competition = get_active_competition(request)
     if competition:
         results["active_competition"]  = competition
-        results["admin_title"]         = "Administration concours \"%s\"" % competition        
+        results["admin_title"]         = _("Administrate competition \"%s\"" % competition)
         results["nav_buttons"]         = competition.get_menu(request)        
     return results

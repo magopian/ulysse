@@ -13,10 +13,11 @@ from partners.admin import PartnerAdmin
 from forms import CompetitionAdminAuthenticationForm
 from composers.models import Composer, Work, Document, TextElement
 from composers.admin import ComposerAdmin, WorkAdmin, DocumentAdmin, TextElementAdmin
-from competitions.models import Competition, CompetitionStep, JuryMember, CandidateJuryAllocation, CompetitionStepFollowUp, CompetitionStepResults, Candidate, CompetitionManager
-from competitions.admin import CompetitionAdmin, JuryMemberAdmin, CandidateJuryAllocationAdmin, CompetitionStepFollowUpAdmin, CompetitionStepResultsAdmin, CandidateAdmin
+from competitions.models import Competition, CompetitionStep, JuryMember, CandidateJuryAllocation, CompetitionStepFollowUp, CompetitionStepResults, Candidate, CompetitionManager, CompetitionNews
+from competitions.admin import CompetitionAdmin, JuryMemberAdmin, CandidateJuryAllocationAdmin, CompetitionStepFollowUpAdmin, CompetitionStepResultsAdmin, CandidateAdmin, CompetitionNewsAdmin
 from session import get_active_competition,set_active_competition, clear_active_competition
 from django.contrib.auth.signals import user_logged_out
+from views import import_candidates, notify_jury_members
 
 def on_user_logged_out(sender, **kwargs):
     request = kwargs['request']    
@@ -88,7 +89,7 @@ class CompetitionAdminSite(AdminSite):
                     )
                     return urls
         """
-        def inner(request, *args, **kwargs):                        
+        def inner(request, *args, **kwargs):            
             if not self.has_permission(request):
                 return self.login(request)            
             if not get_active_competition(request):
@@ -107,7 +108,8 @@ class CompetitionAdminSite(AdminSite):
         self.register(Document,DocumentAdmin)
         self.register(TextElement,TextElementAdmin)
         self.register(JuryMember,JuryMemberAdmin)
-        self.register(Candidate,CandidateAdmin)                        
+        self.register(Candidate,CandidateAdmin)
+        self.register(CompetitionNews,CompetitionNewsAdmin)
         self.register(CandidateJuryAllocation,CandidateJuryAllocationAdmin)
         self.register(CompetitionStepFollowUp,CompetitionStepFollowUpAdmin)
         self.register(CompetitionStepResults,CompetitionStepResultsAdmin)                
@@ -125,38 +127,7 @@ class CompetitionAdminSite(AdminSite):
         return redirect('%s/allocations/' % request.META["PATH_INFO"])               
         
     def get_steps(self):
-        return ['pre-jury','jury'] # Temporaire ! A rendre dynamique et dépendant du concours
-    
-    def get_admin_model_urls(self,url_root,model):        
-        
-        def wrap(view):
-            def wrapper(*args, **kwargs):
-                return self.competition_admin_view(view)(*args, **kwargs)
-            return update_wrapper(wrapper, view)
-               
-        admin_model_instance = self._registry[model]
-        info = admin_model_instance.model._meta.app_label, admin_model_instance.model._meta.module_name
-
-        urlpatterns = patterns('',
-            url(r'^%s$' % url_root,
-                wrap(admin_model_instance.changelist_view),
-                name='%s_%s_changelist' % info),
-            url(r'^%sadd/$' % url_root,
-                wrap(admin_model_instance.add_view),
-                name='%s_%s_add' % info),
-            url(r'^%s(.+)/history/$' % url_root,
-                wrap(admin_model_instance.history_view),
-                name='%s_%s_history' % info),
-            url(r'^%s(.+)/delete/$' % url_root,
-                wrap(admin_model_instance.delete_view),
-                name='%s_%s_delete' % info),
-            url(r'^%s(.+)/$' % url_root,
-                wrap(admin_model_instance.change_view),
-                name='%s_%s_change' % info),
-        )
-        
-        return urlpatterns
-        
+        return ['pre-jury','jury'] # Temporaire ! A rendre dynamique et dépendant du concours              
     
     def get_urls(self):
         
@@ -168,15 +139,22 @@ class CompetitionAdminSite(AdminSite):
             (r'^select_competition/(?P<id>.*)',self.select_competition),
             # The urls below use competition_admin_view wrapper
             (r'^infos',self.competition_admin_view(self.show_informations)),                       
+        )                               
+        
+        my_urls += patterns('',
+            (r'^jury_members/',include(self._registry[JuryMember].urls)),
+            (r'^candidates/',include(self._registry[Candidate].urls)),
+            (r'^news/',include(self._registry[CompetitionNews].urls))
         )
         
-        my_urls += self.get_admin_model_urls('jury/',JuryMember)
-        my_urls += self.get_admin_model_urls('candidates/',Candidate)
-        
         for step_name in self.get_steps():
-            my_urls += self.get_admin_model_urls('step/%s/allocations/' % step_name, CandidateJuryAllocation)
-            my_urls += self.get_admin_model_urls('step/%s/evaluations/' % step_name, CompetitionStepFollowUp)
-            my_urls += self.get_admin_model_urls('step/%s/results/' % step_name, CompetitionStepResults)            
+            my_urls += patterns('',
+                (r'^step/%s/importation/' % step_name, import_candidates),                 
+                (r'^step/%s/allocations/' % step_name, include(self._registry[CandidateJuryAllocation].urls)),
+                (r'^step/%s/notifications/' % step_name, notify_jury_members),                 
+                (r'^step/%s/evaluations/' % step_name, include(self._registry[CompetitionStepFollowUp].urls)),                
+                (r'^step/%s/results/' % step_name, include(self._registry[CompetitionStepResults].urls)),                 
+            )            
         
         # Nota : this should be defined after steps, because of regex evaluation precedence
         

@@ -1,10 +1,10 @@
 #-*- coding: utf-8 -*- 
 from django.db import models
-from jury.models import Jury
 from composers.models import Composer
-from composers.models import Work, Document, TextElement
+from composers.models import WorkBase, DocumentBase, TextElementBase
 from partners.models  import Partner
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext as _
 
 def get_nav_button(request,url,label,children=None):        
     is_selected = request.path.startswith("/admin/%s" % url)
@@ -14,41 +14,47 @@ def get_nav_button(request,url,label,children=None):
     return result
 
 class Competition(models.Model):
-    url                  = models.CharField(verbose_name=u"url",max_length=200,unique=True)
-    title                = models.CharField(verbose_name=u"titre",max_length=200)
-    subtitle             = models.CharField(verbose_name=u"sous-titre",max_length=200)
-    presentation         = models.TextField(verbose_name=u"présentation",help_text=u"texte de présentation du concours",max_length=200)    
-    managing_partner     = models.ForeignKey(Partner,verbose_name=u"organisateur")
-    additional_partners  = models.ManyToManyField(Partner,verbose_name=u"partenaires",related_name="additional_partners",blank=True)    
-    information_date = models.DateField(verbose_name=u"Publication annonce")
-    opening_date     = models.DateField(verbose_name=u"Ouverture candidatures")
-    closing_date     = models.DateField(verbose_name=u"Clôture candidatures")
-    result_date      = models.DateField(verbose_name=u"Publication résultats")
-    is_published     = models.BooleanField(verbose_name=u"publié",help_text=u"lorsque cette case est cochée, le concours est publié")
-    is_open          = models.BooleanField(verbose_name=u"ouvert",help_text=u"lorsque cette case est cochée, les candidatures sont ouvertes")
-    is_archived      = models.BooleanField(verbose_name=u"archivé",help_text=u"lorsque cette case est cochée, le concours est archivé")
+    url                  = models.CharField(max_length=200,unique=True)
+    title                = models.CharField(max_length=200)
+    subtitle             = models.CharField(verbose_name=_(u"sub title"),max_length=200)
+    presentation         = models.TextField(verbose_name=_(u"summary"),help_text=_(u"competition summary"),max_length=200)    
+    managing_partner     = models.ForeignKey(Partner,verbose_name=_(u"managing partner"))
+    additional_partners  = models.ManyToManyField(Partner,verbose_name=_(u"partners"),help_text=_(u"additional partners"),related_name="additional_partners",blank=True)    
+    information_date = models.DateField()
+    opening_date     = models.DateField()
+    closing_date     = models.DateField()
+    result_date      = models.DateField()
+    is_published     = models.BooleanField(verbose_name=_(u"is published"),help_text=u"lorsque cette case est cochée, le concours est publié")
+    is_open          = models.BooleanField(verbose_name=_(u"is open"),help_text=u"lorsque cette case est cochée, les candidatures sont ouvertes")
+    is_archived      = models.BooleanField(verbose_name=_(u"is archived"),help_text=u"lorsque cette case est cochée, le concours est archivé")
      
     def __unicode__(self):
         return self.title        
     
     def get_menu(self,request):
         nav_buttons = []    
-        nav_buttons.append(get_nav_button(request,"infos","Informations"))
-        nav_buttons.append(get_nav_button(request,"candidates","Candidats"))
-        nav_buttons.append(get_nav_button(request,"jury","Membres du jury"))
+        nav_buttons.append(get_nav_button(request,"infos/",_(u"Informations")))
+        nav_buttons.append(get_nav_button(request,"news/",_(u"News")))
+        nav_buttons.append(get_nav_button(request,"candidates/",_(u"Candidates")))
+        nav_buttons.append(get_nav_button(request,"jury_members/",_(u"Jury member")))
         # Add steps dynamically
         for step in self.steps():
-            step_button = get_nav_button(request,"step/%s" % step.url,"Etape : '%s'" % step.name)
+            step_button = get_nav_button(request,"step/%s" % step.url,_(u"'%s' step" % step.name))
             children = []
-            children.append(get_nav_button(request,"step/%s/allocations/" % step.url,u"Affectations candidats-jury"))
-            children.append(get_nav_button(request,"step/%s/evaluations/" % step.url,u"Suivi des évaluations"))
-            children.append(get_nav_button(request,"step/%s/results/" % step.url,u"Suivi des résultats"))
+            children.append(get_nav_button(request,"step/%s/importation/" % step.url,_(u"1 - Import candidates")))
+            children.append(get_nav_button(request,"step/%s/allocations/" % step.url,_(u"2 - Manage candidates/jury")))
+            children.append(get_nav_button(request,"step/%s/notifications/" % step.url,_(u"3 - Notify jury members")))
+            children.append(get_nav_button(request,"step/%s/evaluations/" % step.url,_(u"4 - Follow evaluations")))
+            children.append(get_nav_button(request,"step/%s/results/" % step.url,_(u"5 - Follow results")))
             step_button["children"] = children            
             nav_buttons.append(step_button)        
         return nav_buttons
     
     def steps(self):
-        return CompetitionStep.objects.filter(competition=self)
+        return CompetitionStep.objects.filter(competition=self).order_by("order_index")
+        
+    def managers(self):
+        return CompetitionManager.objects.filter(competition=self)
     
     class Meta:
         verbose_name         = "concours"
@@ -84,43 +90,43 @@ class CompetitionStep(models.Model):
         return "%s : %s" % (self.competition.title,self.name)
     
     class Meta:
-        verbose_name         = u"étape du concours"
-        verbose_name_plural  = u"étapes du concours"
+        verbose_name         = _(u"competition step")
+        verbose_name_plural  = _(u"competition steps")
 
 class CompetitionNews(models.Model):
-    competition = models.ForeignKey(Competition,verbose_name=u"concours")
-    title       = models.CharField(verbose_name=u"titre",max_length=200)
-    date        = models.DateField(verbose_name=u"date")
-    text        = models.TextField(verbose_name=u"texte",help_text=u"contenu de l'actualité",max_length=200)
-    
-    class Meta:
-        verbose_name         = u"actualité"
-        verbose_name_plural  = u"actualités"
-    
-
-class JuryMember(models.Model):
-    jury        = models.ForeignKey(Jury,verbose_name=u"jury")
-    competition = models.ForeignKey(Competition,verbose_name=u"concours")
+    competition = models.ForeignKey(Competition,verbose_name=_(u"competition"))
+    title       = models.CharField(verbose_name=_(u"title"),max_length=200)
+    date        = models.DateField(verbose_name=_(u"date"))
+    text        = models.TextField(verbose_name=_(u"text"),help_text=(u"news content"),max_length=200)
     
     def __unicode__(self):
-        return "%s, %s" % (self.jury.user.last_name,self.jury.user.first_name)
-     
-    class Meta:        
-        verbose_name         = "membre du jury"
-        verbose_name_plural  = "membres du jury"
-        unique_together = (('jury', 'competition'),)
-        
-        
-
+        return self.title
+    
+    class Meta:
+        verbose_name         = _(u"competition news")
+        verbose_name_plural  = _(u"competition news")
+    
+                
 class JuryMemberGroup(models.Model):
     competition = models.ForeignKey(Competition,verbose_name=u"concours")
-    name    = models.CharField(verbose_name=u"nom",max_length=200)
-    members = models.ManyToManyField(JuryMember,verbose_name=u"membres du groupe")
+    name        = models.CharField(verbose_name=u"nom",max_length=200)    
      
     class Meta:
-        verbose_name         = "groupe de membres du jury"
-        verbose_name_plural  = "groupes de membres du jury"
+        verbose_name         = _(u"jury member group")
+        verbose_name_plural  = _(u"jury member groups")
         
+class JuryMember(models.Model):
+    user         = models.ForeignKey(User,unique=True)    
+    phone        = models.CharField(max_length=100,blank=True,null=True)    
+    competitions = models.ManyToManyField(Competition,blank=True,null=True)
+    groups       = models.ManyToManyField(JuryMemberGroup,blank=True,null=True)
+    
+    def __unicode__(self):
+        return "%s, %s" % (self.user.last_name,self.user.first_name)
+     
+    class Meta:        
+        verbose_name         = _(u"jury member")
+        verbose_name_plural  = _(u"jury members")        
 
 class CompetitionStepFollowUp(JuryMember):
     
@@ -142,42 +148,49 @@ class CompetitionStepFollowUp(JuryMember):
         verbose_name        = u"suivi évaluations"
         verbose_name_plural = u"suivis évaluations"
         
+class CandidateGroup(models.Model):
+    competition = models.ForeignKey(Competition,verbose_name=u"concours")
+    name        = models.CharField(verbose_name=u"nom du groupe",max_length=200)    
+    
+    def __unicode__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name         = _(u"candidate group")
+        verbose_name_plural  = _(u"candidate groups") 
+        
 
 class Candidate(models.Model):    
     composer      = models.ForeignKey(Composer,verbose_name=u"compositeur")
     competition   = models.ForeignKey(Competition,verbose_name=u"concours")
-    works         = models.ManyToManyField(Work,through='CandidateWork',blank=True,null=True)
-    documents     = models.ManyToManyField(Document,through='CandidateDocument',blank=True,null=True)
-    text_elements = models.ManyToManyField(TextElement,through='CandidateTextElement',blank=True,null=True)
+    groups        = models.ManyToManyField(CandidateGroup)
+    is_valid      = models.BooleanField()
      
     def __unicode__(self):
         return "%s, %s" % (self.composer.user.last_name,self.composer.user.first_name)
+            
         
-    def nom_(self):
-        return self.composer.user.last_name
+    def last_name(self):
+        return self.composer.user.last_name    
     
-    def prenom_(self):
+    def first_name(self):
         return self.composer.user.first_name
     
     class Meta:
-        verbose_name  = "candidat"
+        verbose_name  = _(u"candidate")
         unique_together = (('composer', 'competition'),)
         
-class CandidateWork(models.Model):
+class CandidateWork(WorkBase):
     candidate = models.ForeignKey(Candidate)
-    work      = models.ForeignKey(Work)
+        
+class CandidateDocument(DocumentBase):
+    candidate = models.ForeignKey(Candidate)    
     
-class CandidateDocument(models.Model):
-    candidate = models.ForeignKey(Candidate)
-    document  = models.ForeignKey(Document)
-    
-class CandidateTextElement(models.Model):
-    candidate    = models.ForeignKey(Candidate)
-    text_element = models.ForeignKey(TextElement)
-
+class CandidateTextElement(TextElementBase):
+    candidate    = models.ForeignKey(Candidate)    
 
 class CandidateJuryAllocation(models.Model):
-    composer     = models.ForeignKey(Composer,verbose_name=u"compositeur")
+    candidate    = models.ForeignKey(Candidate)
     step         = models.ForeignKey(CompetitionStep,verbose_name=u"étape du concours")
     jury_members = models.ManyToManyField(JuryMember,verbose_name=u"membres du jury")
     
@@ -196,17 +209,8 @@ class CandidateJuryAllocation(models.Model):
     class Meta:
         verbose_name        = "affectation candidat / jury"
         verbose_name_plural = "affectations candidat / jury"
+        
 
-        
-class CandidateGroup(models.Model):
-    competition = models.ForeignKey(Competition,verbose_name=u"concours")
-    name        = models.CharField(verbose_name=u"nom du groupe",max_length=200)
-    members     = models.ManyToManyField(Candidate,verbose_name=u"membres du groupes")
-     
-    class Meta:
-        verbose_name         = "groupe de candidat"
-        verbose_name_plural  = "groupes de candidat"        
-        
 
 class CompetitionStepResults(CandidateJuryAllocation):
     

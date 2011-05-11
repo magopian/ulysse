@@ -8,20 +8,49 @@
 {% endif %}
 {% endblock %}
 
+
 {% block pretitle %}
 {% if not competition_admin %} 
 {{block.super}}
 {% else %}
 <div style="color:red;font-weight:bold;font-size:large;">
     <p>Reste à implémenter :</p>
-    <ul>
-    <li>Ajout en haut de la page d'un tableau synthèse (infos en lecture seule)</li>
-    <li>Possibilité de cliquer sur un lien 'Modifier' qui conduit au formulaire (dans une page séparée)</li>
-    <li>Revoir le filter_vertical sur le M2M 'additional partners' (trop lourd). Remplacer par un raw_id amélioré si ça existe ?</li>
+    <ul>    
     <li>Brider la possibilité d'ajouter / supprimer / modifier le nom d'étapes dans cet interface</li>
     <ul>
 </div>
+<h1>{{original.title}}</h1>
+<h2>{{original.subtitle}}</h2>
+<div>{% autoescape off %}{{original.presentation}}{% endautoescape %}</div>
+<span class="HeaderBlock">
+            <div class="Title">Organisation</div>    
+            <div class="Item"><span class="Label">Organisateur :</span> {{original.managing_partner}}</div>
+            <div class="Item"><span class="Label">Partenaires: </span>{% for partner in original.additional_partners.all %}{{partner}}{% if not forloop.last %},&nbsp;{% endif %}{% endfor %}</div>
+            <div class="Item"><span class="Label">Gestionnaires : </span>{% for manager in original.managers.all %}{{manager.user}}{% if not forloop.last %},&nbsp;{% endif %}{% endfor %}</div>
+</span>
+<span class="HeaderBlock">    
+            <div class="Title">Etapes</div>
+            <ul>
+            {% for step in original.steps %}
+            <li>{{step.name}} ({% if step.is_open %}Clôture le {{step.closing_date}}{% else %}Clôturée{% endif %})</li>
+            {% endfor %}
+            </ul>
+</span>
+<span class="HeaderBlock">
+            <div class="Title">Dates-clés</div>        
+            <div class="Item"><span class="Label">Publication annonce : </span>{{original.information_date}}</div>
+            <div class="Item"><span class="Label">Ouverture candidatures : </span>{{original.opening_date}} </div>
+            <div class="Item"><span class="Label">Clôture candidatures : </span>{{original.closing_date}}</div>
+            <div class="Item"><span class="Label">Publication résultats: </span>{{original.result_date}}</div>            
+</span>
+<span class="HeaderBlock">
+            <div class="Title">Statut</div>                    
+            <div class="Item"><span class="Label">Publié:</span>{{original.is_published}}</div>
+            <div class="Item"><span class="Label">Ouvert:</span>{{original.is_open}}</div>
+            <div class="Item"><span class="Label">Archivé:</span>{{original.is_archived}}</div>                
+</span>
 {% endif %}
+<div class="Comment">Cliquer sur "Afficher" sur la rubrique de votre choix pour modifier les caractéristiques du concours.</div>
 {% endblock %}
 
 {% block content %}<div id="content-main">

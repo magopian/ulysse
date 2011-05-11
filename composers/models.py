@@ -29,50 +29,58 @@ class Composer(models.Model):
     class Meta:
         verbose_name  = "compositeur"
         
-
-class Work(models.Model):
-    composer      = models.ForeignKey(Composer,verbose_name=u"compositeur")
+class WorkBase(models.Model):    
     title         = models.CharField(verbose_name="titre",max_length=400)
     score         = models.FileField(verbose_name="partition",max_length=200,upload_to="composers",blank=True,null=True)
     audio         = models.FileField(verbose_name="audio",max_length=200,upload_to="composers",blank=True,null=True)
     score_url     = models.URLField(verbose_name="partition (url)",max_length=400,help_text="Lien (url) vers la partition")    
     audio_url     = models.URLField(verbose_name="audio (url)",max_length=400,help_text="Lien (url) vers le fichier audio")    
     notes         = models.TextField(verbose_name="notes",max_length=4000,blank=True,null=True)
-    order_index   = models.IntegerField(verbose_name=u"n° d'ordre",help_text=u"permet de gérer l'ordre d'affichage de l'oeuvre")
     creation_date = models.DateTimeField(verbose_name=u"date de création")
-    update_date   = models.DateTimeField(verbose_name=u"date de dernière modification",blank=True,null=True)    
+    update_date   = models.DateTimeField(verbose_name=u"date de dernière modification",blank=True,null=True)
+    order_index   = models.IntegerField(verbose_name=u"n° d'ordre",help_text=u"permet de gérer l'ordre d'affichage de l'oeuvre")
     
     def __unicode__(self):
-        return "%s %s : %s" % (self.composer.user.first_name,self.composer.user.last_name,self.title)
-    
+        return "%s %s : %s" % (self.composer.user.first_name,self.composer.user.last_name,self.title)    
+
     class Meta:
         verbose_name  = u"oeuvre"
+        abstract      = True
+
+class Work(WorkBase):
+    composer      = models.ForeignKey(Composer,verbose_name=u"compositeur")                        
         
-class Document(models.Model):
-    composer      = models.ForeignKey(Composer,verbose_name=u"compositeur")
+class DocumentBase(models.Model):
     type          = models.ForeignKey(DocumentType,verbose_name="type")
     title         = models.CharField(verbose_name="nom",max_length=200)    
     file          = models.FileField(verbose_name="fichier",max_length=200,upload_to="composers")
     order_index   = models.IntegerField(verbose_name=u"n° d'ordre",help_text=u"permet de gérer l'ordre d'affichage du document")
     creation_date = models.DateTimeField(verbose_name=u"date de création")
-    update_date   = models.DateTimeField(verbose_name=u"date de dernière modification",blank=True,null=True)    
+    update_date   = models.DateTimeField(verbose_name=u"date de dernière modification",blank=True,null=True)
     
     def __unicode__(self):
         return "%s %s : %s" % (self.composer.user.first_name,self.composer.user.last_name,self.name)
     
     class Meta:
-        verbose_name         = u"document"        
+        abstract      = True
+        verbose_name  = u"document"        
+
+class Document(DocumentBase):
+    composer      = models.ForeignKey(Composer,verbose_name=u"compositeur")                 
         
-class TextElement(models.Model):
-    composer      = models.ForeignKey(Composer,verbose_name=u"compositeur")
+class TextElementBase(models.Model):    
     type          = models.ForeignKey(TextElementType,verbose_name="type")
     title         = models.CharField(verbose_name="nom",max_length=200)    
     text          = models.TextField(verbose_name="texte",max_length=200)    
     order_index   = models.IntegerField(verbose_name=u"n° d'ordre",help_text=u"permet de gérer l'ordre d'affichage du document")
     creation_date = models.DateTimeField(verbose_name=u"date de création")
-    update_date   = models.DateTimeField(verbose_name=u"date de dernière modification",blank=True,null=True)    
-         
+    update_date   = models.DateTimeField(verbose_name=u"date de dernière modification",blank=True,null=True)            
     
     class Meta:
+        abstract             = True
         verbose_name         = u"élément textuel"
         verbose_name_plural  = u"éléments textuels"
+
+class TextElement(TextElementBase):
+    composer      = models.ForeignKey(Composer,verbose_name=u"compositeur")
+    

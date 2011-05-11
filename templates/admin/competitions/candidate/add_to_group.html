@@ -1,0 +1,31 @@
+{% extends "admin/action_form.html" %}
+
+{% block content %}
+<h1>Ajouter des candidats à un groupe</h1>
+<h2>Liste des candidats concernés :</h2>
+<ul>
+    {% for candidate in candidates %}
+    <li>{{candidate}}</li>    
+    {% endfor %}
+</ul>
+<h2>Choix d'action :</h2>
+<form method="POST">{% csrf_token %}
+{% if errors %}
+    <ul class="ErrorList">
+        {% for error in errors %}<li>{{error}}</li>{% endfor %}
+    </ul>
+{% endif %}
+<table>
+    <tr>
+        <td><input type="radio" value="1" checked name="action_choice">Créer un nouveau groupe :</input></td><td><input name="new_group"></input></td>
+    </tr>    
+    {% if groups %}
+    <tr>
+        <td><input type="radio" value="2" name="action_choice">Ajouter à un groupe existant :</input></td><td><select name="existing_group">{% for group in groups %}<option>{{group.name}}</option>{% endfor %}</select></td>
+    </tr>
+    {% endif %}
+    
+</table>
+<input type="submit" value="Valider"></input>
+</form>
+{% endblock %}
