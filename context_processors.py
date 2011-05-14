@@ -12,6 +12,6 @@ def ulysse_context_processor(request):
     competition = get_active_competition(request)
     if competition:
         results["active_competition"]  = competition
-        results["admin_title"]         = _("Administrate competition \"%s\"" % competition)
+        results["admin_title"]         = _("Administrate competition \"%s\"") % competition
         results["nav_buttons"]         = competition.get_menu(request)        
     return results
