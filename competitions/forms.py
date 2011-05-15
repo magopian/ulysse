@@ -1,8 +1,11 @@
 #-*- coding: utf-8 -*- 
 from django.contrib.admin.forms import AdminAuthenticationForm
+from django.contrib.auth.models import Group
 from django import forms
-import settings
+from django.conf import settings
 from django.utils.translation import ugettext as _
+from competitions.models import JuryMember
+
 
 class CompetitionAdminAuthenticationForm(AdminAuthenticationForm):
     """
@@ -21,11 +24,14 @@ class CompetitionAdminAuthenticationForm(AdminAuthenticationForm):
         else:
             if not hasattr(settings,'COMPETITION_ADMIN_GROUP'):
                 raise RuntimeError("You should specify 'COMPETITION_ADMIN_GROUP' in settings")
-            competition_admin_group = settings.COMPETITION_ADMIN_GROUP            
-            if competition_admin_group in [group.name for group in logged_user.groups.all()]:
-                check = True
+            competition_admin_group = Group.objects.get_or_create(name=settings.COMPETITION_ADMIN_GROUP)[0]
+
+            jury_member = JuryMember.objects.filter(user=logged_user).exists()
+
+            user_groups = logged_user.groups.all()
+            check = competition_admin_group in user_groups or jury_member
         if not check:
-            raise forms.ValidationError(u"Seuls les administrateurs de concours et les super-utilisateurs peuvent se connecter au site d'administration des concours")
+            raise forms.ValidationError(u"Seuls les administrateurs de concours, les membres du jury et les super-utilisateurs peuvent se connecter au site d'administration des concours")
         
         
 class CandidateAdminForm(forms.ModelForm):

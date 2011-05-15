@@ -16,13 +16,21 @@ from composers.admin import ComposerAdmin, WorkAdmin, DocumentAdmin, TextElement
 from competitions.models import Competition, CompetitionStep, JuryMember, CandidateJuryAllocation, CompetitionStepFollowUp, CompetitionStepResults, Candidate, CompetitionManager, CompetitionNews
 from competitions.admin import CompetitionAdmin, JuryMemberAdmin, CandidateJuryAllocationAdmin, CompetitionStepFollowUpAdmin, CompetitionStepResultsAdmin, CandidateAdmin, CompetitionNewsAdmin
 from session import get_active_competition,set_active_competition, clear_active_competition
-from django.contrib.auth.signals import user_logged_out
+from session import set_jury_member, clear_jury_member
+from django.contrib.auth.signals import user_logged_out, user_logged_in
 from views import import_candidates, notify_jury_members
+
+def on_user_logged_in(sender, **kwargs):
+    request = kwargs['request']
+    jury_member = JuryMember.objects.filter(user=request.user).exists()
+    if jury_member:
+        set_jury_member(request)
+user_logged_in.connect(on_user_logged_in)
 
 def on_user_logged_out(sender, **kwargs):
     request = kwargs['request']    
     clear_active_competition(request)
-    
+    clear_jury_member(request)
 user_logged_out.connect(on_user_logged_out)
 
 class CompetitionAdminSite(AdminSite):
