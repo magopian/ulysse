@@ -1,4 +1,5 @@
 #-*- coding: utf-8 -*-
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin import StackedInline
 from django.contrib.admin import TabularInline
@@ -36,8 +37,8 @@ class ComposerAdmin(ModelAdmin):
     
     class Media:
             js = (
-            '/static/js/tiny_mce/tiny_mce.js',
-            '/static/js/admin_pages.js'
+            '%sjs/tiny_mce/tiny_mce.js' % settings.STATIC_URL,
+            '%sjs/admin_pages.js' % settings.STATIC_URL
         )
     
 

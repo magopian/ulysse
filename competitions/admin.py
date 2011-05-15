@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from django import forms
+from django.conf import settings
 from django.contrib import admin
 from django.utils.functional import update_wrapper
 from django.shortcuts import redirect, render_to_response
@@ -236,8 +237,8 @@ class CompetitionAdmin(CompetitionModelAdmin):
         
     class Media:
             js = (
-            '/static/js/tiny_mce/tiny_mce.js',
-            '/static/js/admin_pages.js'
+            '%sjs/tiny_mce/tiny_mce.js' %  settings.STATIC_URL,
+            '%sjs/admin_pages.js' %  settings.STATIC_URL
         )
         
     
@@ -261,8 +262,8 @@ class CompetitionNewsAdmin(CompetitionModelAdmin):
         
     class Media:
             js = (
-            '/static/js/tiny_mce/tiny_mce.js',
-            '/static/js/admin_pages.js'
+            '%sjs/tiny_mce/tiny_mce.js' % settings.STATIC_URL,
+            '%sjs/admin_pages.js' % settings.STATIC_URL
         )
 
 
