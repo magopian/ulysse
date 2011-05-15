@@ -72,7 +72,10 @@ class CompetitionModelAdmin(admin.ModelAdmin):
         
         def wrap(view):
             def wrapper(*args, **kwargs):
-                return self.admin_site.competition_admin_view(view)(*args, **kwargs)
+                # "super admin" doesn't ask for competition selection
+                if hasattr(self.admin_site, 'competition_admin_view'):
+                    return self.admin_site.competition_admin_view(view)(*args, **kwargs)
+                return view(*args, **kwargs)
             return update_wrapper(wrapper, view)
                        
         info = self.model._meta.app_label, self.model._meta.module_name                
