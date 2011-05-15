@@ -39,6 +39,18 @@ class LoginTest(TestCase):
             'username': 'web',
             'password': 'web',
         }
+        self.wrong_login = { # wrong login
+            REDIRECT_FIELD_NAME: '/admin/infos/',
+            LOGIN_FORM_KEY: 1,
+            'username': 'foo',
+            'password': 'bar',
+        }
+        self.bad_login = { # bad login
+            REDIRECT_FIELD_NAME: '/admin/infos/',
+            LOGIN_FORM_KEY: 1,
+            'username': 'foo',
+            'password': '',
+        }
 
     
     def test_competition_admin_login(self):
@@ -63,6 +75,12 @@ class LoginTest(TestCase):
 
         login = self.client.post('/admin/', self.unauthorized_login) # not staff: NOK
         self.assertContains(login, "Please enter a correct username and password.")
+
+        login = self.client.post('/admin/', self.wrong_login) # wrong login: NOK
+        self.assertContains(login, "Please enter a correct username and password.")
+
+        login = self.client.post('/admin/', self.bad_login) # bad login: NOK
+        self.assertContains(login, "This field is required")
 
     def test_session_jury_member(self):
         """

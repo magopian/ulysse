@@ -16,6 +16,9 @@ class CompetitionAdminAuthenticationForm(AdminAuthenticationForm):
     def clean(self):
         # Call base class first
         super(CompetitionAdminAuthenticationForm,self).clean()
+        if self._errors: # no need to go further if the form is already invalid
+            return
+
         # Do extra check        
         logged_user = self.user_cache
         check = False
