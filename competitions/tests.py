@@ -102,3 +102,41 @@ class LoginTest(TestCase):
         self.assertFalse(resp.context['jury_member'])
         self.assertFalse('jury_member' in self.client.session)
 
+class SuperAdminTest(TestCase):
+    fixtures = ['full']
+
+    def setUp(self):
+        self.super_login = { # superuser
+            REDIRECT_FIELD_NAME: '/admin/infos/',
+            LOGIN_FORM_KEY: 1,
+            'username': 'admin',
+            'password': 'admin',
+        }
+    
+    def test_super_admin_competitions_app(self):
+        """
+        Test the access to the competitions app through the super-admin
+        """
+
+        resp = self.client.post('/super-admin/', self.super_login, follow=True)
+
+        resp = self.client.get('/super-admin/competitions/candidate/')
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/super-admin/competitions/candidate/add/')
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/super-admin/competitions/candidate/1/')
+        self.assertEqual(resp.status_code, 200)
+
+        resp = self.client.get('/super-admin/competitions/competition/')
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/super-admin/competitions/competition/add/')
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/super-admin/competitions/competition/1/')
+        self.assertEqual(resp.status_code, 200)
+
+        resp = self.client.get('/super-admin/competitions/jurymember/')
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/super-admin/competitions/jurymember/add/')
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.get('/super-admin/competitions/jurymember/2/')
+        self.assertEqual(resp.status_code, 200)
