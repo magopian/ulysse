@@ -16,7 +16,7 @@ from composers.admin import ComposerAdmin, WorkAdmin, DocumentAdmin, TextElement
 from competitions.models import Competition, CompetitionStep, JuryMember, CandidateJuryAllocation, CompetitionStepFollowUp, CompetitionStepResults, Candidate, CompetitionManager, CompetitionNews
 from competitions.admin import CompetitionAdmin, JuryMemberAdmin, CandidateJuryAllocationAdmin, CompetitionStepFollowUpAdmin, CompetitionStepResultsAdmin, CandidateAdmin, CompetitionNewsAdmin
 from session import get_active_competition,set_active_competition, clear_active_competition
-from session import set_jury_member, clear_jury_member
+from session import set_jury_member, get_jury_member, clear_jury_member
 from django.contrib.auth.signals import user_logged_out, user_logged_in
 from views import import_candidates, notify_jury_members
 
@@ -42,16 +42,21 @@ class CompetitionAdminSite(AdminSite):
         Sets the active competition and redirect to competition admin home page
         """
         # Perform security check
+        if not request.user.is_authenticated():
+            return self.login(request)            
+
         checked = False
-        if request.user.is_authenticated():
-            if request.user.is_superuser:                
-                checked = True
+        if request.user.is_superuser:                
+            checked = True
+        else:
+            # Competition should be managed by current user
+            competition = Competition.objects.get(id=id)
+
+            if get_jury_member(request):
+                jm = JuryMember.objects.get(user=request.user)
+                checked = competition in jm.competitions.all()
             else:
-                # Competition should be managed by current user
-                competition = Competition.objects.get(id=id)
-                results =  CompetitionManager.objects.filter(user=request.user,competition=competition)
-                if len(results)==1:
-                    checked = True
+                checked = CompetitionManager.objects.filter(user=request.user, competition=competition).exists()
         if not checked:
             raise PermissionDenied()
         # Set active competition
@@ -68,11 +73,11 @@ class CompetitionAdminSite(AdminSite):
         if request.user.is_superuser:
             # If current user is a super user : choose among all competitions
             competitions = Competition.objects.all()
-        else:
-            # Current user is 'competition-admin' : choose among competitions managed by this user        
-            results =  CompetitionManager.objects.filter(user=request.user)
-            if len(results)==1:
-                competitions = Competition.objects.filter(id__in=[item.competition.id for item in results])
+        elif get_jury_member(request): # user is 'jury-member'
+            jm = JuryMember.objects.get(user=request.user)
+            competitions = jm.competitions.all()
+        else: # Current user is 'competition-admin'
+            competitions = Competition.objects.filter(competitionmanager__user=request.user)
         # Display a view allowing user to select the competition
         params = {}
         params["is_superuser"] = request.user.is_superuser
@@ -107,7 +112,9 @@ class CompetitionAdminSite(AdminSite):
         return update_wrapper(inner, view)
     
     def index(self, request, extra_context=None):
-       return redirect('%sinfos' % request.META["PATH_INFO"])
+        if get_jury_member(request):
+            return redirect('%scandidates' % request.META['PATH_INFO'])
+        return redirect('%sinfos' % request.META["PATH_INFO"])
            
     def register_models(self):
         self.register(Partner,PartnerAdmin)
@@ -124,7 +131,6 @@ class CompetitionAdminSite(AdminSite):
     
     def show_informations(self,request):        
         from models import Competition
-        from admin import CompetitionAdmin
         context = {}
         context['competition_admin'] = True
         context['title'] = ''

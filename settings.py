@@ -160,6 +160,7 @@ LOGGING = {
 }
 
 COMPETITION_ADMIN_GROUP = 'competition-admins'
+JURY_MEMBER_GROUP = 'jury-members'
 
 # local settings that'll overload the settings defined here
 try:

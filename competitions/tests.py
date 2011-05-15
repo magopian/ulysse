@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from django.conf import settings
+from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.test import TestCase
 from django.contrib.admin.sites import LOGIN_FORM_KEY
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.models import Group, User, Permission
+from competitions.models import JuryMember
 
 class LoginTest(TestCase):
     fixtures = ['login_fixture']
@@ -101,6 +106,107 @@ class LoginTest(TestCase):
         resp = self.client.get('/admin/logout/')
         self.assertFalse(resp.context['jury_member'])
         self.assertFalse('jury_member' in self.client.session)
+
+    def test_jury_member_group(self):
+        """
+        Test that the 'jury-member' group is correctly set and assigned
+        """
+
+        u = User.objects.get(username='staff')
+        jm = JuryMember(user=u)
+        jm.save()
+
+        # make sure the group has been correctly created
+        jm_group = Group.objects.get(name=settings.JURY_MEMBER_GROUP)    
+        # and has the correct permissions
+        perms = ['competitions.add_evaluation',
+                 'competitions.change_evaluation',
+                 'competitions.delete_evaluation',
+                 'competitions.add_evaluationnote',
+                 'competitions.change_evaluationnote',
+                 'competitions.delete_evaluationnote',
+                 'competitions.change_candidate']
+        self.assertTrue(u.has_perms(perms))
+        # and had been assigned to the new JuryMember
+        self.assertTrue(jm_group in u.groups.all())
+
+
+class JuryAdminTest(TestCase):
+    fixtures = ['full']
+
+    def setUp(self):
+        self.jury_login = { # two competitions
+            REDIRECT_FIELD_NAME: '/admin/infos/',
+            LOGIN_FORM_KEY: 1,
+            'username': 'jury',
+            'password': 'jury',
+        }
+        self.jury_1_login = { # one competition
+            REDIRECT_FIELD_NAME: '/admin/infos/',
+            LOGIN_FORM_KEY: 1,
+            'username': 'jury_1',
+            'password': 'jury',
+        }
+        self.jury_2_login = { # one competition
+            REDIRECT_FIELD_NAME: '/admin/infos/',
+            LOGIN_FORM_KEY: 1,
+            'username': 'jury_2',
+            'password': 'jury',
+        }
+        self.jury_3_login = { # no competitions
+            REDIRECT_FIELD_NAME: '/admin/infos/',
+            LOGIN_FORM_KEY: 1,
+            'username': 'jury_3',
+            'password': 'jury',
+        }
+
+    
+    def test_jury_competition_selection(self):
+        """
+        Test the admin competition selection for jury members
+        """
+
+        resp = self.client.post('/admin/', self.jury_login, follow=True)
+        self.assertContains(resp, "Ircam - Cursus 1")
+        self.assertContains(resp, "IRCAM - Résidence Musicale")
+        self.client.get('/admin/logout/')
+
+        resp = self.client.post('/admin/', self.jury_1_login, follow=True)
+        self.assertContains(resp, "Ircam - Cursus 1")
+        self.assertNotContains(resp, "IRCAM - Résidence Musicale")
+        self.client.get('/admin/logout/')
+
+        resp = self.client.post('/admin/', self.jury_2_login, follow=True)
+        self.assertNotContains(resp, "Ircam - Cursus 1")
+        self.assertContains(resp, "IRCAM - Résidence Musicale")
+        self.client.get('/admin/logout/')
+
+        resp = self.client.post('/admin/', self.jury_3_login, follow=True)
+        self.assertNotContains(resp, "Ircam - Cursus 1")
+        self.assertNotContains(resp, "IRCAM - Résidence Musicale")
+        self.client.get('/admin/logout/')
+
+    def test_jury_restricted_admin(self):
+        """
+        Test that a JuryMember has a restricted competition admin
+        """
+
+        resp = self.client.post('/admin/', self.jury_login, follow=True)
+        resp = self.client.get('/admin/select_competition/1', follow=True)
+
+        # jury member must be redirected straight to the candidates tab
+        self.assertEqual(resp.request["PATH_INFO"], '/admin/candidates/')
+        # no tabs other than "candidates" should be visible
+        self.assertNotContains(resp, "Informations")
+        self.assertNotContains(resp, "News")
+        self.assertNotContains(resp, "Jury member")
+        # all other links shouldn't be accessible
+        resp = self.client.get('/admin/infos/')
+        self.assertEqual(resp.status_code, 403)
+        resp = self.client.get('/admin/news/')
+        self.assertEqual(resp.status_code, 403)
+        resp = self.client.get('/admin/jury_members/')
+        self.assertEqual(resp.status_code, 403)
 
 class SuperAdminTest(TestCase):
     fixtures = ['full']
