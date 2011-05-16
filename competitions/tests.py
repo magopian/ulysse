@@ -130,6 +130,10 @@ class LoginTest(TestCase):
         # and had been assigned to the new JuryMember
         self.assertTrue(jm_group in u.groups.all())
 
+        # also test that the group is removed when JuryMember is deleted
+        jm.delete()
+        self.assertFalse(jm_group in u.groups.all())
+
 
 class JuryAdminTest(TestCase):
     fixtures = ['full']

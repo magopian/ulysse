@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
+from django.db.models.signals import pre_delete
 from composers.models import Composer
 from composers.models import WorkBase, DocumentBase, TextElementBase
 from partners.models  import Partner
@@ -146,6 +147,18 @@ class JuryMember(models.Model):
             jury_member_group.permissions.add(*permissions)
         self.user.groups.add(jury_member_group)
         super(JuryMember, self).save(*args, **kwargs)
+
+def on_jury_member_delete(sender, instance, **kwargs):
+    """Remove the 'jury-members' group on the user of a deleted JuryMember.
+
+    A signal is used here instead of the JuryMember.delete() method as it would
+    not be called on bulk deletion otherwise (select multiple JuryMembers in
+    the admin and use the "delete" action)
+
+    """
+    jm_group = Group.objects.get(name=settings.JURY_MEMBER_GROUP)
+    instance.user.groups.remove(jm_group)
+pre_delete.connect(on_jury_member_delete, sender=JuryMember)
      
 
 class CompetitionStepFollowUp(JuryMember):
