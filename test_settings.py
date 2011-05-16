@@ -5,9 +5,6 @@ from settings import *
 
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
