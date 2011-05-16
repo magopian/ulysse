@@ -1,16 +1,19 @@
 #-*- coding: utf-8 -*- 
+from django.conf import settings
 from django.db import models
+from django.db.models import Q
+from django.db.models.signals import pre_delete
 from composers.models import Composer
 from composers.models import WorkBase, DocumentBase, TextElementBase
 from partners.models  import Partner
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission
 from django.utils.translation import ugettext as _
 
 def get_nav_button(request,url,label,children=None):        
     is_selected = request.path.startswith("/admin/%s" % url)
     result = {'url':url,'label':label,'is_selected':is_selected }
     if children:
-        results["children"] = children
+        result["children"] = children
     return result
 
 class Competition(models.Model):
@@ -32,7 +35,10 @@ class Competition(models.Model):
         return self.title        
     
     def get_menu(self,request):
-        nav_buttons = []    
+        from session import get_jury_member
+        if get_jury_member(request): # jury members only have a limited admin
+            return [get_nav_button(request, "candidates/", _(u"Candidates"))]
+        nav_buttons = []
         nav_buttons.append(get_nav_button(request,"infos/",_(u"Informations")))
         nav_buttons.append(get_nav_button(request,"news/",_(u"News")))
         nav_buttons.append(get_nav_button(request,"candidates/",_(u"Candidates")))
@@ -121,12 +127,39 @@ class JuryMember(models.Model):
     competitions = models.ManyToManyField(Competition,blank=True,null=True)
     groups       = models.ManyToManyField(JuryMemberGroup,blank=True,null=True)
     
-    def __unicode__(self):
-        return "%s, %s" % (self.user.last_name,self.user.first_name)
-     
     class Meta:        
         verbose_name         = _(u"jury member")
         verbose_name_plural  = _(u"jury members")        
+
+    def __unicode__(self):
+        return "%s, %s" % (self.user.last_name,self.user.first_name)
+
+    def save(self, *args, **kwargs):
+        # make sure the user is also added to the "jury-members" group
+        if not hasattr(settings,'JURY_MEMBER_GROUP'):
+            raise RuntimeError("Please specify 'JURY_MEMBER_GROUP' in settings")
+        jury_member_group, created = Group.objects.get_or_create(name=settings.JURY_MEMBER_GROUP)
+        if created: # group didn't exist before, add all needed permissions
+            permissions = Permission.objects.filter(
+                    Q(codename__endswith='evaluation') |
+                    Q(codename__endswith='evaluationnote') |
+                    Q(codename__exact='change_candidate'))
+            jury_member_group.permissions.add(*permissions)
+        self.user.groups.add(jury_member_group)
+        super(JuryMember, self).save(*args, **kwargs)
+
+def on_jury_member_delete(sender, instance, **kwargs):
+    """Remove the 'jury-members' group on the user of a deleted JuryMember.
+
+    A signal is used here instead of the JuryMember.delete() method as it would
+    not be called on bulk deletion otherwise (select multiple JuryMembers in
+    the admin and use the "delete" action)
+
+    """
+    jm_group = Group.objects.get(name=settings.JURY_MEMBER_GROUP)
+    instance.user.groups.remove(jm_group)
+pre_delete.connect(on_jury_member_delete, sender=JuryMember)
+     
 
 class CompetitionStepFollowUp(JuryMember):
     

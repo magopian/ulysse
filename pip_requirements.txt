@@ -1,0 +1,36 @@
+#########################################################################
+### this pip requirements file is kept to the bare minimum (django)
+### 
+### uncomment or add your own packages here to have them installed easily
+### with pip:
+###
+### pip -E /path/to/venv/ install -r pip_requirements.txt
+###
+#########################################################################
+
+# Django latest STABLE version
+django
+
+# Django TRUNK version
+#-e svn+http://code.djangoproject.com/svn/django/trunk#egg=Django
+
+
+# various packages that may be usefull
+
+# MySQL-python needs python2.6-dev, build-essential and libmysqlclient1.6-dev (for mysql_config)
+#MySQL-python
+
+#-e svn+http://django-tinymce.googlecode.com/svn/trunk/#egg=django-tinymce
+#django-debug-toolbar
+#PIL
+#django-rosetta
+#flup
+#gunicorn
+#django-extensions # various additions to the ./manage.py commands, including runserver_plus, which launches werkzeug
+#werkzeug # advanced web server by the Pocoo team, awesomly usefull to debug python _in your browser_
+#django-registration # registration app from James Bennett
+south # database migrations made easy
+
+#fabric
+https://bitbucket.org/ubernostrum/django-registration/downloads/django-registration-0.8-alpha-1.tar.gz
+#django-uni-form

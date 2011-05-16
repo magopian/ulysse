@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-from session import get_active_competition
+from session import get_active_competition, get_jury_member
 from django.utils.translation import ugettext as _
                     
 def in_competition_admin(request):
@@ -12,6 +12,7 @@ def ulysse_context_processor(request):
     competition = get_active_competition(request)
     if competition:
         results["active_competition"]  = competition
-        results["admin_title"]         = _("Administrate competition \"%s\"" % competition)
+        results["admin_title"]         = _("Administrate competition \"%s\"") % competition
         results["nav_buttons"]         = competition.get_menu(request)        
+    results["jury_member"] = get_jury_member(request)
     return results

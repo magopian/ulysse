@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from django import forms
+from django.conf import settings
 from django.contrib import admin
 from django.utils.functional import update_wrapper
 from django.shortcuts import redirect, render_to_response
@@ -71,7 +72,10 @@ class CompetitionModelAdmin(admin.ModelAdmin):
         
         def wrap(view):
             def wrapper(*args, **kwargs):
-                return self.admin_site.competition_admin_view(view)(*args, **kwargs)
+                # "super admin" doesn't ask for competition selection
+                if hasattr(self.admin_site, 'competition_admin_view'):
+                    return self.admin_site.competition_admin_view(view)(*args, **kwargs)
+                return view(*args, **kwargs)
             return update_wrapper(wrapper, view)
                        
         info = self.model._meta.app_label, self.model._meta.module_name                
@@ -236,8 +240,8 @@ class CompetitionAdmin(CompetitionModelAdmin):
         
     class Media:
             js = (
-            '/static/js/tiny_mce/tiny_mce.js',
-            '/static/js/admin_pages.js'
+            '%sjs/tiny_mce/tiny_mce.js' %  settings.STATIC_URL,
+            '%sjs/admin_pages.js' %  settings.STATIC_URL
         )
         
     
@@ -261,8 +265,8 @@ class CompetitionNewsAdmin(CompetitionModelAdmin):
         
     class Media:
             js = (
-            '/static/js/tiny_mce/tiny_mce.js',
-            '/static/js/admin_pages.js'
+            '%sjs/tiny_mce/tiny_mce.js' % settings.STATIC_URL,
+            '%sjs/admin_pages.js' % settings.STATIC_URL
         )
 
 
