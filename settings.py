@@ -131,8 +131,7 @@ INSTALLED_APPS = (
     'composers',
     'competitions',    
     'partners',
-    'reference',
-    'jury',
+    'reference',    
     'south'
 )
 
@@ -161,6 +160,8 @@ LOGGING = {
 
 COMPETITION_ADMIN_GROUP = 'competition-admins'
 JURY_MEMBER_GROUP = 'jury-members'
+ACTIVE_COMPETITION_KEY = "active_competition"
+JURY_MEMBER_KEY = "jury_member"
 
 # local settings that'll overload the settings defined here
 try:

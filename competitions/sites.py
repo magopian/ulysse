@@ -15,22 +15,23 @@ from composers.models import Composer, Work, Document, TextElement
 from composers.admin import ComposerAdmin, WorkAdmin, DocumentAdmin, TextElementAdmin
 from competitions.models import Competition, CompetitionStep, JuryMember, CandidateJuryAllocation, CompetitionStepFollowUp, CompetitionStepResults, Candidate, CompetitionManager, CompetitionNews
 from competitions.admin import CompetitionAdmin, JuryMemberAdmin, CandidateJuryAllocationAdmin, CompetitionStepFollowUpAdmin, CompetitionStepResultsAdmin, CandidateAdmin, CompetitionNewsAdmin
-from session import get_active_competition,set_active_competition, clear_active_competition
-from session import set_jury_member, get_jury_member, clear_jury_member
 from django.contrib.auth.signals import user_logged_out, user_logged_in
 from views import import_candidates, notify_jury_members
+import settings
 
 def on_user_logged_in(sender, **kwargs):
     request = kwargs['request']
     jury_member = JuryMember.objects.filter(user=request.user).exists()
     if jury_member:
-        set_jury_member(request)
+        from competitions import admin_site        
+        admin_site.set_jury_member(request)
 user_logged_in.connect(on_user_logged_in)
 
 def on_user_logged_out(sender, **kwargs):
-    request = kwargs['request']    
-    clear_active_competition(request)
-    clear_jury_member(request)
+    request = kwargs['request']
+    from competitions import admin_site        
+    admin_site.clear_active_competition(request)
+    admin_site.clear_jury_member(request)
 user_logged_out.connect(on_user_logged_out)
 
 class CompetitionAdminSite(AdminSite):
@@ -52,7 +53,7 @@ class CompetitionAdminSite(AdminSite):
             # Competition should be managed by current user
             competition = Competition.objects.get(id=id)
 
-            if get_jury_member(request):
+            if self.get_jury_member(request):
                 jm = JuryMember.objects.get(user=request.user)
                 checked = competition in jm.competitions.all()
             else:
@@ -60,10 +61,49 @@ class CompetitionAdminSite(AdminSite):
         if not checked:
             raise PermissionDenied()
         # Set active competition
-        set_active_competition(request,id)
+        self.set_active_competition(request,id)
         # Redirect to admin home page
         return redirect('/admin')
         
+    def get_active_competition_step(self,request):
+        # Get step name from url
+        path = request.META["PATH_INFO"]
+        tokens = path.split('/')
+        i = tokens.index('step')
+        step_url = tokens[i+1]
+        # Get CompetitionStep object        
+        active_competition = self.get_active_competition(request)
+        results = CompetitionStep.objects.filter(competition=active_competition,url=step_url)
+        if len(results)==0:
+            raise RuntimeError("Could not find a step with url '%s' for competition '%s'" % (step_url,active_competition))
+        return results[0]    
+        
+        
+    def get_active_competition(self,request):    
+        if not request.session.__contains__(settings.ACTIVE_COMPETITION_KEY ):
+            return None
+        active_competition = request.session[settings.ACTIVE_COMPETITION_KEY ]
+        if not type(active_competition) is Competition:
+            return None
+        return active_competition
+    
+    def set_active_competition(self,request,id):    
+        request.session[settings.ACTIVE_COMPETITION_KEY] = Competition.objects.get(id=id)
+        
+    def clear_active_competition(self,request):
+        if settings.ACTIVE_COMPETITION_KEY in request.session:
+            del request.session[settings.ACTIVE_COMPETITION_KEY]
+        
+    def get_jury_member(self,request):
+        return request.session.get(settings.JURY_MEMBER_KEY, False)
+    
+    def set_jury_member(self,request):
+        request.session[settings.JURY_MEMBER_KEY] = True
+    
+    def clear_jury_member(self,request):
+        if settings.JURY_MEMBER_KEY in request.session:
+            del request.session[settings.JURY_MEMBER_KEY]
+
     
     def choose_competition(self,request):
         """
@@ -73,7 +113,7 @@ class CompetitionAdminSite(AdminSite):
         if request.user.is_superuser:
             # If current user is a super user : choose among all competitions
             competitions = Competition.objects.all()
-        elif get_jury_member(request): # user is 'jury-member'
+        elif self.get_jury_member(request): # user is 'jury-member'
             jm = JuryMember.objects.get(user=request.user)
             competitions = jm.competitions.all()
         else: # Current user is 'competition-admin'
@@ -105,14 +145,14 @@ class CompetitionAdminSite(AdminSite):
         def inner(request, *args, **kwargs):            
             if not self.has_permission(request):
                 return self.login(request)            
-            if not get_active_competition(request):
+            if not self.get_active_competition(request):
                 return self.choose_competition(request)
             return self.admin_view(view)(request, *args, **kwargs)        
         # Call update_wrapper helper function
         return update_wrapper(inner, view)
     
     def index(self, request, extra_context=None):
-        if get_jury_member(request):
+        if self.get_jury_member(request):
             return redirect('%scandidates' % request.META['PATH_INFO'])
         return redirect('%sinfos' % request.META["PATH_INFO"])
            
@@ -134,7 +174,7 @@ class CompetitionAdminSite(AdminSite):
         context = {}
         context['competition_admin'] = True
         context['title'] = ''
-        active_competition = get_active_competition(request)        
+        active_competition = self.get_active_competition(request)        
         return CompetitionAdmin(Competition,self).change_view(request,'%s' % active_competition.id,context)        
                     
     def show_step(self,request,url):

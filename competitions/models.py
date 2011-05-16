@@ -35,8 +35,8 @@ class Competition(models.Model):
         return self.title        
     
     def get_menu(self,request):
-        from session import get_jury_member
-        if get_jury_member(request): # jury members only have a limited admin
+        from competitions import admin_site
+        if admin_site.get_jury_member(request): # jury members only have a limited admin
             return [get_nav_button(request, "candidates/", _(u"Candidates"))]
         nav_buttons = []
         nav_buttons.append(get_nav_button(request,"infos/",_(u"Informations")))

@@ -20,23 +20,10 @@ from models import CompetitionManager
 from models import EvaluationNote
 from forms  import CandidateAdminForm
 from models import CandidateJuryAllocation    
-from session import get_active_competition
 from context_processors import in_competition_admin
 from django.utils.translation import ugettext as _
 
-def get_active_competition_step(request):
-    # Get step name from url
-    path = request.META["PATH_INFO"]
-    tokens = path.split('/')
-    i = tokens.index('step')
-    step_url = tokens[i+1]
-    # Get CompetitionStep object
-    active_competition = get_active_competition(request)
-    results = CompetitionStep.objects.filter(competition=active_competition,url=step_url)
-    if len(results)==0:
-        raise RuntimeError("Could not find a step with url '%s' for competition '%s'" % (step_url,active_competition))
-    return results[0]
-    
+
 def wrap_queryset(model_admin,qs):    
     ordering = model_admin.ordering or () # otherwise we might try to *None, which is bad ;)
     if ordering:
@@ -112,14 +99,14 @@ class CandidateAdmin(CompetitionModelAdmin):
     def queryset(self, request):
         if in_competition_admin(request):
             # Get candidates for active competition 
-            qs = Candidate.objects.filter(competition=get_active_competition(request))        
+            qs = Candidate.objects.filter(competition=self.admin_site.get_active_competition(request))        
             return wrap_queryset(self,qs)
         else:
             return super(CandidateAdmin,self).queryset(request)
     
     def save_model(self, request, obj, form, change):
         if in_competition_admin(request):
-            obj.competition = get_active_competition(request)
+            obj.competition = self.admin_site.get_active_competition(request)
         # Call base class
         super(CandidateAdmin,self).save_model(request,obj,form,change)
         
@@ -129,7 +116,7 @@ class CandidateAdmin(CompetitionModelAdmin):
         candidates = Candidate.objects.filter(id__in=ids)
         referer    = request.GET["referer"]
         params["candidates"] = candidates
-        params["groups"]     = CandidateGroup.objects.filter(competition=get_active_competition(request))
+        params["groups"]     = CandidateGroup.objects.filter(competition=self.admin_site.get_active_competition(request))
         errors = []
         if request.method == 'POST': # If the form has been submitted...
             new_group= None
@@ -157,10 +144,10 @@ class CandidateAdmin(CompetitionModelAdmin):
                 if new_group:
                     the_group = CandidateGroup()
                     the_group.name = new_group
-                    the_group.competition = get_active_competition(request)
+                    the_group.competition = self.admin_site.get_active_competition(request)
                     the_group.save()
                 else:
-                    the_group = CandidateGroup.objects.filter(competition=get_active_competition(request),name=existing_group)[0]
+                    the_group = CandidateGroup.objects.filter(competition=self.admin_site.get_active_competition(request),name=existing_group)[0]
                 # Add the group to candidates
                 for candidate in candidates:
                     if the_group not in candidate.groups.all():
@@ -181,7 +168,7 @@ class CandidateJuryAllocationAdmin(CompetitionModelAdmin):
     
     def queryset(self, request):
         # Get candidates for active competition step        
-        qs = CandidateJuryAllocation.objects.filter(step=get_active_competition_step(request))        
+        qs = CandidateJuryAllocation.objects.filter(step=self.admin_site.get_active_competition_step(request))        
         return wrap_queryset(self,qs)
         
     
@@ -203,7 +190,7 @@ class CompetitionStepResultsAdmin(CompetitionModelAdmin):
     
     def queryset(self, request):
         # Get results for active competition step        
-        qs = CompetitionStepResults.objects.filter(step=get_active_competition_step(request))        
+        qs = CompetitionStepResults.objects.filter(step=self.admin_site.get_active_competition_step(request))        
         return wrap_queryset(self,qs)
     
     list_display   = ('nom_','prenom_','evaluations_')   
@@ -299,7 +286,7 @@ class CompetitionStepFollowUpAdmin(CompetitionModelAdmin):
     
     def queryset(self, request):
         # Get jury members for active competition step
-        active_step = get_active_competition_step(request)        
+        active_step = self.admin_site.get_active_competition_step(request)        
         qs = CompetitionStepFollowUp.objects.filter(user__in=[jury.user for jury in active_step.get_jury_members()])        
         return wrap_queryset(self,qs)
     
