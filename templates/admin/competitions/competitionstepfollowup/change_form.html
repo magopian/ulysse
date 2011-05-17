@@ -13,12 +13,12 @@
     <td>{% trans "Evaluation status" %}</td>
     </tr>
 </thead>
-{% for allocation in allocations %}
+{% for evaluation in evaluations %}
 <tr>
-    <td>{{allocation.candidate.composer.user.first_name}} {{allocation.candidate.composer.user.last_name}}</td>
-    <td></td>
+    <td>{{evaluation.candidate.composer.user.first_name}} {{evaluation.candidate.composer.user.last_name}}</td>
+    <td>{{evaluation.status}}</td>
 </tr>
+{% endfor %}
 </table>
 </div>
-{% endfor %}
 {% endblock %}

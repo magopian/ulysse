@@ -248,10 +248,8 @@ class CandidateGroupAdmin(CompetitionModelAdmin):
 class CompetitionStepResultsAdmin(CompetitionModelAdmin):
     
     def follow_results(self,request):
-        params = {}        
-        # Get all candidates
-        active_step = self.admin_site.get_active_competition_step(request)        
-        allocations = CandidateJuryAllocation.objects.filter(step=active_step).order_by("candidate__id")
+        params = {}                
+        active_step = self.admin_site.get_active_competition_step(request)                
         #
         # Construct columns
         #
@@ -264,14 +262,14 @@ class CompetitionStepResultsAdmin(CompetitionModelAdmin):
         # Construct lines
         #
         lines = []
-        for allocation in allocations:
-            line = [allocation.candidate.id,allocation.candidate.composer.user.last_name,allocation.candidate.composer.user.first_name]
+        for candidate in active_step.get_candidates():
+            line = [candidate.id,candidate.composer.user.last_name,candidate.composer.user.first_name]
             for jury_member in jury_members:
-                evaluations = Evaluation.objects.filter(competition_step=active_step,candidate=allocation.candidate,jury_member=jury_member)
+                evaluations = Evaluation.objects.filter(competition_step=active_step,candidate=candidate,jury_member=jury_member)
                 if len(evaluations)==1:
                     evaluation = evaluations[0]
                     if evaluation.status.url == "completed":
-                        result = "Ici : la note"
+                        result = evaluation.get_value()
                     elif evaluation.status.url == "in_progress":
                         result = "in progress"
                     elif evaluation.status.url == "to_process":
@@ -455,9 +453,9 @@ class CompetitionStepFollowUpAdmin(CompetitionModelAdmin):
     def show_jury_member_evaluations(self,request,id):
         params = {}
         jury_member = CompetitionStepFollowUp.objects.get(id=id)
-        allocations = CandidateJuryAllocation.objects.filter(jury_members=jury_member,step=self.admin_site.get_active_competition_step(request))
+        evaluations = Evaluation.objects.filter(jury_member=jury_member,competition_step=self.admin_site.get_active_competition_step(request))
         params["jury_member"]  = jury_member
-        params["allocations"]  = allocations
+        params["evaluations"]  = evaluations
         return render_to_response('admin/%s/%s/change_form.html' % (self.model._meta.app_label,self.model._meta.module_name),params,context_instance=RequestContext(request))                
     
     def get_urls(self):
