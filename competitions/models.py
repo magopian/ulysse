@@ -204,6 +204,7 @@ class Candidate(models.Model):
 class CandidateToEvaluate(Candidate):
     class Meta:
         proxy = True
+        verbose_name = _(u"candidat")
 
 class CandidateToImport(Candidate):
     class Meta:
