@@ -7,7 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^super-admin/', include(admin.site.urls)),    
-    url(r'^admin/', include(competitions.admin_site.urls)),        
+    url(r'^admin/', include(competitions.admin_site.urls)),    
     (r'^$', 'web.views.show_home'),
 )
 

@@ -4,9 +4,10 @@
 <div style="color:red;font-weight:bold;font-size:large;">
     <p>Reste à implémenter :</p>
     <ul>    
-    <li>Pouvoir gérer un filtre dynamique 'membre du jury de ce concours' (ou afficher tous les membres du jury)</li>    
+    <li>Security check : interdire d'afficher les membres du jury d'un autre concours (ex : par un user qui modifierait l'url manuellement)</li>    
     <li>Pouvoir gérer les groupes de membres du jury (via action 'ajouter un groupe' ou 'retirer d'un groupe')</li>    
     <li>Pouvoir filtrer par groupe</li>    
     <ul>
 </div>
+<h4>Display : <a href="?">all jury members</a> | <a href="?competitions__id__exact={{active_competition.id}}">only jury members for this competition</a></h4>
 {% endblock %}

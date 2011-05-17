@@ -30,6 +30,9 @@ class CompetitionAdminSite(AdminSite):
     
     login_form = CompetitionAdminAuthenticationForm
     
+    def is_competition_admin_site():
+        return True
+    
     def select_competition(self,request,id):
         """
         Sets the active competition and redirect to competition admin home page
@@ -61,14 +64,17 @@ class CompetitionAdminSite(AdminSite):
         # Get step name from url
         path = request.META["PATH_INFO"]
         tokens = path.split('/')
-        i = tokens.index('step')
-        step_url = tokens[i+1]
-        # Get CompetitionStep object        
-        active_competition = self.get_active_competition(request)
-        results = CompetitionStep.objects.filter(competition=active_competition,url=step_url)
-        if len(results)==0:
-            raise RuntimeError("Could not find a step with url '%s' for competition '%s'" % (step_url,active_competition))
-        return results[0]    
+        if 'step' in tokens:
+            i = tokens.index('step')
+            step_url = tokens[i+1]
+            # Get CompetitionStep object        
+            active_competition = self.get_active_competition(request)
+            results = CompetitionStep.objects.filter(competition=active_competition,url=step_url)
+            if len(results)==0:
+                raise RuntimeError("Could not find a step with url '%s' for competition '%s'" % (step_url,active_competition))
+            return results[0]
+        else:
+            return None
         
         
     def get_active_competition(self,request):    

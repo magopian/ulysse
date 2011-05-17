@@ -162,20 +162,7 @@ def on_jury_member_delete(sender, instance, **kwargs):
 pre_delete.connect(on_jury_member_delete, sender=JuryMember)
      
 
-class CompetitionStepFollowUp(JuryMember):
-    
-    def total_(self):
-        return u"à implémenter"
-    
-    def en_attente_(self):
-        return u"à implémenter"
-    
-    def en_cours_(self):
-        return u"à implémenter"
-    
-    def terminees_(self):
-        return u"à implémenter"    
-    
+class CompetitionStepFollowUp(JuryMember):       
     
     class Meta:
         proxy = True
@@ -229,14 +216,8 @@ class CandidateTextElement(TextElementBase):
 
 class CandidateJuryAllocation(models.Model):
     candidate    = models.ForeignKey(Candidate)
-    step         = models.ForeignKey(CompetitionStep,verbose_name=u"étape du concours")
-    jury_members = models.ManyToManyField(JuryMember,verbose_name=u"membres du jury")
-    
-    def nom_(self):
-        return self.composer.user.last_name
-    
-    def prenom_(self):
-        return self.composer.user.first_name
+    step         = models.ForeignKey(CompetitionStep,verbose_name=_(u"competition step"))
+    jury_members = models.ManyToManyField(JuryMember,verbose_name=_(u"jury members"))        
     
     def jury_(self):        
         if len(self.jury_members.all())>0:
@@ -245,9 +226,21 @@ class CandidateJuryAllocation(models.Model):
             return u"Aucun membre du jury n'est associé à ce candidat pour cette étape"        
         
     class Meta:
-        verbose_name        = "affectation candidat / jury"
-        verbose_name_plural = "affectations candidat / jury"
+        verbose_name        = _(u"candidat / jury allocation")
         
+class NotificationStatus(models.Model):
+    name  = models.CharField(max_length="50")
+    
+    class Meta:
+        verbose_name         = _(u"notification status")        
+
+class CandidateJuryAllocationNotification(models.Model):
+    allocation = models.ForeignKey(CandidateJuryAllocation)
+    status     = models.ForeignKey(NotificationStatus)        
+        
+    class Meta:
+        verbose_name         = _(u"candidat / jury allocation notification")
+        verbose_name_plural  = _(u"candidat / jury allocation notifications")                
 
 
 class CompetitionStepResults(CandidateJuryAllocation):
@@ -263,8 +256,7 @@ class CompetitionStepResults(CandidateJuryAllocation):
     
     class Meta:
         proxy = True
-        verbose_name        = u"résultat évaluation"
-        verbose_name_plural = u"résultats évaluation"
+        verbose_name        = _(u"evaluation result")        
 
 
 class EvaluationNoteType(models.Model):    
@@ -273,22 +265,34 @@ class EvaluationNoteType(models.Model):
     def __unicode__(self):
         return "%s" % (self.type)
 
-class EvaluationNote(models.Model):    
-    type    = models.ForeignKey(EvaluationNoteType,verbose_name=u"type de note")
-    value   = models.CharField(verbose_name=u"valeur de la note",max_length=200)
+        
+class EvaluationStatus(models.Model):    
+    name = models.CharField(verbose_name=u"name",max_length=50)    
+    url  = models.CharField(max_length=50)
     
     def __unicode__(self):
-        return "%s - %s " % (self.note,self.legend)
+        return self.name
+    
+    class Meta:
+        verbose_name        = u"evaluation status"
+        verbose_name_plural = u"evaluation status"
 
 class Evaluation(models.Model):
-    competition_step   = models.ForeignKey(CompetitionStep,verbose_name=u"étape du concours")
-    candidate          = models.ForeignKey(Candidate,verbose_name=u"candidat")
-    jury_member        = models.ForeignKey(JuryMember,verbose_name=u"membre du jury")
-    notes              = models.ManyToManyField(EvaluationNote)
+    competition_step   = models.ForeignKey(CompetitionStep,verbose_name=_(u"competition step"))
+    candidate          = models.ForeignKey(Candidate,verbose_name=_(u"candidate"))
+    jury_member        = models.ForeignKey(JuryMember,verbose_name=_(u"jury member"))    
+    status             = models.ForeignKey(EvaluationStatus)
 
     class Meta:
-        verbose_name  = u"évaluation"
+        verbose_name    = _(u"evaluation")
+        unique_together = ('competition_step','candidate','jury_member')
         
 
         
 
+class EvaluationNote(models.Model):
+    evaluation = models.ForeignKey(Evaluation)
+    name       = models.CharField(max_length=50)
+    type       = models.ForeignKey(EvaluationNoteType,verbose_name=_(u"note type"))
+    value      = models.CharField(verbose_name=_(u"note value"),max_length=200)    
+    
