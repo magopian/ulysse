@@ -191,7 +191,6 @@ class CandidateAdmin(CompetitionModelAdmin):
         return render_to_response('admin/%s/%s/edit_candidate.html' % (self.model._meta.app_label,self.model._meta.module_name),params,context_instance=RequestContext(request))        
     
     def get_urls(self):
-        
         def wrap(view):
             def wrapper(*args, **kwargs):
                 # "super admin" doesn't ask for competition selection
@@ -212,6 +211,9 @@ class CandidateAdmin(CompetitionModelAdmin):
             return my_urls + urls            
         else:            
             return urls
+
+class CandidateToEvaluateAdmin(CompetitionModelAdmin):
+    pass
         
 class CandidateJuryAllocationAdmin(CompetitionModelAdmin):
     
@@ -240,7 +242,7 @@ class CandidateGroupAdmin(CompetitionModelAdmin):
     list_display = ("name",)
     
     def save_model(self, request, obj, form, change):        
-        obj.competition = get_active_competition(request)
+        obj.competition = self.admin_site.get_active_competition(request)
         obj.save()
 
 class CompetitionStepResultsAdmin(CompetitionModelAdmin):
@@ -304,7 +306,7 @@ class CompetitionNewsAdmin(CompetitionModelAdmin):
     )
     
     def save_model(self, request, obj, form, change):        
-        obj.competition = get_active_competition(request)
+        obj.competition = self.admin_site.get_active_competition(request)
         obj.save()
         
     class Media:
@@ -330,7 +332,7 @@ class JuryMemberAdmin(CompetitionModelAdmin):
     
     def save_model(self, request, obj, form, change):
         if in_competition_admin(request):
-            obj.competition = get_active_competition(request)
+            obj.competition = self.admin_site.get_active_competition(request)
         # Call base class
         super(JuryMemberAdmin,self).save_model(request,obj,form,change)            
 
@@ -340,7 +342,7 @@ class JuryMemberGroupAdmin(CompetitionModelAdmin):
     list_display = ("name",)
     
     def save_model(self, request, obj, form, change):        
-        obj.competition = get_active_competition(request)
+        obj.competition = self.admin_site.get_active_competition(request)
         obj.save()
     
 
