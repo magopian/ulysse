@@ -247,6 +247,69 @@ class CandidateGroupAdmin(CompetitionModelAdmin):
 
 class CompetitionStepResultsAdmin(CompetitionModelAdmin):
     
+    def follow_results(self,request):
+        params = {}        
+        # Get all candidates
+        active_step = self.admin_site.get_active_competition_step(request)        
+        allocations = CandidateJuryAllocation.objects.filter(step=active_step).order_by("candidate__id")
+        #
+        # Construct columns
+        #
+        columns = ['ID','Last name','First name']
+        # Add a column for each jury member
+        jury_members = active_step.get_jury_members()
+        for jury_member in jury_members:
+            columns.append("%s. %s" % (jury_member.user.first_name[0].upper(),jury_member.user.last_name))
+        #
+        # Construct lines
+        #
+        lines = []
+        for allocation in allocations:
+            line = [allocation.candidate.id,allocation.candidate.composer.user.last_name,allocation.candidate.composer.user.first_name]
+            for jury_member in jury_members:
+                evaluations = Evaluation.objects.filter(competition_step=active_step,candidate=allocation.candidate,jury_member=jury_member)
+                if len(evaluations)==1:
+                    evaluation = evaluations[0]
+                    if evaluation.status.url == "completed":
+                        result = "Ici : la note"
+                    elif evaluation.status.url == "in_progress":
+                        result = "in progress"
+                    elif evaluation.status.url == "to_process":
+                        result = "to process"                        
+                    else:
+                        raise RuntimeError("Unhandled evaluation status : s%" % evaluation.status.url)                        
+                else:
+                    result = "N/A"
+                line.append(result  )
+            lines.append(line)
+        params["columns"] = columns
+        params["lines"]   = lines
+        return render_to_response('admin/%s/%s/change_list.html' % (self.model._meta.app_label,self.model._meta.module_name),params,context_instance=RequestContext(request))                                
+    
+        
+    def get_urls(self):
+        
+        def wrap(view):
+            def wrapper(*args, **kwargs):
+                # "super admin" doesn't ask for competition selection
+                if hasattr(self.admin_site, 'competition_admin_view'):
+                    return self.admin_site.competition_admin_view(view)(*args, **kwargs)
+                return view(*args, **kwargs)
+            return update_wrapper(wrapper, view)
+        
+        info = self.model._meta.app_label, self.model._meta.module_name        
+        
+        urls = super(CompetitionStepResultsAdmin, self).get_urls()               
+        
+        if hasattr(self.admin_site,'is_competition_admin_site'):                  
+            my_urls = patterns('',                                                    
+                url(r'^$',wrap(self.follow_results),name='%s_%s_change' % info),
+            )            
+            return my_urls + urls            
+        else:            
+            return urls
+    
+    
     def queryset(self, request):
         # Get results for active competition step        
         qs = CompetitionStepResults.objects.filter(step=self.admin_site.get_active_competition_step(request))        
@@ -376,17 +439,26 @@ class CompetitionStepFollowUpAdmin(CompetitionModelAdmin):
         active_step = self.admin_site.get_active_competition_step(request)        
         qs = CompetitionStepFollowUp.objects.filter(user__in=[jury.user for jury in active_step.get_jury_members()])
         # Construct results
-        columns = ['Last name','First name','Total','To process','In progress','Completed']
+        columns = ['Jury member','Total','To process','In progress','Completed']
         lines = []
         for obj in qs:
             total = Evaluation.objects.filter(competition_step=active_step,jury_member=obj).count()
             to_process  = Evaluation.objects.filter(competition_step=active_step,jury_member=obj,status__url="to_process").count()
             in_progress = Evaluation.objects.filter(competition_step=active_step,jury_member=obj,status__url="in_progress").count()
             completed   = Evaluation.objects.filter(competition_step=active_step,jury_member=obj,status__url="completed").count()
-            lines.append((obj.user.last_name,obj.user.first_name,total,to_process,in_progress,completed))
+            jury_member_link = "<a href=\"%s/\">%s %s</a>" % (obj.id,obj.user.first_name,obj.user.last_name)
+            lines.append((jury_member_link,total,to_process,in_progress,completed))
         params["columns"] = columns
         params["lines"]   = lines
         return render_to_response('admin/%s/%s/change_list.html' % (self.model._meta.app_label,self.model._meta.module_name),params,context_instance=RequestContext(request))                
+    
+    def show_jury_member_evaluations(self,request,id):
+        params = {}
+        jury_member = CompetitionStepFollowUp.objects.get(id=id)
+        allocations = CandidateJuryAllocation.objects.filter(jury_members=jury_member,step=self.admin_site.get_active_competition_step(request))
+        params["jury_member"]  = jury_member
+        params["allocations"]  = allocations
+        return render_to_response('admin/%s/%s/change_form.html' % (self.model._meta.app_label,self.model._meta.module_name),params,context_instance=RequestContext(request))                
     
     def get_urls(self):
         
@@ -403,7 +475,8 @@ class CompetitionStepFollowUpAdmin(CompetitionModelAdmin):
         urls = super(CompetitionStepFollowUpAdmin, self).get_urls()               
         
         if hasattr(self.admin_site,'is_competition_admin_site'):                  
-            my_urls = patterns('',                                                    
+            my_urls = patterns('',                               
+                url(r'^(.+)/$',wrap(self.show_jury_member_evaluations),name='%s_%s_edit' % info),
                 url(r'^$',wrap(self.follow_evaluations),name='%s_%s_change' % info),
             )            
             return my_urls + urls            

@@ -16,9 +16,10 @@
         <tr>
             {% for item in line %}
             <td>
-                {{item}}
+                {% autoescape off%}{{item}}{% endautoescape %}
             </td>
             {% endfor %}
         </tr>
     {% endfor %}
-{% endblock%}
+</table>
+{% endblock %}

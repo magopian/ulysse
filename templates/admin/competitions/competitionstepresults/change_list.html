@@ -1,14 +1,24 @@
-{% extends "admin/change_list.html" %}
+{% extends "admin/base_site.html" %}
 
 {% block pretitle %}
-<div style="color:red;font-weight:bold;font-size:large;">
-    <p>Reste à implémenter :</p>
-    <ul>
-    <li>Affichage dynamique des informations de résultats de l'étape</li>
-    <li>Gestion de l'édition en ligne des notes</li>
-    <li>Interdiction des modifications non autorisées (en cas d'id forcée via l'url)</li>
-    <li>Gestion des groupes de candidats (ex : "Candidats retenus suite à pre-jury")</li>
-    <li>Supprimer le bouton 'Ajouter résultat évaluation'</li>
-    <ul>
-</div>
+<h3>Follow results for '{{active_competition_step}}' step</h3>
 {% endblock %}
+
+{% block content %}
+<table>
+    <tr>
+        {% for col in columns %}
+            <td><b>{{col}}</b></td>
+        {% endfor %}
+    </tr>
+    {% for line in lines %}
+        <tr>
+            {% for item in line %}
+            <td>
+                {{item}}
+            </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+{% endblock%}
