@@ -1,10 +1,11 @@
-#-*- coding: utf-8 -*- 
+#-*- coding: utf-8 -*-
+from copy import deepcopy
 from django.contrib.admin.forms import AdminAuthenticationForm
 from django.contrib.auth.models import Group
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext as _
-from competitions.models import JuryMember
+from competitions.models import JuryMember, Candidate
 
 
 class CompetitionAdminAuthenticationForm(AdminAuthenticationForm):
@@ -37,16 +38,24 @@ class CompetitionAdminAuthenticationForm(AdminAuthenticationForm):
             raise forms.ValidationError(u"Seuls les administrateurs de concours, les membres du jury et les super-utilisateurs peuvent se connecter au site d'administration des concours")
         
         
-class CandidateAdminForm(forms.ModelForm):
+class CandidateAdminForm(forms.Form):
     """
-    A custom model form for candidate in competition admin
+    A custom orm for candidate in competition admin
 
-    """
-    # TO DO : rendre générique cette partie (hard-coded pour l'instant)   
-    education    = forms.CharField(widget=forms.Textarea())
-    experience   = forms.CharField(label=_("Professional experience"),widget=forms.Textarea())
-    distinctions = forms.CharField(label=_("Distinctions"),widget=forms.Textarea())
-    motivation   = forms.CharField(label=_("Motivation letter"),widget=forms.Textarea())
+    """    
+    def __init__(self, data=None, *args, **kwargs):        
+        super(CandidateAdminForm, self).__init__(data, *args, **kwargs)        
+        self._build_dynamic_fields()
+        
+    def _build_dynamic_fields(self):
+        # Set form fields        
+        self.fields["education"] = forms.CharField(widget=forms.Textarea())        
+    
+        
+    #education    = forms.CharField(widget=forms.Textarea())
+    #experience   = forms.CharField(label=_("Professional experience"),widget=forms.Textarea())
+    #distinctions = forms.CharField(label=_("Distinctions"),widget=forms.Textarea())
+    #motivation   = forms.CharField(label=_("Motivation letter"),widget=forms.Textarea())
  
     
     

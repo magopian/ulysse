@@ -17,7 +17,7 @@ from models import CompetitionStepResults
 from models import JuryMember
 from models import JuryMemberGroup
 from models import CompetitionManager
-from models import EvaluationNote
+from models import Evaluation,EvaluationNote, EvaluationStatus, EvaluationNoteType
 from forms  import CandidateAdminForm
 from models import CandidateJuryAllocation    
 from context_processors import in_competition_admin
@@ -32,23 +32,46 @@ def wrap_queryset(model_admin,qs):
     
 
 def add_candidates_to_group(modeladmin, request, queryset):
-    selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
+    selected = queryset.values_list('pk', flat=True)    
     referer = request.META["HTTP_REFERER"]
     return redirect("add_to_group?ids=%s&referer=%s" %  (",".join(selected),referer) )
     
 add_candidates_to_group.short_description = _(u"Add selected candidates to a group")
 
 def mark_candidates_as_valid(modeladmin, request, queryset):
-    selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)    
+    selected = queryset.values_list('pk', flat=True)
     Candidate.objects.filter(id__in=selected).update(is_valid=True)    
     
 mark_candidates_as_valid.short_description = _(u"Mark selected candidates as valid")
 
 def mark_candidates_as_invalid(modeladmin, request, queryset):
-    selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)    
+    selected = queryset.values_list('pk', flat=True)
     Candidate.objects.filter(id__in=selected).update(is_valid=False)    
     
 mark_candidates_as_invalid.short_description = _(u"Mark selected candidates as invalid")
+
+
+def associate_jury_members_to_competition(modeladmin, request, queryset):
+    selected = queryset.values_list('pk', flat=True)
+    jury_members = JuryMember.objects.filter(id__in=selected)
+    active_competition = modeladmin.admin_site.get_active_competition(request)
+    for jury_member in jury_members:
+        jury_member.competitions.add(active_competition)
+        jury_member.save()
+    
+associate_jury_members_to_competition.short_description = _(u"Associate selected jury members to competition")
+
+def remove_jury_member_from_competition(modeladmin, request, queryset):
+    selected = queryset.values_list('pk', flat=True)
+    selected = queryset.values_list('pk', flat=True)
+    jury_members = JuryMember.objects.filter(id__in=selected)
+    active_competition = modeladmin.admin_site.get_active_competition(request)
+    for jury_member in jury_members:
+        if active_competition in jury_member.competitions.all():
+            jury_member.competitions.remove(active_competition)
+            jury_member.save()
+    
+remove_jury_member_from_competition.short_description = _(u"Remove selected jury members from competition")
 
 class CompetitionManagerInline(admin.TabularInline):
     model = CompetitionManager
@@ -88,13 +111,16 @@ class CompetitionModelAdmin(admin.ModelAdmin):
         return urlpatterns        
     
 
-class CandidateAdmin(CompetitionModelAdmin):    
+class CandidateJuryAllocationInline(admin.TabularInline):
+    model = CandidateJuryAllocation
+
+class CandidateAdmin(CompetitionModelAdmin):        
     
-    form          = CandidateAdminForm        
     list_display  = ('last_name','first_name','is_valid')
     list_filter   = ['is_valid','groups']
     actions       = [add_candidates_to_group,mark_candidates_as_valid,mark_candidates_as_invalid]
     search_fields = ['composer__user__last_name',]
+    inlines       = [CandidateJuryAllocationInline,]
     
     def queryset(self, request):
         if in_competition_admin(request):
@@ -157,14 +183,45 @@ class CandidateAdmin(CompetitionModelAdmin):
         params["errors"] = errors
         return render_to_response('admin/%s/%s/add_to_group.html' % (self.model._meta.app_label,self.model._meta.module_name),params,context_instance=RequestContext(request))        
     
+    def edit_candidate(self,request,id):
+        params = {}
+        candidate = Candidate.objects.filter(id=id)[0]
+        the_form = CandidateAdminForm()
+        params["the_form"] = the_form
+        return render_to_response('admin/%s/%s/edit_candidate.html' % (self.model._meta.app_label,self.model._meta.module_name),params,context_instance=RequestContext(request))        
+    
     def get_urls(self):
-        urls = super(CandidateAdmin, self).get_urls()
-        my_urls = patterns('',                                    
-            (r'^add_to_group', self.add_to_group)
-        )
-        return my_urls + urls
+        
+        def wrap(view):
+            def wrapper(*args, **kwargs):
+                # "super admin" doesn't ask for competition selection
+                if hasattr(self.admin_site, 'competition_admin_view'):
+                    return self.admin_site.competition_admin_view(view)(*args, **kwargs)
+                return view(*args, **kwargs)
+            return update_wrapper(wrapper, view)
+        
+        info = self.model._meta.app_label, self.model._meta.module_name
+        
+        urls = super(CandidateAdmin, self).get_urls()               
+        
+        if hasattr(self.admin_site,'is_competition_admin_site'):                  
+            my_urls = patterns('',                                    
+                (r'^add_to_group', self.add_to_group),
+                url(r'^(.+)/$',wrap(self.edit_candidate),name='%s_%s_change' % info),
+            )            
+            return my_urls + urls            
+        else:            
+            return urls
         
 class CandidateJuryAllocationAdmin(CompetitionModelAdmin):
+    
+    def last_name(self, obj):
+      return obj.candidate.composer.user.last_name
+    last_name.short_description = 'last name'
+    
+    def first_name(self, obj):
+      return obj.candidate.composer.user.first_name
+    first_name.short_description = 'first name'
     
     def queryset(self, request):
         # Get candidates for active competition step        
@@ -172,7 +229,7 @@ class CandidateJuryAllocationAdmin(CompetitionModelAdmin):
         return wrap_queryset(self,qs)
         
     
-    list_display  = ('nom_','prenom_','jury_')
+    list_display  = ('last_name','first_name','jury_')
     list_filter = ['jury_members',]
     filter_vertical = ['jury_members',]
 
@@ -257,11 +314,19 @@ class CompetitionNewsAdmin(CompetitionModelAdmin):
         )
 
 
-
 class JuryMemberAdmin(CompetitionModelAdmin):
-    search_fields = ['user__last_name',]
-    list_display   = ('user',)
-    list_filter    = ["competitions",]       
+    search_fields  = ['user__last_name',]
+    list_display   = ('last_name','first_name')    
+    list_filter    = ['competitions',]
+    actions        = [associate_jury_members_to_competition,remove_jury_member_from_competition]
+                      
+    def last_name(self, obj):
+      return obj.user.last_name
+    last_name.short_description = 'last name'
+    
+    def first_name(self, obj):
+      return obj.user.first_name
+    first_name.short_description = 'first name'
     
     def save_model(self, request, obj, form, change):
         if in_competition_admin(request):
@@ -284,29 +349,91 @@ class CompetitionManagerAdmin(CompetitionModelAdmin):
 
 class CompetitionStepFollowUpAdmin(CompetitionModelAdmin):
     
+    def total(self,obj):        
+        return obj.total
+    
+    def to_process(self,obj):
+        return u"à implémenter"
+    
+    def in_progress(self,obj):
+        return u"à implémenter"
+    
+    def completed(self,obj):
+        return u"à implémenter"    
+    
+    
     def queryset(self, request):
         # Get jury members for active competition step
         active_step = self.admin_site.get_active_competition_step(request)        
         qs = CompetitionStepFollowUp.objects.filter(user__in=[jury.user for jury in active_step.get_jury_members()])        
-        return wrap_queryset(self,qs)
-    
-    def get_query_set(self):        
+        return wrap_queryset(self,qs)        
+        
+    def follow_evaluations(self,request):
+        params = {}
         # Get all jury members for this step
-        jury_members = []
-        for item in CandidateJuryAllocation.objects.all():
-            for jury_member in item.jury_members.all():
-                if not jury_member in jury_members:
-                    jury_members.append(jury_member)
-        return super(CompetitionStepFollowUpIrcamCursus1JuryManager, self).get_query_set().filter(jury__in=jury_members)
+        active_step = self.admin_site.get_active_competition_step(request)        
+        qs = CompetitionStepFollowUp.objects.filter(user__in=[jury.user for jury in active_step.get_jury_members()])
+        # Construct results
+        columns = ['Last name','First name','Total','To process','In progress','Completed']
+        lines = []
+        for obj in qs:
+            total = Evaluation.objects.filter(competition_step=active_step,jury_member=obj).count()
+            to_process  = Evaluation.objects.filter(competition_step=active_step,jury_member=obj,status__url="to_process").count()
+            in_progress = Evaluation.objects.filter(competition_step=active_step,jury_member=obj,status__url="in_progress").count()
+            completed   = Evaluation.objects.filter(competition_step=active_step,jury_member=obj,status__url="completed").count()
+            lines.append((obj.user.last_name,obj.user.first_name,total,to_process,in_progress,completed))
+        params["columns"] = columns
+        params["lines"]   = lines
+        return render_to_response('admin/%s/%s/change_list.html' % (self.model._meta.app_label,self.model._meta.module_name),params,context_instance=RequestContext(request))                
     
-    list_display   = ('user','total_','en_attente_','en_cours_','terminees_')   
+    def get_urls(self):
+        
+        def wrap(view):
+            def wrapper(*args, **kwargs):
+                # "super admin" doesn't ask for competition selection
+                if hasattr(self.admin_site, 'competition_admin_view'):
+                    return self.admin_site.competition_admin_view(view)(*args, **kwargs)
+                return view(*args, **kwargs)
+            return update_wrapper(wrapper, view)
+        
+        info = self.model._meta.app_label, self.model._meta.module_name        
+        
+        urls = super(CompetitionStepFollowUpAdmin, self).get_urls()               
+        
+        if hasattr(self.admin_site,'is_competition_admin_site'):                  
+            my_urls = patterns('',                                                    
+                url(r'^$',wrap(self.follow_evaluations),name='%s_%s_change' % info),
+            )            
+            return my_urls + urls            
+        else:            
+            return urls
+    
+    list_display   = ('user','total','to_process','in_progress','completed')   
 
 
 class EvaluationNoteAdmin(CompetitionModelAdmin):
     list_filter  = ['note','candidate','jury_member']
     list_display  = ('candidate','jury_member','note','comments')
 
+
+class EvaluationStatusAdmin(CompetitionModelAdmin):
+    pass
+
+class EvaluationNoteTypeAdmin(CompetitionModelAdmin):
+    pass
+
+class EvaluationNoteAdminInline(admin.TabularInline):
+    model = EvaluationNote
+
+class EvaluationAdmin(CompetitionModelAdmin):
+    list_display  = ('competition_step','candidate','jury_member','status')
+    list_filter  = ['competition_step','candidate','jury_member','status']
+    inlines = [EvaluationNoteAdminInline,]
+
 # Global administration registration    
 admin.site.register(Competition,CompetitionAdmin)
 admin.site.register(Candidate,CandidateAdmin)
 admin.site.register(JuryMember,JuryMemberAdmin)
+admin.site.register(Evaluation,EvaluationAdmin)
+admin.site.register(EvaluationNoteType,EvaluationNoteTypeAdmin)
+admin.site.register(EvaluationStatus,EvaluationStatusAdmin)
