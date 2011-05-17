@@ -224,6 +224,7 @@ class CandidateJuryAllocation(models.Model):
     step         = models.ForeignKey(CompetitionStep,verbose_name=_(u"competition step"))
     jury_members = models.ManyToManyField(JuryMember,verbose_name=_(u"jury members"))        
     
+    
     def jury_(self):        
         if len(self.jury_members.all())>0:
             return ", ".join(["%s %s" % (member.user.first_name, member.user.last_name) for member in self.jury_members.all()])
