@@ -575,7 +575,7 @@
             "is_active": true, 
             "is_superuser": false, 
             "is_staff": true, 
-            "last_login": "2011-05-17 15:09:01", 
+            "last_login": "2011-05-17 17:07:52", 
             "groups": [
                 8
             ], 
@@ -768,6 +768,14 @@
         }
     }, 
     {
+        "pk": "60e40c39f3b1ee6f18cbd36f3183b34a", 
+        "model": "sessions.session", 
+        "fields": {
+            "expire_date": "2011-05-31 17:07:56", 
+            "session_data": "NmYwYmMzYjYzZjI5YWFlZjA0ODYyMzU2MWE4OTA3NGYxZTY2MzFlMzqAAn1xAShVEmFjdGl2ZV9j\nb21wZXRpdGlvbnECY2RqYW5nby5kYi5tb2RlbHMuYmFzZQptb2RlbF91bnBpY2tsZQpxA2Njb21w\nZXRpdGlvbnMubW9kZWxzCkNvbXBldGl0aW9uCnEEXWNkamFuZ28uZGIubW9kZWxzLmJhc2UKc2lt\ncGxlX2NsYXNzX2ZhY3RvcnkKcQWHUnEGfXEHKFUIc3VidGl0bGVxCFglAAAAUHJhY3RpY2FsIFRy\nYWluaW5nIGZvciBDb21wdXRlciBNdXNpY3EJVQV0aXRsZXEKWBAAAABJcmNhbSAtIEN1cnN1cyAx\ncQtVA3VybHEMWA0AAABpcmNhbS1jdXJzdXMxcQ1VC2lzX2FyY2hpdmVkcQ6JVQZfc3RhdGVxD2Nk\namFuZ28uZGIubW9kZWxzLmJhc2UKTW9kZWxTdGF0ZQpxECmBcRF9cRIoVQZhZGRpbmdxE4lVAmRi\ncRRVB2RlZmF1bHRxFXViVRBpbmZvcm1hdGlvbl9kYXRlcRZjZGF0ZXRpbWUKZGF0ZQpxF1UEB9sE\nG4VScRhVE21hbmFnaW5nX3BhcnRuZXJfaWRxGYoBAVUMY2xvc2luZ19kYXRlcRpoF1UEB9sEG4VS\ncRtVB2lzX29wZW5xHIlVDG9wZW5pbmdfZGF0ZXEdaBdVBAfbBBuFUnEeVQtyZXN1bHRfZGF0ZXEf\naBdVBAfbBBuFUnEgVQxwcmVzZW50YXRpb25xIVi7AwAAPHA+Jm5ic3A7PC9wPg0KPHA+RmlmdGVl\nbiBjb21wb3NlcnMgdW5kZXIgdGhlIGFnZSBvZiAzNSBhcmUgc2VsZWN0ZWQgdG8gdGFrZSBwYXJ0\nIGluIHRoaXMgcHJvZ3JhbSB3aGVyZSB0aGV5IGNhbiBiZWNvbWUgZmFtaWxpYXIgYW5kIGdhaW4g\nYSBkZWVwZXIgdW5kZXJzdGFuZGluZyBvZiB0aGUgdGhlb3JldGljYWwgYW5kIGNvbXBvc2l0aW9u\nYWwgaXNzdWVzIHN1cnJvdW5kaW5nIGNvbXB1dGVyIG11c2ljLjwvcD4NCjxwPlRoaXMgaW50ZW5z\nZSBmdWxsLXRpbWUgcHJvZ3JhbSBpbnRyb2R1Y2VzIHRoZSBjb25jZXB0cyBvZiBjb21wdXRlci1h\nc3Npc3RlZCBjb21wb3NpdGlvbiwgc2lnbmFsIHByb2Nlc3NpbmcsIHNvdW5kIHN5bnRoZXNpcywg\nYW5kIHdyaXRpbmcgZm9yIGludGVyYWN0aW9uLiBTZW1pbmFycyBieSBndWVzdCBjb21wb3NlcnMg\nYWNjb21wYW55IHRlY2huaWNhbCBjb3Vyc2VzIHRhdWdodCBmcm9tIGEgY29tcG9zaXRpb25hbCBw\nb2ludCBvZiB2aWV3LiBUaGUgeWVhciBlbmRzIHdpdGggdGhlIGNyZWF0aW9uIG9mIGEgc3R1ZHkg\nZm9yIGEgc29sbyBpbnN0cnVtZW50IGFuZCBlbGVjdHJvbmljcyBwZXJmb3JtZWQgZHVyaW5nIGEg\nd29ya3Nob3Agd2l0aCBtdXNpYyBwcm9mZXNzaW9uYWxzLiBVcG9uIGNvbXBsZXRpb24gb2YgdGhl\nIGZpcnN0IHllYXIgb2YgdGhlIEN1cnN1cyBwcm9ncmFtLCBzdHVkZW50cyB3aWxsIGhhdmUgYWNx\ndWlyZWQgdGhlIGZvdW5kYXRpb24gbmVjZXNzYXJ5IHRvIGhhdmUgYSBjbGVhciB2aXNpb24gb2Yg\ndGhlIGZpZWxkLCB0byBjb250aW51ZSBoaXMvaGVyIG93biB0cmFpbmluZyBpbmRlcGVuZGVudGx5\nIGFuZCBhc3Nlc3MgdGhlIHN5c3RlbXMgbmVjZXNzYXJ5IHRvIHJlYWxpemUgdGhlaXIgYXJ0aXN0\naWMgcHJvamVjdHMuPC9wPg0KPGRpdj48c3Ryb25nPjxlbT5JbnN0cnVjdGlvbiBpbiBGcmVuY2g8\nL2VtPjwvc3Ryb25nPjwvZGl2PnEiVQJpZHEjigEBVQxpc19wdWJsaXNoZWRxJIl1YlUNX2F1dGhf\ndXNlcl9pZHEligEcVRJfYXV0aF91c2VyX2JhY2tlbmRxJlUpZGphbmdvLmNvbnRyaWIuYXV0aC5i\nYWNrZW5kcy5Nb2RlbEJhY2tlbmRxJ3Uu\n"
+        }
+    }, 
+    {
         "pk": "6b3b879695bae01e51ca5b114ece02a9", 
         "model": "sessions.session", 
         "fields": {
@@ -851,8 +859,8 @@
         "pk": "e482a263aa8180e16fdd13cda264d869", 
         "model": "sessions.session", 
         "fields": {
-            "expire_date": "2011-05-31 16:33:02", 
-            "session_data": "OTY0ZWI3ZmIzM2QyNzRmZTI1Y2E3MWQ5ZWYyMjExY2U1NTA2OGNmYTqAAn1xAShVEl9hdXRoX3Vz\nZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED\nVQ1fYXV0aF91c2VyX2lkcQSKARt1Lg==\n"
+            "expire_date": "2011-05-31 16:41:33", 
+            "session_data": "NTVlN2VmODg3N2EwNTMxNzM4MjBhMjk2MTI3MTVjZTRjZDdlYzJhNDqAAn1xAShVEmFjdGl2ZV9j\nb21wZXRpdGlvbnECY2RqYW5nby5kYi5tb2RlbHMuYmFzZQptb2RlbF91bnBpY2tsZQpxA2Njb21w\nZXRpdGlvbnMubW9kZWxzCkNvbXBldGl0aW9uCnEEXWNkamFuZ28uZGIubW9kZWxzLmJhc2UKc2lt\ncGxlX2NsYXNzX2ZhY3RvcnkKcQWHUnEGfXEHKFUIc3VidGl0bGVxCFglAAAAUHJhY3RpY2FsIFRy\nYWluaW5nIGZvciBDb21wdXRlciBNdXNpY3EJVQV0aXRsZXEKWBAAAABJcmNhbSAtIEN1cnN1cyAx\ncQtVA3VybHEMWA0AAABpcmNhbS1jdXJzdXMxcQ1VC2lzX2FyY2hpdmVkcQ6JVQZfc3RhdGVxD2Nk\namFuZ28uZGIubW9kZWxzLmJhc2UKTW9kZWxTdGF0ZQpxECmBcRF9cRIoVQZhZGRpbmdxE4lVAmRi\ncRRVB2RlZmF1bHRxFXViVRBpbmZvcm1hdGlvbl9kYXRlcRZjZGF0ZXRpbWUKZGF0ZQpxF1UEB9sE\nG4VScRhVE21hbmFnaW5nX3BhcnRuZXJfaWRxGYoBAVUMY2xvc2luZ19kYXRlcRpoF1UEB9sEG4VS\ncRtVB2lzX29wZW5xHIlVDG9wZW5pbmdfZGF0ZXEdaBdVBAfbBBuFUnEeVQtyZXN1bHRfZGF0ZXEf\naBdVBAfbBBuFUnEgVQxwcmVzZW50YXRpb25xIVi7AwAAPHA+Jm5ic3A7PC9wPg0KPHA+RmlmdGVl\nbiBjb21wb3NlcnMgdW5kZXIgdGhlIGFnZSBvZiAzNSBhcmUgc2VsZWN0ZWQgdG8gdGFrZSBwYXJ0\nIGluIHRoaXMgcHJvZ3JhbSB3aGVyZSB0aGV5IGNhbiBiZWNvbWUgZmFtaWxpYXIgYW5kIGdhaW4g\nYSBkZWVwZXIgdW5kZXJzdGFuZGluZyBvZiB0aGUgdGhlb3JldGljYWwgYW5kIGNvbXBvc2l0aW9u\nYWwgaXNzdWVzIHN1cnJvdW5kaW5nIGNvbXB1dGVyIG11c2ljLjwvcD4NCjxwPlRoaXMgaW50ZW5z\nZSBmdWxsLXRpbWUgcHJvZ3JhbSBpbnRyb2R1Y2VzIHRoZSBjb25jZXB0cyBvZiBjb21wdXRlci1h\nc3Npc3RlZCBjb21wb3NpdGlvbiwgc2lnbmFsIHByb2Nlc3NpbmcsIHNvdW5kIHN5bnRoZXNpcywg\nYW5kIHdyaXRpbmcgZm9yIGludGVyYWN0aW9uLiBTZW1pbmFycyBieSBndWVzdCBjb21wb3NlcnMg\nYWNjb21wYW55IHRlY2huaWNhbCBjb3Vyc2VzIHRhdWdodCBmcm9tIGEgY29tcG9zaXRpb25hbCBw\nb2ludCBvZiB2aWV3LiBUaGUgeWVhciBlbmRzIHdpdGggdGhlIGNyZWF0aW9uIG9mIGEgc3R1ZHkg\nZm9yIGEgc29sbyBpbnN0cnVtZW50IGFuZCBlbGVjdHJvbmljcyBwZXJmb3JtZWQgZHVyaW5nIGEg\nd29ya3Nob3Agd2l0aCBtdXNpYyBwcm9mZXNzaW9uYWxzLiBVcG9uIGNvbXBsZXRpb24gb2YgdGhl\nIGZpcnN0IHllYXIgb2YgdGhlIEN1cnN1cyBwcm9ncmFtLCBzdHVkZW50cyB3aWxsIGhhdmUgYWNx\ndWlyZWQgdGhlIGZvdW5kYXRpb24gbmVjZXNzYXJ5IHRvIGhhdmUgYSBjbGVhciB2aXNpb24gb2Yg\ndGhlIGZpZWxkLCB0byBjb250aW51ZSBoaXMvaGVyIG93biB0cmFpbmluZyBpbmRlcGVuZGVudGx5\nIGFuZCBhc3Nlc3MgdGhlIHN5c3RlbXMgbmVjZXNzYXJ5IHRvIHJlYWxpemUgdGhlaXIgYXJ0aXN0\naWMgcHJvamVjdHMuPC9wPg0KPGRpdj48c3Ryb25nPjxlbT5JbnN0cnVjdGlvbiBpbiBGcmVuY2g8\nL2VtPjwvc3Ryb25nPjwvZGl2PnEiVQJpZHEjigEBVQxpc19wdWJsaXNoZWRxJIl1YlUNX2F1dGhf\ndXNlcl9pZHEligEbVRJfYXV0aF91c2VyX2JhY2tlbmRxJlUpZGphbmdvLmNvbnRyaWIuYXV0aC5i\nYWNrZW5kcy5Nb2RlbEJhY2tlbmRxJ3Uu\n"
         }
     }, 
     {
@@ -3896,6 +3904,30 @@
         }
     }, 
     {
+        "pk": 4, 
+        "model": "competitions.evaluationstatus", 
+        "fields": {
+            "url": "to_process", 
+            "name": "to process"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "competitions.evaluationstatus", 
+        "fields": {
+            "url": "in_progress", 
+            "name": "in progress"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "competitions.evaluationstatus", 
+        "fields": {
+            "url": "completed", 
+            "name": "completed"
+        }
+    }, 
+    {
         "pk": 1, 
         "model": "partners.partner", 
         "fields": {
@@ -3926,30 +3958,102 @@
         }
     }, 
     {
-        "pk": 1, 
+        "pk": 20, 
         "model": "south.migrationhistory", 
         "fields": {
-            "applied": "2011-05-10 17:03:38", 
+            "applied": "2011-05-17 16:16:48", 
             "app_name": "competitions", 
             "migration": "0001_initial"
         }
     }, 
     {
-        "pk": 2, 
+        "pk": 21, 
         "model": "south.migrationhistory", 
         "fields": {
-            "applied": "2011-05-10 17:04:17", 
+            "applied": "2011-05-17 16:16:52", 
             "app_name": "competitions", 
-            "migration": "0002_auto"
+            "migration": "0002_auto__add_evaluationstatus__add_field_evaluation_status"
         }
     }, 
     {
-        "pk": 3, 
+        "pk": 22, 
         "model": "south.migrationhistory", 
         "fields": {
-            "applied": "2011-05-11 10:43:10", 
+            "applied": "2011-05-17 16:16:54", 
             "app_name": "competitions", 
-            "migration": "0003_auto__add_field_candidate_is_valid"
+            "migration": "0003_init_evaluation_status"
+        }
+    }, 
+    {
+        "pk": 23, 
+        "model": "south.migrationhistory", 
+        "fields": {
+            "applied": "2011-05-17 16:17:02", 
+            "app_name": "competitions", 
+            "migration": "0004_auto__add_unique_evaluation_jury_member_candidate_competition_step"
+        }
+    }, 
+    {
+        "pk": 24, 
+        "model": "south.migrationhistory", 
+        "fields": {
+            "applied": "2011-05-17 16:17:05", 
+            "app_name": "competitions", 
+            "migration": "0005_auto__add_field_evaluationstatus_url"
+        }
+    }, 
+    {
+        "pk": 25, 
+        "model": "south.migrationhistory", 
+        "fields": {
+            "applied": "2011-05-17 16:17:07", 
+            "app_name": "competitions", 
+            "migration": "0006_auto__del_field_evaluationstatus_slug"
+        }
+    }, 
+    {
+        "pk": 26, 
+        "model": "south.migrationhistory", 
+        "fields": {
+            "applied": "2011-05-17 16:17:07", 
+            "app_name": "competitions", 
+            "migration": "0007_init_evaluation_status"
+        }
+    }, 
+    {
+        "pk": 27, 
+        "model": "south.migrationhistory", 
+        "fields": {
+            "applied": "2011-05-17 16:17:07", 
+            "app_name": "competitions", 
+            "migration": "0008_auto"
+        }
+    }, 
+    {
+        "pk": 28, 
+        "model": "south.migrationhistory", 
+        "fields": {
+            "applied": "2011-05-17 16:17:08", 
+            "app_name": "competitions", 
+            "migration": "0009_auto__add_field_evaluationnote_evaluation"
+        }
+    }, 
+    {
+        "pk": 29, 
+        "model": "south.migrationhistory", 
+        "fields": {
+            "applied": "2011-05-17 16:17:09", 
+            "app_name": "competitions", 
+            "migration": "0010_auto__add_field_evaluationnote_name"
+        }
+    }, 
+    {
+        "pk": 30, 
+        "model": "south.migrationhistory", 
+        "fields": {
+            "applied": "2011-05-17 16:17:10", 
+            "app_name": "competitions", 
+            "migration": "0011_auto__add_candidatejuryallocationnotification__add_notificationstatus"
         }
     }
 ]
