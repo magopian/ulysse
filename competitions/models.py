@@ -46,7 +46,7 @@ class Competition(models.Model):
             for step in self.steps():
                 step_button = get_nav_button(request,"step/%s" % step.url,_(u"'%s' step" % step.name))
                 children = []
-                children.append(get_nav_button(request,"step/%s/importation/" % step.url,_(u"1 - Import candidates")))
+                children.append(get_nav_button(request,"step/%s/importation/" % step.url,_(u"1 - Import new candidates")))
                 children.append(get_nav_button(request,"step/%s/allocations/" % step.url,_(u"2 - Manage candidates/jury")))
                 children.append(get_nav_button(request,"step/%s/notifications/" % step.url,_(u"3 - Notify jury members")))
                 children.append(get_nav_button(request,"step/%s/evaluations/" % step.url,_(u"4 - Follow evaluations")))
@@ -204,6 +204,11 @@ class Candidate(models.Model):
 class CandidateToEvaluate(Candidate):
     class Meta:
         proxy = True
+
+class CandidateToImport(Candidate):
+    class Meta:
+        proxy = True
+        verbose_name = _(u"candidat")
         
 class CandidateWork(WorkBase):
     candidate = models.ForeignKey(Candidate)
@@ -221,7 +226,7 @@ class CandidateJuryAllocation(models.Model):
     
     def jury_(self):        
         if len(self.jury_members.all())>0:
-            return ", ".join(["%s %s" % (member.jury.user.first_name,member.jury.user.last_name) for member in self.jury_members.all()])
+            return ", ".join(["%s %s" % (member.user.first_name, member.user.last_name) for member in self.jury_members.all()])
         else:
             return u"Aucun membre du jury n'est associé à ce candidat pour cette étape"        
         
