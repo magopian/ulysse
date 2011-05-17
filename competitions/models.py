@@ -86,12 +86,10 @@ class CompetitionStep(models.Model):
     closing_date     = models.DateField(verbose_name="date de clôture d'étape",help_text=u"date indicative de fin d'étape")
     
     def get_jury_members(self):
-        jury_members = []
-        for item in CandidateJuryAllocation.objects.filter(step=self):
-            for jury_member in item.jury_members.all():
-                if not jury_member in jury_members:
-                    jury_members.append(jury_member)
-        return jury_members
+        return JuryMember.objects.filter(id__in=[item['jury_member'] for item in Evaluation.objects.filter(competition_step=self).values('jury_member').distinct()]).order_by("user__last_name","user__first_name")        
+    
+    def get_candidates(self):
+        return Candidate.objects.filter(id__in=[item['candidate'] for item in Evaluation.objects.filter(competition_step=self).values('candidate').distinct()]).order_by("id")            
     
     def __unicode__(self):
         return "%s : %s" % (self.competition.title,self.name)
@@ -284,11 +282,21 @@ class EvaluationStatus(models.Model):
         verbose_name        = u"evaluation status"
         verbose_name_plural = u"evaluation status"
 
+class EvaluationNote(models.Model):
+    evaluation = models.ForeignKey("Evaluation")
+    name       = models.CharField(max_length=50)
+    type       = models.ForeignKey(EvaluationNoteType,verbose_name=_(u"note type"))
+    value      = models.CharField(verbose_name=_(u"note value"),max_length=200)    
+
+
 class Evaluation(models.Model):
     competition_step   = models.ForeignKey(CompetitionStep,verbose_name=_(u"competition step"))
     candidate          = models.ForeignKey(Candidate,verbose_name=_(u"candidate"))
     jury_member        = models.ForeignKey(JuryMember,verbose_name=_(u"jury member"))    
     status             = models.ForeignKey(EvaluationStatus)
+    
+    def get_value(self):
+        return ",".join(["%s : %s" % (note.name,note.value) for note in EvaluationNote.objects.filter(evaluation=self)])
 
     class Meta:
         verbose_name    = _(u"evaluation")
@@ -297,9 +305,4 @@ class Evaluation(models.Model):
 
         
 
-class EvaluationNote(models.Model):
-    evaluation = models.ForeignKey(Evaluation)
-    name       = models.CharField(max_length=50)
-    type       = models.ForeignKey(EvaluationNoteType,verbose_name=_(u"note type"))
-    value      = models.CharField(verbose_name=_(u"note value"),max_length=200)    
     
