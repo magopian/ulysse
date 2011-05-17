@@ -163,6 +163,9 @@ class CandidateAdmin(CompetitionModelAdmin):
             (r'^add_to_group', self.add_to_group)
         )
         return my_urls + urls
+
+class CandidateToEvaluateAdmin(CompetitionModelAdmin):
+    pass
         
 class CandidateJuryAllocationAdmin(CompetitionModelAdmin):
     
@@ -183,7 +186,7 @@ class CandidateGroupAdmin(CompetitionModelAdmin):
     list_display = ("name",)
     
     def save_model(self, request, obj, form, change):        
-        obj.competition = get_active_competition(request)
+        obj.competition = self.admin_site.get_active_competition(request)
         obj.save()
 
 class CompetitionStepResultsAdmin(CompetitionModelAdmin):
@@ -247,7 +250,7 @@ class CompetitionNewsAdmin(CompetitionModelAdmin):
     )
     
     def save_model(self, request, obj, form, change):        
-        obj.competition = get_active_competition(request)
+        obj.competition = self.admin_site.get_active_competition(request)
         obj.save()
         
     class Media:
@@ -265,7 +268,7 @@ class JuryMemberAdmin(CompetitionModelAdmin):
     
     def save_model(self, request, obj, form, change):
         if in_competition_admin(request):
-            obj.competition = get_active_competition(request)
+            obj.competition = self.admin_site.get_active_competition(request)
         # Call base class
         super(JuryMemberAdmin,self).save_model(request,obj,form,change)            
 
@@ -275,7 +278,7 @@ class JuryMemberGroupAdmin(CompetitionModelAdmin):
     list_display = ("name",)
     
     def save_model(self, request, obj, form, change):        
-        obj.competition = get_active_competition(request)
+        obj.competition = self.admin_site.get_active_competition(request)
         obj.save()
     
 

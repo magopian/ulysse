@@ -1,977 +1,5 @@
 [
     {
-        "pk": 22, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_logentry", 
-            "name": "Can add log entry", 
-            "content_type": 8
-        }
-    }, 
-    {
-        "pk": 23, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_logentry", 
-            "name": "Can change log entry", 
-            "content_type": 8
-        }
-    }, 
-    {
-        "pk": 24, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_logentry", 
-            "name": "Can delete log entry", 
-            "content_type": 8
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_group", 
-            "name": "Can add group", 
-            "content_type": 2
-        }
-    }, 
-    {
-        "pk": 5, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_group", 
-            "name": "Can change group", 
-            "content_type": 2
-        }
-    }, 
-    {
-        "pk": 6, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_group", 
-            "name": "Can delete group", 
-            "content_type": 2
-        }
-    }, 
-    {
-        "pk": 10, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_message", 
-            "name": "Can add message", 
-            "content_type": 4
-        }
-    }, 
-    {
-        "pk": 11, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_message", 
-            "name": "Can change message", 
-            "content_type": 4
-        }
-    }, 
-    {
-        "pk": 12, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_message", 
-            "name": "Can delete message", 
-            "content_type": 4
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_permission", 
-            "name": "Can add permission", 
-            "content_type": 1
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_permission", 
-            "name": "Can change permission", 
-            "content_type": 1
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_permission", 
-            "name": "Can delete permission", 
-            "content_type": 1
-        }
-    }, 
-    {
-        "pk": 7, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_user", 
-            "name": "Can add user", 
-            "content_type": 3
-        }
-    }, 
-    {
-        "pk": 8, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_user", 
-            "name": "Can change user", 
-            "content_type": 3
-        }
-    }, 
-    {
-        "pk": 9, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_user", 
-            "name": "Can delete user", 
-            "content_type": 3
-        }
-    }, 
-    {
-        "pk": 58, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_candidate", 
-            "name": "Can add candidat", 
-            "content_type": 19
-        }
-    }, 
-    {
-        "pk": 59, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_candidate", 
-            "name": "Can change candidat", 
-            "content_type": 19
-        }
-    }, 
-    {
-        "pk": 60, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_candidate", 
-            "name": "Can delete candidat", 
-            "content_type": 19
-        }
-    }, 
-    {
-        "pk": 64, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_candidatedocument", 
-            "name": "Can add candidate document", 
-            "content_type": 21
-        }
-    }, 
-    {
-        "pk": 65, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_candidatedocument", 
-            "name": "Can change candidate document", 
-            "content_type": 21
-        }
-    }, 
-    {
-        "pk": 66, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_candidatedocument", 
-            "name": "Can delete candidate document", 
-            "content_type": 21
-        }
-    }, 
-    {
-        "pk": 73, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_candidategroup", 
-            "name": "Can add groupe de candidat", 
-            "content_type": 24
-        }
-    }, 
-    {
-        "pk": 74, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_candidategroup", 
-            "name": "Can change groupe de candidat", 
-            "content_type": 24
-        }
-    }, 
-    {
-        "pk": 75, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_candidategroup", 
-            "name": "Can delete groupe de candidat", 
-            "content_type": 24
-        }
-    }, 
-    {
-        "pk": 70, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_candidatejuryallocation", 
-            "name": "Can add affectation candidat / jury", 
-            "content_type": 23
-        }
-    }, 
-    {
-        "pk": 76, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_competitionstepresults", 
-            "name": "Can add r\u00e9sultat \u00e9valuation", 
-            "content_type": 23
-        }
-    }, 
-    {
-        "pk": 71, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_candidatejuryallocation", 
-            "name": "Can change affectation candidat / jury", 
-            "content_type": 23
-        }
-    }, 
-    {
-        "pk": 77, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_competitionstepresults", 
-            "name": "Can change r\u00e9sultat \u00e9valuation", 
-            "content_type": 23
-        }
-    }, 
-    {
-        "pk": 72, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_candidatejuryallocation", 
-            "name": "Can delete affectation candidat / jury", 
-            "content_type": 23
-        }
-    }, 
-    {
-        "pk": 78, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_competitionstepresults", 
-            "name": "Can delete r\u00e9sultat \u00e9valuation", 
-            "content_type": 23
-        }
-    }, 
-    {
-        "pk": 67, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_candidatetextelement", 
-            "name": "Can add candidate text element", 
-            "content_type": 22
-        }
-    }, 
-    {
-        "pk": 68, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_candidatetextelement", 
-            "name": "Can change candidate text element", 
-            "content_type": 22
-        }
-    }, 
-    {
-        "pk": 69, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_candidatetextelement", 
-            "name": "Can delete candidate text element", 
-            "content_type": 22
-        }
-    }, 
-    {
-        "pk": 61, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_candidatework", 
-            "name": "Can add candidate work", 
-            "content_type": 20
-        }
-    }, 
-    {
-        "pk": 62, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_candidatework", 
-            "name": "Can change candidate work", 
-            "content_type": 20
-        }
-    }, 
-    {
-        "pk": 63, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_candidatework", 
-            "name": "Can delete candidate work", 
-            "content_type": 20
-        }
-    }, 
-    {
-        "pk": 37, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_competition", 
-            "name": "Can add concours", 
-            "content_type": 13
-        }
-    }, 
-    {
-        "pk": 38, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_competition", 
-            "name": "Can change concours", 
-            "content_type": 13
-        }
-    }, 
-    {
-        "pk": 39, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_competition", 
-            "name": "Can delete concours", 
-            "content_type": 13
-        }
-    }, 
-    {
-        "pk": 40, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_competitionmanager", 
-            "name": "Can add gestionnaire de concours", 
-            "content_type": 14
-        }
-    }, 
-    {
-        "pk": 41, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_competitionmanager", 
-            "name": "Can change gestionnaire de concours", 
-            "content_type": 14
-        }
-    }, 
-    {
-        "pk": 42, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_competitionmanager", 
-            "name": "Can delete gestionnaire de concours", 
-            "content_type": 14
-        }
-    }, 
-    {
-        "pk": 46, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_competitionnews", 
-            "name": "Can add actualit\u00e9", 
-            "content_type": 16
-        }
-    }, 
-    {
-        "pk": 47, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_competitionnews", 
-            "name": "Can change actualit\u00e9", 
-            "content_type": 16
-        }
-    }, 
-    {
-        "pk": 48, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_competitionnews", 
-            "name": "Can delete actualit\u00e9", 
-            "content_type": 16
-        }
-    }, 
-    {
-        "pk": 43, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_competitionstep", 
-            "name": "Can add \u00e9tape du concours", 
-            "content_type": 15
-        }
-    }, 
-    {
-        "pk": 44, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_competitionstep", 
-            "name": "Can change \u00e9tape du concours", 
-            "content_type": 15
-        }
-    }, 
-    {
-        "pk": 45, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_competitionstep", 
-            "name": "Can delete \u00e9tape du concours", 
-            "content_type": 15
-        }
-    }, 
-    {
-        "pk": 85, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_evaluation", 
-            "name": "Can add \u00e9valuation", 
-            "content_type": 27
-        }
-    }, 
-    {
-        "pk": 86, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_evaluation", 
-            "name": "Can change \u00e9valuation", 
-            "content_type": 27
-        }
-    }, 
-    {
-        "pk": 87, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_evaluation", 
-            "name": "Can delete \u00e9valuation", 
-            "content_type": 27
-        }
-    }, 
-    {
-        "pk": 82, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_evaluationnote", 
-            "name": "Can add evaluation note", 
-            "content_type": 26
-        }
-    }, 
-    {
-        "pk": 83, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_evaluationnote", 
-            "name": "Can change evaluation note", 
-            "content_type": 26
-        }
-    }, 
-    {
-        "pk": 84, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_evaluationnote", 
-            "name": "Can delete evaluation note", 
-            "content_type": 26
-        }
-    }, 
-    {
-        "pk": 79, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_evaluationnotetype", 
-            "name": "Can add evaluation note type", 
-            "content_type": 25
-        }
-    }, 
-    {
-        "pk": 80, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_evaluationnotetype", 
-            "name": "Can change evaluation note type", 
-            "content_type": 25
-        }
-    }, 
-    {
-        "pk": 81, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_evaluationnotetype", 
-            "name": "Can delete evaluation note type", 
-            "content_type": 25
-        }
-    }, 
-    {
-        "pk": 55, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_competitionstepfollowup", 
-            "name": "Can add suivi \u00e9valuations", 
-            "content_type": 17
-        }
-    }, 
-    {
-        "pk": 49, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_jurymember", 
-            "name": "Can add membre du jury", 
-            "content_type": 17
-        }
-    }, 
-    {
-        "pk": 56, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_competitionstepfollowup", 
-            "name": "Can change suivi \u00e9valuations", 
-            "content_type": 17
-        }
-    }, 
-    {
-        "pk": 50, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_jurymember", 
-            "name": "Can change membre du jury", 
-            "content_type": 17
-        }
-    }, 
-    {
-        "pk": 57, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_competitionstepfollowup", 
-            "name": "Can delete suivi \u00e9valuations", 
-            "content_type": 17
-        }
-    }, 
-    {
-        "pk": 51, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_jurymember", 
-            "name": "Can delete membre du jury", 
-            "content_type": 17
-        }
-    }, 
-    {
-        "pk": 52, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_jurymembergroup", 
-            "name": "Can add groupe de membres du jury", 
-            "content_type": 18
-        }
-    }, 
-    {
-        "pk": 53, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_jurymembergroup", 
-            "name": "Can change groupe de membres du jury", 
-            "content_type": 18
-        }
-    }, 
-    {
-        "pk": 54, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_jurymembergroup", 
-            "name": "Can delete groupe de membres du jury", 
-            "content_type": 18
-        }
-    }, 
-    {
-        "pk": 25, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_composer", 
-            "name": "Can add compositeur", 
-            "content_type": 9
-        }
-    }, 
-    {
-        "pk": 26, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_composer", 
-            "name": "Can change compositeur", 
-            "content_type": 9
-        }
-    }, 
-    {
-        "pk": 27, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_composer", 
-            "name": "Can delete compositeur", 
-            "content_type": 9
-        }
-    }, 
-    {
-        "pk": 31, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_document", 
-            "name": "Can add document", 
-            "content_type": 11
-        }
-    }, 
-    {
-        "pk": 32, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_document", 
-            "name": "Can change document", 
-            "content_type": 11
-        }
-    }, 
-    {
-        "pk": 33, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_document", 
-            "name": "Can delete document", 
-            "content_type": 11
-        }
-    }, 
-    {
-        "pk": 34, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_textelement", 
-            "name": "Can add \u00e9l\u00e9ment textuel", 
-            "content_type": 12
-        }
-    }, 
-    {
-        "pk": 35, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_textelement", 
-            "name": "Can change \u00e9l\u00e9ment textuel", 
-            "content_type": 12
-        }
-    }, 
-    {
-        "pk": 36, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_textelement", 
-            "name": "Can delete \u00e9l\u00e9ment textuel", 
-            "content_type": 12
-        }
-    }, 
-    {
-        "pk": 28, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_work", 
-            "name": "Can add oeuvre", 
-            "content_type": 10
-        }
-    }, 
-    {
-        "pk": 29, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_work", 
-            "name": "Can change oeuvre", 
-            "content_type": 10
-        }
-    }, 
-    {
-        "pk": 30, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_work", 
-            "name": "Can delete oeuvre", 
-            "content_type": 10
-        }
-    }, 
-    {
-        "pk": 13, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_contenttype", 
-            "name": "Can add content type", 
-            "content_type": 5
-        }
-    }, 
-    {
-        "pk": 14, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_contenttype", 
-            "name": "Can change content type", 
-            "content_type": 5
-        }
-    }, 
-    {
-        "pk": 15, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_contenttype", 
-            "name": "Can delete content type", 
-            "content_type": 5
-        }
-    }, 
-    {
-        "pk": 103, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_jury", 
-            "name": "Can add jury", 
-            "content_type": 35
-        }
-    }, 
-    {
-        "pk": 104, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_jury", 
-            "name": "Can change jury", 
-            "content_type": 35
-        }
-    }, 
-    {
-        "pk": 105, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_jury", 
-            "name": "Can delete jury", 
-            "content_type": 35
-        }
-    }, 
-    {
-        "pk": 88, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_partner", 
-            "name": "Can add partenaire", 
-            "content_type": 30
-        }
-    }, 
-    {
-        "pk": 89, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_partner", 
-            "name": "Can change partenaire", 
-            "content_type": 30
-        }
-    }, 
-    {
-        "pk": 90, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_partner", 
-            "name": "Can delete partenaire", 
-            "content_type": 30
-        }
-    }, 
-    {
-        "pk": 91, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_citizenship", 
-            "name": "Can add nationalit\u00e9", 
-            "content_type": 31
-        }
-    }, 
-    {
-        "pk": 92, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_citizenship", 
-            "name": "Can change nationalit\u00e9", 
-            "content_type": 31
-        }
-    }, 
-    {
-        "pk": 93, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_citizenship", 
-            "name": "Can delete nationalit\u00e9", 
-            "content_type": 31
-        }
-    }, 
-    {
-        "pk": 97, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_documenttype", 
-            "name": "Can add type de document", 
-            "content_type": 33
-        }
-    }, 
-    {
-        "pk": 98, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_documenttype", 
-            "name": "Can change type de document", 
-            "content_type": 33
-        }
-    }, 
-    {
-        "pk": 99, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_documenttype", 
-            "name": "Can delete type de document", 
-            "content_type": 33
-        }
-    }, 
-    {
-        "pk": 94, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_mediatype", 
-            "name": "Can add type de m\u00e9dia", 
-            "content_type": 32
-        }
-    }, 
-    {
-        "pk": 95, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_mediatype", 
-            "name": "Can change type de m\u00e9dia", 
-            "content_type": 32
-        }
-    }, 
-    {
-        "pk": 96, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_mediatype", 
-            "name": "Can delete type de m\u00e9dia", 
-            "content_type": 32
-        }
-    }, 
-    {
-        "pk": 100, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_textelementtype", 
-            "name": "Can add type d'\u00e9l\u00e9ment textuel", 
-            "content_type": 34
-        }
-    }, 
-    {
-        "pk": 101, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_textelementtype", 
-            "name": "Can change type d'\u00e9l\u00e9ment textuel", 
-            "content_type": 34
-        }
-    }, 
-    {
-        "pk": 102, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_textelementtype", 
-            "name": "Can delete type d'\u00e9l\u00e9ment textuel", 
-            "content_type": 34
-        }
-    }, 
-    {
-        "pk": 16, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_session", 
-            "name": "Can add session", 
-            "content_type": 6
-        }
-    }, 
-    {
-        "pk": 17, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_session", 
-            "name": "Can change session", 
-            "content_type": 6
-        }
-    }, 
-    {
-        "pk": 18, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_session", 
-            "name": "Can delete session", 
-            "content_type": 6
-        }
-    }, 
-    {
-        "pk": 19, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_site", 
-            "name": "Can add site", 
-            "content_type": 7
-        }
-    }, 
-    {
-        "pk": 20, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_site", 
-            "name": "Can change site", 
-            "content_type": 7
-        }
-    }, 
-    {
-        "pk": 21, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_site", 
-            "name": "Can delete site", 
-            "content_type": 7
-        }
-    }, 
-    {
-        "pk": 106, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "add_migrationhistory", 
-            "name": "Can add migration history", 
-            "content_type": 36
-        }
-    }, 
-    {
-        "pk": 107, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "change_migrationhistory", 
-            "name": "Can change migration history", 
-            "content_type": 36
-        }
-    }, 
-    {
-        "pk": 108, 
-        "model": "auth.permission", 
-        "fields": {
-            "codename": "delete_migrationhistory", 
-            "name": "Can delete migration history", 
-            "content_type": 36
-        }
-    }, 
-    {
         "pk": 1, 
         "model": "auth.group", 
         "fields": {
@@ -1037,7 +65,7 @@
         "fields": {
             "name": "jury-members", 
             "permissions": [
-                59, 
+                110, 
                 85, 
                 86, 
                 87, 
@@ -1077,8 +105,7 @@
             "is_staff": true, 
             "last_login": "2011-04-27 16:44:13", 
             "groups": [
-                1, 
-                8
+                1
             ], 
             "user_permissions": [], 
             "password": "sha1$437e1$1b1762950928f6d550e7cf100f8140880dda7111", 
@@ -1528,8 +555,10 @@
             "is_active": true, 
             "is_superuser": true, 
             "is_staff": true, 
-            "last_login": "2011-05-15 10:52:31", 
-            "groups": [], 
+            "last_login": "2011-05-17 16:33:02", 
+            "groups": [
+                8
+            ], 
             "user_permissions": [], 
             "password": "sha1$8a275$d5145096362c6719f3a2b652ffab608de70452f8", 
             "email": "", 
@@ -1546,7 +575,7 @@
             "is_active": true, 
             "is_superuser": false, 
             "is_staff": true, 
-            "last_login": "2011-05-15 11:48:27", 
+            "last_login": "2011-05-17 15:09:01", 
             "groups": [
                 8
             ], 
@@ -1653,11 +682,57 @@
         }
     }, 
     {
+        "pk": 34, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "compadmin", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": true, 
+            "last_login": "2011-05-17 16:37:44", 
+            "groups": [
+                1
+            ], 
+            "user_permissions": [], 
+            "password": "sha1$4d929$d1cff42fa6520b44d73695f7bf20df0ef8a0b0ee", 
+            "email": "", 
+            "date_joined": "2011-05-17 15:54:04"
+        }
+    }, 
+    {
+        "pk": 35, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "web", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2011-05-17 15:54:47", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$6f091$f8f690ae2968910bc6e025b76fbc88581cb7c94d", 
+            "email": "", 
+            "date_joined": "2011-05-17 15:54:47"
+        }
+    }, 
+    {
         "pk": "09d039887e266c8745159a0be52b4456", 
         "model": "sessions.session", 
         "fields": {
             "expire_date": "2011-05-27 15:17:56", 
             "session_data": "YTA4NjVjOTRkZGQ3YmM3NjA4MWM0NTFmZGJlNjJiM2EwMjljMzdhMDqAAn1xAShVEmFjdGl2ZV9j\nb21wZXRpdGlvbnECY2RqYW5nby5kYi5tb2RlbHMuYmFzZQptb2RlbF91bnBpY2tsZQpxA2Njb21w\nZXRpdGlvbnMubW9kZWxzCkNvbXBldGl0aW9uCnEEXWNkamFuZ28uZGIubW9kZWxzLmJhc2UKc2lt\ncGxlX2NsYXNzX2ZhY3RvcnkKcQWHUnEGfXEHKFUIc3VidGl0bGVxCFglAAAAUHJhY3RpY2FsIFRy\nYWluaW5nIGZvciBDb21wdXRlciBNdXNpY3EJVQV0aXRsZXEKWBAAAABJcmNhbSAtIEN1cnN1cyAx\ncQtVA3VybHEMWA0AAABpcmNhbS1jdXJzdXMxcQ1VC2lzX2FyY2hpdmVkcQ6JVQZfc3RhdGVxD2Nk\namFuZ28uZGIubW9kZWxzLmJhc2UKTW9kZWxTdGF0ZQpxECmBcRF9cRIoVQZhZGRpbmdxE4lVAmRi\ncRRVB2RlZmF1bHRxFXViVRBpbmZvcm1hdGlvbl9kYXRlcRZjZGF0ZXRpbWUKZGF0ZQpxF1UEB9sE\nG4VScRhVE21hbmFnaW5nX3BhcnRuZXJfaWRxGYoBAVUMY2xvc2luZ19kYXRlcRpoF1UEB9sEG4VS\ncRtVB2lzX29wZW5xHIlVDG9wZW5pbmdfZGF0ZXEdaBdVBAfbBBuFUnEeVQtyZXN1bHRfZGF0ZXEf\naBdVBAfbBBuFUnEgVQxwcmVzZW50YXRpb25xIVi7AwAAPHA+Jm5ic3A7PC9wPg0KPHA+RmlmdGVl\nbiBjb21wb3NlcnMgdW5kZXIgdGhlIGFnZSBvZiAzNSBhcmUgc2VsZWN0ZWQgdG8gdGFrZSBwYXJ0\nIGluIHRoaXMgcHJvZ3JhbSB3aGVyZSB0aGV5IGNhbiBiZWNvbWUgZmFtaWxpYXIgYW5kIGdhaW4g\nYSBkZWVwZXIgdW5kZXJzdGFuZGluZyBvZiB0aGUgdGhlb3JldGljYWwgYW5kIGNvbXBvc2l0aW9u\nYWwgaXNzdWVzIHN1cnJvdW5kaW5nIGNvbXB1dGVyIG11c2ljLjwvcD4NCjxwPlRoaXMgaW50ZW5z\nZSBmdWxsLXRpbWUgcHJvZ3JhbSBpbnRyb2R1Y2VzIHRoZSBjb25jZXB0cyBvZiBjb21wdXRlci1h\nc3Npc3RlZCBjb21wb3NpdGlvbiwgc2lnbmFsIHByb2Nlc3NpbmcsIHNvdW5kIHN5bnRoZXNpcywg\nYW5kIHdyaXRpbmcgZm9yIGludGVyYWN0aW9uLiBTZW1pbmFycyBieSBndWVzdCBjb21wb3NlcnMg\nYWNjb21wYW55IHRlY2huaWNhbCBjb3Vyc2VzIHRhdWdodCBmcm9tIGEgY29tcG9zaXRpb25hbCBw\nb2ludCBvZiB2aWV3LiBUaGUgeWVhciBlbmRzIHdpdGggdGhlIGNyZWF0aW9uIG9mIGEgc3R1ZHkg\nZm9yIGEgc29sbyBpbnN0cnVtZW50IGFuZCBlbGVjdHJvbmljcyBwZXJmb3JtZWQgZHVyaW5nIGEg\nd29ya3Nob3Agd2l0aCBtdXNpYyBwcm9mZXNzaW9uYWxzLiBVcG9uIGNvbXBsZXRpb24gb2YgdGhl\nIGZpcnN0IHllYXIgb2YgdGhlIEN1cnN1cyBwcm9ncmFtLCBzdHVkZW50cyB3aWxsIGhhdmUgYWNx\ndWlyZWQgdGhlIGZvdW5kYXRpb24gbmVjZXNzYXJ5IHRvIGhhdmUgYSBjbGVhciB2aXNpb24gb2Yg\ndGhlIGZpZWxkLCB0byBjb250aW51ZSBoaXMvaGVyIG93biB0cmFpbmluZyBpbmRlcGVuZGVudGx5\nIGFuZCBhc3Nlc3MgdGhlIHN5c3RlbXMgbmVjZXNzYXJ5IHRvIHJlYWxpemUgdGhlaXIgYXJ0aXN0\naWMgcHJvamVjdHMuPC9wPg0KPGRpdj48c3Ryb25nPjxlbT5JbnN0cnVjdGlvbiBpbiBGcmVuY2g8\nL2VtPjwvc3Ryb25nPjwvZGl2PnEiVQJpZHEjigEBVQxpc19wdWJsaXNoZWRxJIl1YlUNX2F1dGhf\ndXNlcl9pZHEligEEVRJfYXV0aF91c2VyX2JhY2tlbmRxJlUpZGphbmdvLmNvbnRyaWIuYXV0aC5i\nYWNrZW5kcy5Nb2RlbEJhY2tlbmRxJ3Uu\n"
+        }
+    }, 
+    {
+        "pk": "0af186ea508cef44296c93585c2ec0f2", 
+        "model": "sessions.session", 
+        "fields": {
+            "expire_date": "2011-05-30 09:09:27", 
+            "session_data": "NTVlN2VmODg3N2EwNTMxNzM4MjBhMjk2MTI3MTVjZTRjZDdlYzJhNDqAAn1xAShVEmFjdGl2ZV9j\nb21wZXRpdGlvbnECY2RqYW5nby5kYi5tb2RlbHMuYmFzZQptb2RlbF91bnBpY2tsZQpxA2Njb21w\nZXRpdGlvbnMubW9kZWxzCkNvbXBldGl0aW9uCnEEXWNkamFuZ28uZGIubW9kZWxzLmJhc2UKc2lt\ncGxlX2NsYXNzX2ZhY3RvcnkKcQWHUnEGfXEHKFUIc3VidGl0bGVxCFglAAAAUHJhY3RpY2FsIFRy\nYWluaW5nIGZvciBDb21wdXRlciBNdXNpY3EJVQV0aXRsZXEKWBAAAABJcmNhbSAtIEN1cnN1cyAx\ncQtVA3VybHEMWA0AAABpcmNhbS1jdXJzdXMxcQ1VC2lzX2FyY2hpdmVkcQ6JVQZfc3RhdGVxD2Nk\namFuZ28uZGIubW9kZWxzLmJhc2UKTW9kZWxTdGF0ZQpxECmBcRF9cRIoVQZhZGRpbmdxE4lVAmRi\ncRRVB2RlZmF1bHRxFXViVRBpbmZvcm1hdGlvbl9kYXRlcRZjZGF0ZXRpbWUKZGF0ZQpxF1UEB9sE\nG4VScRhVE21hbmFnaW5nX3BhcnRuZXJfaWRxGYoBAVUMY2xvc2luZ19kYXRlcRpoF1UEB9sEG4VS\ncRtVB2lzX29wZW5xHIlVDG9wZW5pbmdfZGF0ZXEdaBdVBAfbBBuFUnEeVQtyZXN1bHRfZGF0ZXEf\naBdVBAfbBBuFUnEgVQxwcmVzZW50YXRpb25xIVi7AwAAPHA+Jm5ic3A7PC9wPg0KPHA+RmlmdGVl\nbiBjb21wb3NlcnMgdW5kZXIgdGhlIGFnZSBvZiAzNSBhcmUgc2VsZWN0ZWQgdG8gdGFrZSBwYXJ0\nIGluIHRoaXMgcHJvZ3JhbSB3aGVyZSB0aGV5IGNhbiBiZWNvbWUgZmFtaWxpYXIgYW5kIGdhaW4g\nYSBkZWVwZXIgdW5kZXJzdGFuZGluZyBvZiB0aGUgdGhlb3JldGljYWwgYW5kIGNvbXBvc2l0aW9u\nYWwgaXNzdWVzIHN1cnJvdW5kaW5nIGNvbXB1dGVyIG11c2ljLjwvcD4NCjxwPlRoaXMgaW50ZW5z\nZSBmdWxsLXRpbWUgcHJvZ3JhbSBpbnRyb2R1Y2VzIHRoZSBjb25jZXB0cyBvZiBjb21wdXRlci1h\nc3Npc3RlZCBjb21wb3NpdGlvbiwgc2lnbmFsIHByb2Nlc3NpbmcsIHNvdW5kIHN5bnRoZXNpcywg\nYW5kIHdyaXRpbmcgZm9yIGludGVyYWN0aW9uLiBTZW1pbmFycyBieSBndWVzdCBjb21wb3NlcnMg\nYWNjb21wYW55IHRlY2huaWNhbCBjb3Vyc2VzIHRhdWdodCBmcm9tIGEgY29tcG9zaXRpb25hbCBw\nb2ludCBvZiB2aWV3LiBUaGUgeWVhciBlbmRzIHdpdGggdGhlIGNyZWF0aW9uIG9mIGEgc3R1ZHkg\nZm9yIGEgc29sbyBpbnN0cnVtZW50IGFuZCBlbGVjdHJvbmljcyBwZXJmb3JtZWQgZHVyaW5nIGEg\nd29ya3Nob3Agd2l0aCBtdXNpYyBwcm9mZXNzaW9uYWxzLiBVcG9uIGNvbXBsZXRpb24gb2YgdGhl\nIGZpcnN0IHllYXIgb2YgdGhlIEN1cnN1cyBwcm9ncmFtLCBzdHVkZW50cyB3aWxsIGhhdmUgYWNx\ndWlyZWQgdGhlIGZvdW5kYXRpb24gbmVjZXNzYXJ5IHRvIGhhdmUgYSBjbGVhciB2aXNpb24gb2Yg\ndGhlIGZpZWxkLCB0byBjb250aW51ZSBoaXMvaGVyIG93biB0cmFpbmluZyBpbmRlcGVuZGVudGx5\nIGFuZCBhc3Nlc3MgdGhlIHN5c3RlbXMgbmVjZXNzYXJ5IHRvIHJlYWxpemUgdGhlaXIgYXJ0aXN0\naWMgcHJvamVjdHMuPC9wPg0KPGRpdj48c3Ryb25nPjxlbT5JbnN0cnVjdGlvbiBpbiBGcmVuY2g8\nL2VtPjwvc3Ryb25nPjwvZGl2PnEiVQJpZHEjigEBVQxpc19wdWJsaXNoZWRxJIl1YlUNX2F1dGhf\ndXNlcl9pZHEligEbVRJfYXV0aF91c2VyX2JhY2tlbmRxJlUpZGphbmdvLmNvbnRyaWIuYXV0aC5i\nYWNrZW5kcy5Nb2RlbEJhY2tlbmRxJ3Uu\n"
         }
     }, 
     {
@@ -1677,6 +752,14 @@
         }
     }, 
     {
+        "pk": "5919a4a56a9a316fbe4071645465fb3a", 
+        "model": "sessions.session", 
+        "fields": {
+            "expire_date": "2011-05-31 16:37:47", 
+            "session_data": "Yzk1ZjJhNDc3YmFmOWNhMjkzNTYyYTNjOGQ3MmU0Mjk0MTA4NWVkNTqAAn1xAShVEmFjdGl2ZV9j\nb21wZXRpdGlvbnECY2RqYW5nby5kYi5tb2RlbHMuYmFzZQptb2RlbF91bnBpY2tsZQpxA2Njb21w\nZXRpdGlvbnMubW9kZWxzCkNvbXBldGl0aW9uCnEEXWNkamFuZ28uZGIubW9kZWxzLmJhc2UKc2lt\ncGxlX2NsYXNzX2ZhY3RvcnkKcQWHUnEGfXEHKFUIc3VidGl0bGVxCFglAAAAUHJhY3RpY2FsIFRy\nYWluaW5nIGZvciBDb21wdXRlciBNdXNpY3EJVQV0aXRsZXEKWBAAAABJcmNhbSAtIEN1cnN1cyAx\ncQtVA3VybHEMWA0AAABpcmNhbS1jdXJzdXMxcQ1VC2lzX2FyY2hpdmVkcQ6JVQZfc3RhdGVxD2Nk\namFuZ28uZGIubW9kZWxzLmJhc2UKTW9kZWxTdGF0ZQpxECmBcRF9cRIoVQZhZGRpbmdxE4lVAmRi\ncRRVB2RlZmF1bHRxFXViVRBpbmZvcm1hdGlvbl9kYXRlcRZjZGF0ZXRpbWUKZGF0ZQpxF1UEB9sE\nG4VScRhVE21hbmFnaW5nX3BhcnRuZXJfaWRxGYoBAVUMY2xvc2luZ19kYXRlcRpoF1UEB9sEG4VS\ncRtVB2lzX29wZW5xHIlVDG9wZW5pbmdfZGF0ZXEdaBdVBAfbBBuFUnEeVQtyZXN1bHRfZGF0ZXEf\naBdVBAfbBBuFUnEgVQxwcmVzZW50YXRpb25xIVi7AwAAPHA+Jm5ic3A7PC9wPg0KPHA+RmlmdGVl\nbiBjb21wb3NlcnMgdW5kZXIgdGhlIGFnZSBvZiAzNSBhcmUgc2VsZWN0ZWQgdG8gdGFrZSBwYXJ0\nIGluIHRoaXMgcHJvZ3JhbSB3aGVyZSB0aGV5IGNhbiBiZWNvbWUgZmFtaWxpYXIgYW5kIGdhaW4g\nYSBkZWVwZXIgdW5kZXJzdGFuZGluZyBvZiB0aGUgdGhlb3JldGljYWwgYW5kIGNvbXBvc2l0aW9u\nYWwgaXNzdWVzIHN1cnJvdW5kaW5nIGNvbXB1dGVyIG11c2ljLjwvcD4NCjxwPlRoaXMgaW50ZW5z\nZSBmdWxsLXRpbWUgcHJvZ3JhbSBpbnRyb2R1Y2VzIHRoZSBjb25jZXB0cyBvZiBjb21wdXRlci1h\nc3Npc3RlZCBjb21wb3NpdGlvbiwgc2lnbmFsIHByb2Nlc3NpbmcsIHNvdW5kIHN5bnRoZXNpcywg\nYW5kIHdyaXRpbmcgZm9yIGludGVyYWN0aW9uLiBTZW1pbmFycyBieSBndWVzdCBjb21wb3NlcnMg\nYWNjb21wYW55IHRlY2huaWNhbCBjb3Vyc2VzIHRhdWdodCBmcm9tIGEgY29tcG9zaXRpb25hbCBw\nb2ludCBvZiB2aWV3LiBUaGUgeWVhciBlbmRzIHdpdGggdGhlIGNyZWF0aW9uIG9mIGEgc3R1ZHkg\nZm9yIGEgc29sbyBpbnN0cnVtZW50IGFuZCBlbGVjdHJvbmljcyBwZXJmb3JtZWQgZHVyaW5nIGEg\nd29ya3Nob3Agd2l0aCBtdXNpYyBwcm9mZXNzaW9uYWxzLiBVcG9uIGNvbXBsZXRpb24gb2YgdGhl\nIGZpcnN0IHllYXIgb2YgdGhlIEN1cnN1cyBwcm9ncmFtLCBzdHVkZW50cyB3aWxsIGhhdmUgYWNx\ndWlyZWQgdGhlIGZvdW5kYXRpb24gbmVjZXNzYXJ5IHRvIGhhdmUgYSBjbGVhciB2aXNpb24gb2Yg\ndGhlIGZpZWxkLCB0byBjb250aW51ZSBoaXMvaGVyIG93biB0cmFpbmluZyBpbmRlcGVuZGVudGx5\nIGFuZCBhc3Nlc3MgdGhlIHN5c3RlbXMgbmVjZXNzYXJ5IHRvIHJlYWxpemUgdGhlaXIgYXJ0aXN0\naWMgcHJvamVjdHMuPC9wPg0KPGRpdj48c3Ryb25nPjxlbT5JbnN0cnVjdGlvbiBpbiBGcmVuY2g8\nL2VtPjwvc3Ryb25nPjwvZGl2PnEiVQJpZHEjigEBVQxpc19wdWJsaXNoZWRxJIl1YlUNX2F1dGhf\ndXNlcl9pZHEligEiVRJfYXV0aF91c2VyX2JhY2tlbmRxJlUpZGphbmdvLmNvbnRyaWIuYXV0aC5i\nYWNrZW5kcy5Nb2RlbEJhY2tlbmRxJ3Uu\n"
+        }
+    }, 
+    {
         "pk": "5f0ec78191d7220086047ae4490bf74d", 
         "model": "sessions.session", 
         "fields": {
@@ -1685,11 +768,11 @@
         }
     }, 
     {
-        "pk": "643b4f7d9b93b6fd1b846beeca6df15f", 
+        "pk": "6b3b879695bae01e51ca5b114ece02a9", 
         "model": "sessions.session", 
         "fields": {
-            "expire_date": "2011-05-29 12:04:21", 
-            "session_data": "ZjhkNjgyYjQ5ZDZiMjdhNDEyYTM0NTczODQzNDg5NGE5NmM0YzU4NzqAAn1xAShVEmFjdGl2ZV9j\nb21wZXRpdGlvbnECY2RqYW5nby5kYi5tb2RlbHMuYmFzZQptb2RlbF91bnBpY2tsZQpxA2Njb21w\nZXRpdGlvbnMubW9kZWxzCkNvbXBldGl0aW9uCnEEXWNkamFuZ28uZGIubW9kZWxzLmJhc2UKc2lt\ncGxlX2NsYXNzX2ZhY3RvcnkKcQWHUnEGfXEHKFUIc3VidGl0bGVxCFgtAAAAUHJvZ3JhbW1lIGRl\nIHLDqXNpZGVuY2UgZGUgcmVjaGVyY2hlIG11c2ljYWxlcQlVBXRpdGxlcQpYGwAAAElSQ0FNIC0g\nUsOpc2lkZW5jZSBNdXNpY2FsZXELVQN1cmxxDFgOAAAAcmVzaWRlbmNlLTIwMTFxDVULaXNfYXJj\naGl2ZWRxDolVBl9zdGF0ZXEPY2RqYW5nby5kYi5tb2RlbHMuYmFzZQpNb2RlbFN0YXRlCnEQKYFx\nEX1xEihVBmFkZGluZ3ETiVUCZGJxFFUHZGVmYXVsdHEVdWJVEGluZm9ybWF0aW9uX2RhdGVxFmNk\nYXRldGltZQpkYXRlCnEXVQQH2wQbhVJxGFUTbWFuYWdpbmdfcGFydG5lcl9pZHEZigEBVQxjbG9z\naW5nX2RhdGVxGmgXVQQH2wQbhVJxG1UHaXNfb3BlbnEciVUMb3BlbmluZ19kYXRlcR1oF1UEB9sE\nG4VScR5VC3Jlc3VsdF9kYXRlcR9oF1UEB9sEG4VScSBVDHByZXNlbnRhdGlvbnEhWCQAAAA8cD5U\nZXh0ZSAmYWdyYXZlOyByJmVhY3V0ZTtkaWdlcjwvcD5xIlUCaWRxI4oBAlUMaXNfcHVibGlzaGVk\ncSSJdWJVC2p1cnlfbWVtYmVycSWIVRJfYXV0aF91c2VyX2JhY2tlbmRxJlUpZGphbmdvLmNvbnRy\naWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmRxJ1UNX2F1dGhfdXNlcl9pZHEoigEedS4=\n"
+            "expire_date": "2011-05-29 22:58:42", 
+            "session_data": "YmEyOGNmYjQ5YWI4N2U4YjcyYTc4ODc5OTEyMDM4ZmRmNGY0MmUxNTqAAn1xAVUKdGVzdGNvb2tp\nZXECVQZ3b3JrZWRxA3Mu\n"
         }
     }, 
     {
@@ -1765,11 +848,19 @@
         }
     }, 
     {
-        "pk": "fa88ea0ba5e228f0ef7c7e221a1f282c", 
+        "pk": "e482a263aa8180e16fdd13cda264d869", 
         "model": "sessions.session", 
         "fields": {
-            "expire_date": "2011-05-29 10:52:38", 
-            "session_data": "NTVlN2VmODg3N2EwNTMxNzM4MjBhMjk2MTI3MTVjZTRjZDdlYzJhNDqAAn1xAShVEmFjdGl2ZV9j\nb21wZXRpdGlvbnECY2RqYW5nby5kYi5tb2RlbHMuYmFzZQptb2RlbF91bnBpY2tsZQpxA2Njb21w\nZXRpdGlvbnMubW9kZWxzCkNvbXBldGl0aW9uCnEEXWNkamFuZ28uZGIubW9kZWxzLmJhc2UKc2lt\ncGxlX2NsYXNzX2ZhY3RvcnkKcQWHUnEGfXEHKFUIc3VidGl0bGVxCFglAAAAUHJhY3RpY2FsIFRy\nYWluaW5nIGZvciBDb21wdXRlciBNdXNpY3EJVQV0aXRsZXEKWBAAAABJcmNhbSAtIEN1cnN1cyAx\ncQtVA3VybHEMWA0AAABpcmNhbS1jdXJzdXMxcQ1VC2lzX2FyY2hpdmVkcQ6JVQZfc3RhdGVxD2Nk\namFuZ28uZGIubW9kZWxzLmJhc2UKTW9kZWxTdGF0ZQpxECmBcRF9cRIoVQZhZGRpbmdxE4lVAmRi\ncRRVB2RlZmF1bHRxFXViVRBpbmZvcm1hdGlvbl9kYXRlcRZjZGF0ZXRpbWUKZGF0ZQpxF1UEB9sE\nG4VScRhVE21hbmFnaW5nX3BhcnRuZXJfaWRxGYoBAVUMY2xvc2luZ19kYXRlcRpoF1UEB9sEG4VS\ncRtVB2lzX29wZW5xHIlVDG9wZW5pbmdfZGF0ZXEdaBdVBAfbBBuFUnEeVQtyZXN1bHRfZGF0ZXEf\naBdVBAfbBBuFUnEgVQxwcmVzZW50YXRpb25xIVi7AwAAPHA+Jm5ic3A7PC9wPg0KPHA+RmlmdGVl\nbiBjb21wb3NlcnMgdW5kZXIgdGhlIGFnZSBvZiAzNSBhcmUgc2VsZWN0ZWQgdG8gdGFrZSBwYXJ0\nIGluIHRoaXMgcHJvZ3JhbSB3aGVyZSB0aGV5IGNhbiBiZWNvbWUgZmFtaWxpYXIgYW5kIGdhaW4g\nYSBkZWVwZXIgdW5kZXJzdGFuZGluZyBvZiB0aGUgdGhlb3JldGljYWwgYW5kIGNvbXBvc2l0aW9u\nYWwgaXNzdWVzIHN1cnJvdW5kaW5nIGNvbXB1dGVyIG11c2ljLjwvcD4NCjxwPlRoaXMgaW50ZW5z\nZSBmdWxsLXRpbWUgcHJvZ3JhbSBpbnRyb2R1Y2VzIHRoZSBjb25jZXB0cyBvZiBjb21wdXRlci1h\nc3Npc3RlZCBjb21wb3NpdGlvbiwgc2lnbmFsIHByb2Nlc3NpbmcsIHNvdW5kIHN5bnRoZXNpcywg\nYW5kIHdyaXRpbmcgZm9yIGludGVyYWN0aW9uLiBTZW1pbmFycyBieSBndWVzdCBjb21wb3NlcnMg\nYWNjb21wYW55IHRlY2huaWNhbCBjb3Vyc2VzIHRhdWdodCBmcm9tIGEgY29tcG9zaXRpb25hbCBw\nb2ludCBvZiB2aWV3LiBUaGUgeWVhciBlbmRzIHdpdGggdGhlIGNyZWF0aW9uIG9mIGEgc3R1ZHkg\nZm9yIGEgc29sbyBpbnN0cnVtZW50IGFuZCBlbGVjdHJvbmljcyBwZXJmb3JtZWQgZHVyaW5nIGEg\nd29ya3Nob3Agd2l0aCBtdXNpYyBwcm9mZXNzaW9uYWxzLiBVcG9uIGNvbXBsZXRpb24gb2YgdGhl\nIGZpcnN0IHllYXIgb2YgdGhlIEN1cnN1cyBwcm9ncmFtLCBzdHVkZW50cyB3aWxsIGhhdmUgYWNx\ndWlyZWQgdGhlIGZvdW5kYXRpb24gbmVjZXNzYXJ5IHRvIGhhdmUgYSBjbGVhciB2aXNpb24gb2Yg\ndGhlIGZpZWxkLCB0byBjb250aW51ZSBoaXMvaGVyIG93biB0cmFpbmluZyBpbmRlcGVuZGVudGx5\nIGFuZCBhc3Nlc3MgdGhlIHN5c3RlbXMgbmVjZXNzYXJ5IHRvIHJlYWxpemUgdGhlaXIgYXJ0aXN0\naWMgcHJvamVjdHMuPC9wPg0KPGRpdj48c3Ryb25nPjxlbT5JbnN0cnVjdGlvbiBpbiBGcmVuY2g8\nL2VtPjwvc3Ryb25nPjwvZGl2PnEiVQJpZHEjigEBVQxpc19wdWJsaXNoZWRxJIl1YlUNX2F1dGhf\ndXNlcl9pZHEligEbVRJfYXV0aF91c2VyX2JhY2tlbmRxJlUpZGphbmdvLmNvbnRyaWIuYXV0aC5i\nYWNrZW5kcy5Nb2RlbEJhY2tlbmRxJ3Uu\n"
+            "expire_date": "2011-05-31 16:33:02", 
+            "session_data": "OTY0ZWI3ZmIzM2QyNzRmZTI1Y2E3MWQ5ZWYyMjExY2U1NTA2OGNmYTqAAn1xAShVEl9hdXRoX3Vz\nZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED\nVQ1fYXV0aF91c2VyX2lkcQSKARt1Lg==\n"
+        }
+    }, 
+    {
+        "pk": "fbc3ff336016174f2ec684878a8fcfce", 
+        "model": "sessions.session", 
+        "fields": {
+            "expire_date": "2011-05-31 08:48:08", 
+            "session_data": "OTY0ZWI3ZmIzM2QyNzRmZTI1Y2E3MWQ5ZWYyMjExY2U1NTA2OGNmYTqAAn1xAShVEl9hdXRoX3Vz\nZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED\nVQ1fYXV0aF91c2VyX2lkcQSKARt1Lg==\n"
         }
     }, 
     {
@@ -1786,6 +877,136 @@
         "fields": {
             "domain": "example.com", 
             "name": "example.com"
+        }
+    }, 
+    {
+        "pk": 177, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-17 16:37:03", 
+            "object_repr": "Ircam - Cursus 1", 
+            "object_id": "1", 
+            "change_message": "Added gestionnaire de concours \"CompetitionManager object\".", 
+            "user": 27, 
+            "content_type": 13
+        }
+    }, 
+    {
+        "pk": 176, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-17 16:36:44", 
+            "object_repr": "IRCAM - R\u00e9sidence Musicale", 
+            "object_id": "2", 
+            "change_message": "Added gestionnaire de concours \"CompetitionManager object\".", 
+            "user": 27, 
+            "content_type": 13
+        }
+    }, 
+    {
+        "pk": 175, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-17 15:54:53", 
+            "object_repr": "web", 
+            "object_id": "35", 
+            "change_message": "No fields changed.", 
+            "user": 27, 
+            "content_type": 3
+        }
+    }, 
+    {
+        "pk": 174, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 1, 
+            "action_time": "2011-05-17 15:54:47", 
+            "object_repr": "web", 
+            "object_id": "35", 
+            "change_message": "", 
+            "user": 27, 
+            "content_type": 3
+        }
+    }, 
+    {
+        "pk": 173, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-17 15:54:15", 
+            "object_repr": "compadmin", 
+            "object_id": "34", 
+            "change_message": "Changed is_staff and groups.", 
+            "user": 27, 
+            "content_type": 3
+        }
+    }, 
+    {
+        "pk": 172, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 1, 
+            "action_time": "2011-05-17 15:54:04", 
+            "object_repr": "compadmin", 
+            "object_id": "34", 
+            "change_message": "", 
+            "user": 27, 
+            "content_type": 3
+        }
+    }, 
+    {
+        "pk": 171, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-17 15:10:22", 
+            "object_repr": "jury-members", 
+            "object_id": "8", 
+            "change_message": "Changed permissions.", 
+            "user": 27, 
+            "content_type": 2
+        }
+    }, 
+    {
+        "pk": 170, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 1, 
+            "action_time": "2011-05-17 14:38:29", 
+            "object_repr": "Agopian, Mathieu", 
+            "object_id": "15", 
+            "change_message": "", 
+            "user": 27, 
+            "content_type": 17
+        }
+    }, 
+    {
+        "pk": 169, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 3, 
+            "action_time": "2011-05-16 08:21:17", 
+            "object_repr": ", ", 
+            "object_id": "14", 
+            "change_message": "", 
+            "user": 27, 
+            "content_type": 17
+        }
+    }, 
+    {
+        "pk": 168, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 1, 
+            "action_time": "2011-05-16 08:21:02", 
+            "object_repr": ", ", 
+            "object_id": "14", 
+            "change_message": "", 
+            "user": 27, 
+            "content_type": 17
         }
     }, 
     {
@@ -4280,6 +3501,22 @@
         }
     }, 
     {
+        "pk": 3, 
+        "model": "competitions.competitionmanager", 
+        "fields": {
+            "user": 34, 
+            "competition": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "competitions.competitionmanager", 
+        "fields": {
+            "user": 34, 
+            "competition": 2
+        }
+    }, 
+    {
         "pk": 1, 
         "model": "competitions.competitionstep", 
         "fields": {
@@ -4417,6 +3654,16 @@
             "competitions": [], 
             "phone": "", 
             "user": 31, 
+            "groups": []
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "competitions.jurymember", 
+        "fields": {
+            "competitions": [], 
+            "phone": "", 
+            "user": 27, 
             "groups": []
         }
     }, 

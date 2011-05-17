@@ -14,5 +14,5 @@ def ulysse_context_processor(request):
         results["active_competition"]  = competition
         results["admin_title"]         = _("Administrate competition \"%s\"") % competition
         results["nav_buttons"]         = competition.get_menu(request)        
-    results["jury_member"] = admin_site.get_jury_member(request)
+    results["jury_member"] = admin_site.is_jury_member(request)
     return results

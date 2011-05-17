@@ -36,24 +36,25 @@ class Competition(models.Model):
     
     def get_menu(self,request):
         from competitions import admin_site
-        if admin_site.get_jury_member(request): # jury members only have a limited admin
-            return [get_nav_button(request, "candidates/", _(u"Candidates"))]
         nav_buttons = []
-        nav_buttons.append(get_nav_button(request,"infos/",_(u"Informations")))
-        nav_buttons.append(get_nav_button(request,"news/",_(u"News")))
-        nav_buttons.append(get_nav_button(request,"candidates/",_(u"Candidates")))
-        nav_buttons.append(get_nav_button(request,"jury_members/",_(u"Jury member")))
-        # Add steps dynamically
-        for step in self.steps():
-            step_button = get_nav_button(request,"step/%s" % step.url,_(u"'%s' step" % step.name))
-            children = []
-            children.append(get_nav_button(request,"step/%s/importation/" % step.url,_(u"1 - Import candidates")))
-            children.append(get_nav_button(request,"step/%s/allocations/" % step.url,_(u"2 - Manage candidates/jury")))
-            children.append(get_nav_button(request,"step/%s/notifications/" % step.url,_(u"3 - Notify jury members")))
-            children.append(get_nav_button(request,"step/%s/evaluations/" % step.url,_(u"4 - Follow evaluations")))
-            children.append(get_nav_button(request,"step/%s/results/" % step.url,_(u"5 - Follow results")))
-            step_button["children"] = children            
-            nav_buttons.append(step_button)        
+        if admin_site.is_competition_admin(request) or request.user.is_superuser:
+            nav_buttons.append(get_nav_button(request,"infos/",_(u"Informations")))
+            nav_buttons.append(get_nav_button(request,"news/",_(u"News")))
+            nav_buttons.append(get_nav_button(request,"candidates/",_(u"Candidates")))
+            nav_buttons.append(get_nav_button(request,"jury_members/",_(u"Jury member")))
+            # Add steps dynamically
+            for step in self.steps():
+                step_button = get_nav_button(request,"step/%s" % step.url,_(u"'%s' step" % step.name))
+                children = []
+                children.append(get_nav_button(request,"step/%s/importation/" % step.url,_(u"1 - Import candidates")))
+                children.append(get_nav_button(request,"step/%s/allocations/" % step.url,_(u"2 - Manage candidates/jury")))
+                children.append(get_nav_button(request,"step/%s/notifications/" % step.url,_(u"3 - Notify jury members")))
+                children.append(get_nav_button(request,"step/%s/evaluations/" % step.url,_(u"4 - Follow evaluations")))
+                children.append(get_nav_button(request,"step/%s/results/" % step.url,_(u"5 - Follow results")))
+                step_button["children"] = children            
+                nav_buttons.append(step_button)        
+        if admin_site.is_jury_member(request): # jury members only have a limited admin
+            nav_buttons.append(get_nav_button(request, "evaluate/", _(u"To evaluate")))
         return nav_buttons
     
     def steps(self):
@@ -143,7 +144,7 @@ class JuryMember(models.Model):
             permissions = Permission.objects.filter(
                     Q(codename__endswith='evaluation') |
                     Q(codename__endswith='evaluationnote') |
-                    Q(codename__exact='change_candidate'))
+                    Q(codename__exact='change_candidatetoevaluate'))
             jury_member_group.permissions.add(*permissions)
         self.user.groups.add(jury_member_group)
         super(JuryMember, self).save(*args, **kwargs)
@@ -212,6 +213,10 @@ class Candidate(models.Model):
     class Meta:
         verbose_name  = _(u"candidate")
         unique_together = (('composer', 'competition'),)
+
+class CandidateToEvaluate(Candidate):
+    class Meta:
+        proxy = True
         
 class CandidateWork(WorkBase):
     candidate = models.ForeignKey(Candidate)
