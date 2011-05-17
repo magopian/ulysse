@@ -40,13 +40,13 @@ add_candidates_to_group.short_description = _(u"Add selected candidates to a gro
 
 def mark_candidates_as_valid(modeladmin, request, queryset):
     selected = queryset.values_list('pk', flat=True)
-    Candidate.objects.filter(id__in=selected).update(is_valid=True)    
+    Candidate.objects.filter(id__in=list(selected)).update(is_valid=True)    
     
 mark_candidates_as_valid.short_description = _(u"Mark selected candidates as valid")
 
 def mark_candidates_as_invalid(modeladmin, request, queryset):
     selected = queryset.values_list('pk', flat=True)
-    Candidate.objects.filter(id__in=selected).update(is_valid=False)    
+    Candidate.objects.filter(id__in=list(selected)).update(is_valid=False)    
     
 mark_candidates_as_invalid.short_description = _(u"Mark selected candidates as invalid")
 
@@ -71,7 +71,6 @@ def associate_jury_members_to_competition(modeladmin, request, queryset):
 associate_jury_members_to_competition.short_description = _(u"Associate selected jury members to competition")
 
 def remove_jury_member_from_competition(modeladmin, request, queryset):
-    selected = queryset.values_list('pk', flat=True)
     selected = queryset.values_list('pk', flat=True)
     jury_members = JuryMember.objects.filter(id__in=selected)
     active_competition = modeladmin.admin_site.get_active_competition(request)
@@ -221,14 +220,23 @@ class CandidateAdmin(CompetitionModelAdmin):
         else:            
             return urls
 
-class CandidateToEvaluateAdmin(CompetitionModelAdmin):
-    pass
+class CandidateToEvaluateAdmin(CandidateAdmin):
+    list_display = ['last_name','first_name']
+    list_filter = ['groups']
+
+    def queryset(self, request):
+        qs = super(CandidateToEvaluateAdmin, self).queryset(request)
+
+        # limit to the current jury member
+        jm = JuryMember.objects.get(user=request.user)
+        ids = jm.candidatejuryallocation_set.all().values_list('candidate', flat=True)
+        return qs.filter(pk__in=ids)
+
 
 class CandidateToImportAdmin(CandidateAdmin):
     actions = [import_candidates_to_step]
     list_display = ['last_name','first_name']
     list_filter = ['groups']
-    search_fields = ['composer__user__last_name']
 
     def get_actions(self, request):
         """Keep only our own 'import candidates to step' action"""
