@@ -50,6 +50,15 @@ def mark_candidates_as_invalid(modeladmin, request, queryset):
     
 mark_candidates_as_invalid.short_description = _(u"Mark selected candidates as invalid")
 
+def import_candidates_to_step(modeladmin, request, queryset):
+    active_step = modeladmin.admin_site.get_active_competition_step(request)
+    active_comp = modeladmin.admin_site.get_active_competition(request)
+    for c in queryset:
+        if c.competition == active_comp and c.is_valid:
+            caj = CandidateJuryAllocation(candidate=c, step=active_step)
+            caj.save()
+import_candidates_to_step.short_description = _(u"Import the selected candidates for this step")
+
 
 def associate_jury_members_to_competition(modeladmin, request, queryset):
     selected = queryset.values_list('pk', flat=True)
@@ -188,7 +197,7 @@ class CandidateAdmin(CompetitionModelAdmin):
         candidate = Candidate.objects.filter(id=id)[0]
         the_form = CandidateAdminForm()
         params["the_form"] = the_form
-        return render_to_response('admin/%s/%s/edit_candidate.html' % (self.model._meta.app_label,self.model._meta.module_name),params,context_instance=RequestContext(request))        
+        return render_to_response('admin/edit_candidate.html',params,context_instance=RequestContext(request))        
     
     def get_urls(self):
         def wrap(view):
@@ -214,6 +223,35 @@ class CandidateAdmin(CompetitionModelAdmin):
 
 class CandidateToEvaluateAdmin(CompetitionModelAdmin):
     pass
+
+class CandidateToImportAdmin(CandidateAdmin):
+    actions = [import_candidates_to_step]
+    list_display = ['last_name','first_name']
+    list_filter = ['groups']
+    search_fields = ['composer__user__last_name']
+
+    def get_actions(self, request):
+        """Keep only our own 'import candidates to step' action"""
+        actions = super(CandidateToImportAdmin, self).get_actions(request)
+        for k in actions.keys():
+            if actions[k][0] not in self.actions:
+                del actions[k]
+        return actions
+
+    def queryset(self, request):
+        # only for the active competition
+        qs = super(CandidateToImportAdmin, self).queryset(request)
+        # only active candidates
+        qs = qs.filter(is_valid=True)
+        # only candidates not imported yet in the current step
+        active_step = self.admin_site.get_active_competition_step(request)
+        imported = CandidateJuryAllocation.objects.filter(step=active_step)
+        imported = imported.values_list('candidate', flat=True)
+        qs = qs.exclude(pk__in=imported)
+
+        if in_competition_admin:
+            return wrap_queryset(self, qs)
+        return qs
         
 class CandidateJuryAllocationAdmin(CompetitionModelAdmin):
     

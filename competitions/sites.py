@@ -13,8 +13,8 @@ from partners.admin import PartnerAdmin
 from forms import CompetitionAdminAuthenticationForm
 from composers.models import Composer, Work, Document, TextElement
 from composers.admin import ComposerAdmin, WorkAdmin, DocumentAdmin, TextElementAdmin
-from competitions.models import Competition, CompetitionStep, JuryMember, CandidateJuryAllocation, CompetitionStepFollowUp, CompetitionStepResults, Candidate, CompetitionManager, CompetitionNews, CandidateToEvaluate
-from competitions.admin import CompetitionAdmin, JuryMemberAdmin, CandidateJuryAllocationAdmin, CompetitionStepFollowUpAdmin, CompetitionStepResultsAdmin, CandidateAdmin, CompetitionNewsAdmin, CandidateToEvaluateAdmin
+from competitions.models import Competition, CompetitionStep, JuryMember, CandidateJuryAllocation, CompetitionStepFollowUp, CompetitionStepResults, Candidate, CompetitionManager, CompetitionNews, CandidateToEvaluate, CandidateToImport
+from competitions.admin import CompetitionAdmin, JuryMemberAdmin, CandidateJuryAllocationAdmin, CompetitionStepFollowUpAdmin, CompetitionStepResultsAdmin, CandidateAdmin, CompetitionNewsAdmin, CandidateToEvaluateAdmin, CandidateToImportAdmin
 from django.contrib.auth.signals import user_logged_out, user_logged_in
 from views import import_candidates, notify_jury_members
 import settings
@@ -161,6 +161,7 @@ class CompetitionAdminSite(AdminSite):
         self.register(JuryMember,JuryMemberAdmin)
         self.register(Candidate,CandidateAdmin)
         self.register(CandidateToEvaluate, CandidateToEvaluateAdmin)
+        self.register(CandidateToImport, CandidateToImportAdmin)
         self.register(CompetitionNews,CompetitionNewsAdmin)
         self.register(CandidateJuryAllocation,CandidateJuryAllocationAdmin)
         self.register(CompetitionStepFollowUp,CompetitionStepFollowUpAdmin)
@@ -200,7 +201,7 @@ class CompetitionAdminSite(AdminSite):
         
         for step_name in self.get_steps():
             my_urls += patterns('',
-                (r'^step/%s/importation/' % step_name, import_candidates),                 
+                (r'^step/%s/importation/' % step_name, include(self._registry[CandidateToImport].urls)),
                 (r'^step/%s/allocations/' % step_name, include(self._registry[CandidateJuryAllocation].urls)),
                 (r'^step/%s/notifications/' % step_name, notify_jury_members),                 
                 (r'^step/%s/evaluations/' % step_name, include(self._registry[CompetitionStepFollowUp].urls)),                
