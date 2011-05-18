@@ -1,13 +1,36 @@
 {% extends "admin/base_site.html" %}
 
-{% block pretitle %}
-<div style="color:red;font-weight:bold;font-size:large;">
-    <p>Reste à implémenter :</p>
-    <ul>
-    <li>VZsualiser/ pouvoir éditer le dossier de candidature du candidat (formulaire dynamique en fonction des paramètres du concours)</li>
-    <li>Interdire la visualisation / édition d'un dossier de candidature associé à un autre concours (url)</li>
-    <ul>
-</div>
-{{the_form.as_p}}
-<iframe src="http://docs.google.com/viewer?url=http%3A%2F%2Fulysse-test.fr%2Fstatic%2Fmedia%2FSikus%2520-%2520partition_arroyo.pdf&embedded=true" width="600" height="780" style="border: none;"></iframe>
+{% block extrahead %}
+<script type="text/javascript" src="/static/js/jquery/jquery-1.4.1.min.js"></script>
+ <script type="text/javascript">    
+    
+	$(function() {
+            $( ".CandidateForm").hide()
+            $( "#form1").show()
+            $( "#button1").css("font-weight","bold")
+            
+           $('.CandidateTopButton').click(function() {
+               $(".CandidateForm").hide()
+               $(".CandidateTopButton").css("font-weight","normal")
+               $("#"+this.id).css("font-weight","bold")
+               form_key = "#form" + this.id.substring(6)
+               $(form_key).show()
+            })
+	});
+        
+    
+</script> 
+{% endblock %}
+
+{% block content %}
+<h2>Candidate : {{candidate.composer.user.first_name}} {{candidate.composer.user.last_name}}</h2>
+<input class="CandidateTopButton" type="button" value="Administrative infos" id="button1"></input>
+<input class="CandidateTopButton" type="button" value="Biography" id="button2"></input>
+<input class="CandidateTopButton" type="button" value="Work 1" id="button3"></input>
+<input class="CandidateTopButton" type="button" value="Work 2" id="button4"></input>
+<input class="CandidateTopButton" type="button" value="Evaluation (pre-jury)" id="button5"></input>
+<input class="CandidateTopButton" type="button" value="Evaluation (jury)" id="button6"></input>
+{% for form in forms %}
+<div class="CandidateForm" id="form{{forloop.index}}">Ici le formulaire 'form{{forloop.index}}'</div>
+{% endfor %}
 {% endblock %}
