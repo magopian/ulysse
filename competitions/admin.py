@@ -3,7 +3,7 @@ from django import forms
 from django.conf import settings
 from django.contrib import admin
 from django.utils.functional import update_wrapper
-from django.shortcuts import redirect, render_to_response, get_list_or_404
+from django.shortcuts import redirect, render_to_response
 from django.conf.urls.defaults import patterns, url, include
 from django.contrib.admin import TabularInline
 from django.template import RequestContext
@@ -18,7 +18,7 @@ from models import JuryMember
 from models import JuryMemberGroup
 from models import CompetitionManager
 from models import Evaluation,EvaluationNote, EvaluationStatus, EvaluationNoteType
-from competitions.forms  import CandidateAdminForm, JuryMembersSelection, CandidateJuryAllocationForm
+from forms  import Form1,Form2,Form3,Form4,Form5,Form6
 from models import CandidateJuryAllocation    
 from context_processors import in_competition_admin
 from django.utils.translation import ugettext as _
@@ -32,7 +32,7 @@ def wrap_queryset(model_admin,qs):
     
 
 def add_candidates_to_group(modeladmin, request, queryset):
-    selected = map(str, queryset.values_list('pk', flat=True))
+    selected = queryset.values_list('pk', flat=True)    
     referer = request.META["HTTP_REFERER"]
     return redirect("add_to_group?ids=%s&referer=%s" %  (",".join(selected),referer) )
     
@@ -59,24 +59,6 @@ def import_candidates_to_step(modeladmin, request, queryset):
             caj.save()
 import_candidates_to_step.short_description = _(u"Import the selected candidates for this step")
 
-def remove_candidate_from_step(modeladmin, request, queryset):
-    # first, make sure all the associated Evaluations are deleted
-    remove_all_jury_members_from_candidates(modeladmin, request, queryset)
-    # then remove the CandidateJuryAllocation (un-import the candidates)
-    queryset.delete()
-remove_candidate_from_step.short_description = _(u"Remove selected candidate from this step")
-
-def manage_jury_members(modeladmin, request, queryset):
-    selected = '&cja='.join(map(str, queryset.values_list('pk', flat=True)))
-    referer = request.META["HTTP_REFERER"]
-    return redirect("manage_jury_members?cja=%s&referer=%s" % (selected, referer))
-manage_jury_members.short_description = _(u"Manage jury members for the selected candidates")
-
-def remove_all_jury_members_from_candidates(modeladmin, request, queryset):
-    for cja in queryset:
-        cja.jury_members.clear()
-        cja.candidate.evaluation_set.all().delete() # remove unused evaluations
-remove_all_jury_members_from_candidates.short_description = _(u"Remove all jury members from the selected candidates")
 
 def associate_jury_members_to_competition(modeladmin, request, queryset):
     selected = queryset.values_list('pk', flat=True)
@@ -211,9 +193,15 @@ class CandidateAdmin(CompetitionModelAdmin):
     
     def edit_candidate(self,request,id):
         params = {}
-        candidate = Candidate.objects.filter(id=id)[0]
-        the_form = CandidateAdminForm()
-        params["the_form"]  = the_form
+        candidate = Candidate.objects.filter(id=id)[0]        
+        forms   = []
+        forms.append(Form1)
+        forms.append(Form2)
+        forms.append(Form3)
+        forms.append(Form4)
+        forms.append(Form5)
+        forms.append(Form6)        
+        params["forms"]     = forms
         params["candidate"] = candidate
         return render_to_response('admin/edit_candidate.html',params,context_instance=RequestContext(request))        
     
@@ -279,15 +267,8 @@ class CandidateToImportAdmin(CandidateAdmin):
         if in_competition_admin:
             return wrap_queryset(self, qs)
         return qs
-
+        
 class CandidateJuryAllocationAdmin(CompetitionModelAdmin):
-    actions = [remove_candidate_from_step,
-               manage_jury_members,
-               remove_all_jury_members_from_candidates]
-    filter_vertical = ['jury_members']
-    form = CandidateJuryAllocationForm
-    list_display = ['last_name','first_name','jury_']
-    list_filter = ['jury_members']
     
     def last_name(self, obj):
       return obj.candidate.composer.user.last_name
@@ -299,57 +280,13 @@ class CandidateJuryAllocationAdmin(CompetitionModelAdmin):
     
     def queryset(self, request):
         # Get candidates for active competition step        
-        qs = CandidateJuryAllocation.objects.filter(step=self.admin_site.get_active_competition_step(request))
+        qs = CandidateJuryAllocation.objects.filter(step=self.admin_site.get_active_competition_step(request))        
         return wrap_queryset(self,qs)
-
-    def get_actions(self, request):
-        """Keep only our own actions"""
-        actions = super(CandidateJuryAllocationAdmin, self).get_actions(request)
-        for k in actions.keys():
-            if actions[k][0] not in self.actions:
-                del actions[k]
-        return actions
-
-    def manage_jury_members(self, request):
-        competition = self.admin_site.get_active_competition(request)
-        ids = request.REQUEST.getlist('cja')
-        cja = get_list_or_404(CandidateJuryAllocation, pk__in=ids)
-        referer = request.REQUEST['referer']
-
-        if request.method == 'POST': # If the form has been submitted...
-            form = JuryMembersSelection(competition, request.POST)
-            if form.is_valid():
-                jury_members = form.cleaned_data['jury_members']
-                eval_status = EvaluationStatus.objects.get(name='to process')
-                for allocation in cja:
-                    # add the jury_members to the CandidateJuryAllocations
-                    allocation.jury_members.add(*jury_members)
-                    # create all the associated Evaluations
-                    for jm in jury_members:
-                        Evaluation.objects.get_or_create(
-                                competition_step=allocation.step,
-                                candidate=allocation.candidate,
-                                jury_member=jm,
-                                defaults={'status': eval_status})
-                return redirect(request.POST['referer'])
-        else:
-            form = JuryMembersSelection(competition)
-        return render_to_response('admin/%s/%s/manage_jury_members.html' % (
-                                            self.model._meta.app_label,
-                                            self.model._meta.module_name),
-                                  {'form': form, 'cja': cja, 'referer': referer},
-                                  context_instance=RequestContext(request))
-    
-    def get_urls(self):
-        urls = super(CandidateJuryAllocationAdmin, self).get_urls()
         
-        if hasattr(self.admin_site,'is_competition_admin_site'):
-            my_urls = patterns('',
-                (r'^manage_jury_members', self.manage_jury_members),
-            )            
-            return my_urls + urls            
-        else:            
-            return urls
+    
+    list_display  = ('last_name','first_name','jury_')
+    list_filter = ['jury_members',]
+    filter_vertical = ['jury_members',]
 
 
 class CandidateGroupAdmin(CompetitionModelAdmin):

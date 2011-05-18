@@ -23,14 +23,13 @@
 {% endblock %}
 
 {% block content %}
+    
+  
 <h2>Candidate : {{candidate.composer.user.first_name}} {{candidate.composer.user.last_name}}</h2>
-<input class="CandidateTopButton" type="button" value="Administrative infos" id="button1"></input>
-<input class="CandidateTopButton" type="button" value="Biography" id="button2"></input>
-<input class="CandidateTopButton" type="button" value="Work 1" id="button3"></input>
-<input class="CandidateTopButton" type="button" value="Work 2" id="button4"></input>
-<input class="CandidateTopButton" type="button" value="Evaluation (pre-jury)" id="button5"></input>
-<input class="CandidateTopButton" type="button" value="Evaluation (jury)" id="button6"></input>
+{% for form in forms%}    
+<input class="CandidateTopButton" type="button" value="{{form.get_title}}" id="button{{forloop.counter}}"></input>
+{% endfor %}
 {% for form in forms %}
-<div class="CandidateForm" id="form{{forloop.index}}">Ici le formulaire 'form{{forloop.index}}'</div>
+<div class="CandidateForm" id="form{{forloop.counter}}"><table>{{form.as_table}}</table></div>
 {% endfor %}
 {% endblock %}
