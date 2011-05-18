@@ -35,7 +35,7 @@ class CompetitionAdminAuthenticationForm(AdminAuthenticationForm):
             user_groups = logged_user.groups.all()
             check = competition_admin_group in user_groups or jury_member
         if not check:
-            raise forms.ValidationError(u"Seuls les administrateurs de concours, les membres du jury et les super-utilisateurs peuvent se connecter au site d'administration des concours")
+            raise forms.ValidationError(_(u"Seuls les administrateurs de concours, les membres du jury et les super-utilisateurs peuvent se connecter au site d'administration des concours"))
         
         
 class CandidateAdminForm(forms.Form):

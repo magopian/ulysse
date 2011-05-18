@@ -59,6 +59,22 @@ def import_candidates_to_step(modeladmin, request, queryset):
             caj.save()
 import_candidates_to_step.short_description = _(u"Import the selected candidates for this step")
 
+def remove_candidate_from_step(modeladmin, request, queryset):
+    # first, make sure all the associated Evaluations are deleted
+    remove_all_jury_members_from_candidates(modeladmin, request, queryset)
+    # then remove the CandidateJuryAllocation (un-import the candidates)
+    queryset.delete()
+remove_candidate_from_step.short_description = _(u"Remove selected candidate from this step")
+
+def associate_jury_members_to_candidates(modeladmin, request, queryset):
+    pass
+associate_jury_members_to_candidates.short_description = _(u"Associate jury members to the selected candidates")
+
+def remove_all_jury_members_from_candidates(modeladmin, request, queryset):
+    # remove all jury members from the selected CandidateJuryAllocations
+    for cja in queryset:
+        cja.jury_members.clear()
+remove_all_jury_members_from_candidates.short_description = _(u"Remove all jury members from the selected candidates")
 
 def associate_jury_members_to_competition(modeladmin, request, queryset):
     selected = queryset.values_list('pk', flat=True)
@@ -260,8 +276,14 @@ class CandidateToImportAdmin(CandidateAdmin):
         if in_competition_admin:
             return wrap_queryset(self, qs)
         return qs
-        
+
 class CandidateJuryAllocationAdmin(CompetitionModelAdmin):
+    actions = [remove_candidate_from_step,
+               associate_jury_members_to_candidates,
+               remove_all_jury_members_from_candidates]
+    list_display = ['last_name','first_name','jury_']
+    list_filter = ['jury_members']
+    filter_vertical = ['jury_members']
     
     def last_name(self, obj):
       return obj.candidate.composer.user.last_name
@@ -273,13 +295,16 @@ class CandidateJuryAllocationAdmin(CompetitionModelAdmin):
     
     def queryset(self, request):
         # Get candidates for active competition step        
-        qs = CandidateJuryAllocation.objects.filter(step=self.admin_site.get_active_competition_step(request))        
+        qs = CandidateJuryAllocation.objects.filter(step=self.admin_site.get_active_competition_step(request))
         return wrap_queryset(self,qs)
-        
-    
-    list_display  = ('last_name','first_name','jury_')
-    list_filter = ['jury_members',]
-    filter_vertical = ['jury_members',]
+
+    def get_actions(self, request):
+        """Keep only our own actions"""
+        actions = super(CandidateJuryAllocationAdmin, self).get_actions(request)
+        for k in actions.keys():
+            if actions[k][0] not in self.actions:
+                del actions[k]
+        return actions
 
 
 class CandidateGroupAdmin(CompetitionModelAdmin):
