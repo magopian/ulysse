@@ -195,7 +195,8 @@ class CandidateAdmin(CompetitionModelAdmin):
         params = {}
         candidate = Candidate.objects.filter(id=id)[0]
         the_form = CandidateAdminForm()
-        params["the_form"] = the_form
+        params["the_form"]  = the_form
+        params["candidate"] = candidate
         return render_to_response('admin/edit_candidate.html',params,context_instance=RequestContext(request))        
     
     def get_urls(self):
