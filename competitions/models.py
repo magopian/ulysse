@@ -297,7 +297,7 @@ class Evaluation(models.Model):
     status             = models.ForeignKey(EvaluationStatus)
     
     def get_value(self):
-        return ",".join(["%s : %s" % (note.name,note.value) for note in EvaluationNote.objects.filter(evaluation=self)])
+        return ",".join(["%s" % (note.value) for note in EvaluationNote.objects.filter(evaluation=self)])
 
     class Meta:
         verbose_name    = _(u"evaluation")
