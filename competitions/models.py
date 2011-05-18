@@ -228,9 +228,10 @@ class CandidateJuryAllocation(models.Model):
         if len(self.jury_members.all())>0:
             return ", ".join(["%s %s" % (member.user.first_name, member.user.last_name) for member in self.jury_members.all()])
         else:
-            return u"Aucun membre du jury n'est associé à ce candidat pour cette étape"        
+            return _(u"No jury member associated for this step")
         
     class Meta:
+        unique_together = ('candidate', 'step')
         verbose_name        = _(u"candidat / jury allocation")
         
 class NotificationStatus(models.Model):
