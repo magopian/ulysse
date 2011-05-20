@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
-from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.test import TestCase
 from django.contrib.admin.sites import LOGIN_FORM_KEY
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.models import Group, User, Permission
-from competitions.models import JuryMember
+from competitions.models import JuryMember, CandidateJuryAllocation, Evaluation
+from competitions.models import Candidate, CompetitionStep, Competition
+from model_mommy import mommy
 
 class LoginTest(TestCase):
     fixtures = ['full']
@@ -285,3 +286,124 @@ class SuperAdminTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         resp = self.client.get('/super-admin/competitions/jurymember/2/')
         self.assertEqual(resp.status_code, 200)
+
+
+class CandidateJuryAllocationTest(TestCase):
+    fixtures = ['full']
+
+    def setUp(self):
+        self.compadmin_login = {
+            REDIRECT_FIELD_NAME: '/admin/infos/',
+            LOGIN_FORM_KEY: 1,
+            'username': 'compadmin',
+            'password': 'compadmin',
+        }
+
+        # start with a blank slate
+        self.competition = Competition.objects.all()[0] # grab any competition
+        self.step = self.competition.competitionstep_set.all()[0] # grab a step
+        self.c = mommy.make_one(Candidate,
+                                competition=self.competition,
+                                groups=[])
+        self.c2 = mommy.make_one(Candidate,
+                                 competition=self.competition,
+                                 groups=[])
+        self.cja = mommy.make_one(CandidateJuryAllocation,
+                                  candidate=self.c,
+                                  step=self.step,
+                                  jury_members=[])
+        self.cja2 = mommy.make_one(CandidateJuryAllocation,
+                                   candidate=self.c2,
+                                   step=self.step,
+                                   jury_members=[])
+        self.j1 = mommy.make_one(JuryMember,
+                                 competitions=[self.competition],
+                                 groups=[])
+        self.j2 = mommy.make_one(JuryMember,
+                                 competitions=[self.competition],
+                                 groups=[])
+
+    def test_assign_jury_members_from_change_page(self):
+        """Evaluations are created/deleted on add/remove of jury members"""
+
+        resp = self.client.post('/admin/', self.compadmin_login, follow=True)
+        resp = self.client.get('/admin/select_competition/1', follow=True)
+
+        get_data = {'step': self.step.url, 'id': self.cja.pk}
+        url = '/admin/step/%(step)s/allocations/%(id)s/' % get_data
+
+        # add two jury members
+        data = {'step': self.step.pk,
+                'candidate': self.c.pk,
+                'jury_members': [unicode(self.j1.pk), unicode(self.j2.pk)]}
+        resp = self.client.post(url, data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(self.cja.jury_members.count(), 2)
+        # make sure there's two evaluations
+        self.assertEqual(self.c.evaluation_set.count(), 2)
+
+        # remove one
+        data['jury_members'] = [unicode(self.j1.pk)]
+        resp = self.client.post(url, data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(self.cja.jury_members.count(), 1)
+        # make sure there's only one evaluation left
+        self.assertEqual(self.c.evaluation_set.count(), 1)
+        evaluation = self.c.evaluation_set.all()[0]
+        self.assertEqual(evaluation.candidate, self.c)
+        self.assertEqual(evaluation.jury_member, self.j1)
+
+    def test_assign_jury_members_from_admin_action(self):
+        """Evaluations are created/deleted with admin actions"""
+
+        resp = self.client.post('/admin/', self.compadmin_login, follow=True)
+        resp = self.client.get('/admin/select_competition/1', follow=True)
+
+        url = '/admin/step/%s/allocations/' % self.step.url
+        data = {'referer': url,
+                'id': self.cja.pk,
+                'jury_members': [unicode(self.j1.pk), unicode(self.j2.pk)]}
+
+        # add two jury members to one candidate
+        get_data = {'cjas': 'cja=%s' % self.cja.pk, 'referer': url}
+        get = 'manage_jury_members?%(cjas)s&referer=%(referer)s' % get_data
+        url = url + get
+
+        resp = self.client.post(url, data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(self.cja.jury_members.count(), 2)
+        # make sure there's two evaluations
+        self.assertEqual(self.c.evaluation_set.count(), 2)
+
+        # add two jury members to two candidates (one having them already)
+        get_data = {'cjas': 'cja=%s&cja=%s' % (self.cja.pk, self.cja2.pk),
+                    'referer': url}
+        get = 'manage_jury_members?%(cjas)s&referer=%(referer)s' % get_data
+        url = url + get
+
+        resp = self.client.post(url, data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(self.cja.jury_members.count(), 2)
+        self.assertEqual(self.cja2.jury_members.count(), 2)
+        # make sure there's two evaluations each
+        self.assertEqual(self.c.evaluation_set.count(), 2)
+        self.assertEqual(self.c2.evaluation_set.count(), 2)
+
+    def test_remove_jury_members_from_admin_action(self):
+        """Evaluations are all remove with admin action"""
+
+        resp = self.client.post('/admin/', self.compadmin_login, follow=True)
+        resp = self.client.get('/admin/select_competition/1', follow=True)
+
+        url = '/admin/step/%s/allocations/' % self.step.url
+        data = {'action': 'remove_candidate_from_step',
+                '_selected_action': [self.cja.pk, self.cja2.pk]}
+
+        # remove all jury members (and delete evaluations) from two candidates
+        resp = self.client.post(url, data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(self.cja.jury_members.count(), 0)
+        self.assertEqual(self.cja2.jury_members.count(), 0)
+        # make sure there's no evaluations left
+        self.assertEqual(self.c.evaluation_set.count(), 0)
+        self.assertEqual(self.c2.evaluation_set.count(), 0)

@@ -503,7 +503,9 @@
             "is_superuser": false, 
             "is_staff": false, 
             "last_login": "2011-04-28 12:51:12", 
-            "groups": [], 
+            "groups": [
+                8
+            ], 
             "user_permissions": [], 
             "password": "sha1$b1ac4$c11817092c360406e46895dcb4f8f3f07d7d21e4", 
             "email": "mail@ulysse-test.fr", 
@@ -521,7 +523,9 @@
             "is_superuser": false, 
             "is_staff": false, 
             "last_login": "2011-04-28 12:51:27", 
-            "groups": [], 
+            "groups": [
+                8
+            ], 
             "user_permissions": [], 
             "password": "sha1$2f705$e4ae37fdd1497319ad7b0ad50f07d94c096b02b1", 
             "email": "mail@ulysse-test.fr", 
@@ -556,7 +560,7 @@
             "is_active": true, 
             "is_superuser": true, 
             "is_staff": true, 
-            "last_login": "2011-05-17 16:33:02", 
+            "last_login": "2011-05-20 08:21:54", 
             "groups": [
                 8
             ], 
@@ -576,7 +580,7 @@
             "is_active": true, 
             "is_superuser": false, 
             "is_staff": true, 
-            "last_login": "2011-05-17 17:07:52", 
+            "last_login": "2011-05-18 22:13:22", 
             "groups": [
                 8
             ], 
@@ -721,6 +725,14 @@
         }
     }, 
     {
+        "pk": "07a4ca659d72ca02f485170b80aa1ce6", 
+        "model": "sessions.session", 
+        "fields": {
+            "expire_date": "2011-06-03 08:21:56", 
+            "session_data": "NTVlN2VmODg3N2EwNTMxNzM4MjBhMjk2MTI3MTVjZTRjZDdlYzJhNDqAAn1xAShVEmFjdGl2ZV9j\nb21wZXRpdGlvbnECY2RqYW5nby5kYi5tb2RlbHMuYmFzZQptb2RlbF91bnBpY2tsZQpxA2Njb21w\nZXRpdGlvbnMubW9kZWxzCkNvbXBldGl0aW9uCnEEXWNkamFuZ28uZGIubW9kZWxzLmJhc2UKc2lt\ncGxlX2NsYXNzX2ZhY3RvcnkKcQWHUnEGfXEHKFUIc3VidGl0bGVxCFglAAAAUHJhY3RpY2FsIFRy\nYWluaW5nIGZvciBDb21wdXRlciBNdXNpY3EJVQV0aXRsZXEKWBAAAABJcmNhbSAtIEN1cnN1cyAx\ncQtVA3VybHEMWA0AAABpcmNhbS1jdXJzdXMxcQ1VC2lzX2FyY2hpdmVkcQ6JVQZfc3RhdGVxD2Nk\namFuZ28uZGIubW9kZWxzLmJhc2UKTW9kZWxTdGF0ZQpxECmBcRF9cRIoVQZhZGRpbmdxE4lVAmRi\ncRRVB2RlZmF1bHRxFXViVRBpbmZvcm1hdGlvbl9kYXRlcRZjZGF0ZXRpbWUKZGF0ZQpxF1UEB9sE\nG4VScRhVE21hbmFnaW5nX3BhcnRuZXJfaWRxGYoBAVUMY2xvc2luZ19kYXRlcRpoF1UEB9sEG4VS\ncRtVB2lzX29wZW5xHIlVDG9wZW5pbmdfZGF0ZXEdaBdVBAfbBBuFUnEeVQtyZXN1bHRfZGF0ZXEf\naBdVBAfbBBuFUnEgVQxwcmVzZW50YXRpb25xIVi7AwAAPHA+Jm5ic3A7PC9wPg0KPHA+RmlmdGVl\nbiBjb21wb3NlcnMgdW5kZXIgdGhlIGFnZSBvZiAzNSBhcmUgc2VsZWN0ZWQgdG8gdGFrZSBwYXJ0\nIGluIHRoaXMgcHJvZ3JhbSB3aGVyZSB0aGV5IGNhbiBiZWNvbWUgZmFtaWxpYXIgYW5kIGdhaW4g\nYSBkZWVwZXIgdW5kZXJzdGFuZGluZyBvZiB0aGUgdGhlb3JldGljYWwgYW5kIGNvbXBvc2l0aW9u\nYWwgaXNzdWVzIHN1cnJvdW5kaW5nIGNvbXB1dGVyIG11c2ljLjwvcD4NCjxwPlRoaXMgaW50ZW5z\nZSBmdWxsLXRpbWUgcHJvZ3JhbSBpbnRyb2R1Y2VzIHRoZSBjb25jZXB0cyBvZiBjb21wdXRlci1h\nc3Npc3RlZCBjb21wb3NpdGlvbiwgc2lnbmFsIHByb2Nlc3NpbmcsIHNvdW5kIHN5bnRoZXNpcywg\nYW5kIHdyaXRpbmcgZm9yIGludGVyYWN0aW9uLiBTZW1pbmFycyBieSBndWVzdCBjb21wb3NlcnMg\nYWNjb21wYW55IHRlY2huaWNhbCBjb3Vyc2VzIHRhdWdodCBmcm9tIGEgY29tcG9zaXRpb25hbCBw\nb2ludCBvZiB2aWV3LiBUaGUgeWVhciBlbmRzIHdpdGggdGhlIGNyZWF0aW9uIG9mIGEgc3R1ZHkg\nZm9yIGEgc29sbyBpbnN0cnVtZW50IGFuZCBlbGVjdHJvbmljcyBwZXJmb3JtZWQgZHVyaW5nIGEg\nd29ya3Nob3Agd2l0aCBtdXNpYyBwcm9mZXNzaW9uYWxzLiBVcG9uIGNvbXBsZXRpb24gb2YgdGhl\nIGZpcnN0IHllYXIgb2YgdGhlIEN1cnN1cyBwcm9ncmFtLCBzdHVkZW50cyB3aWxsIGhhdmUgYWNx\ndWlyZWQgdGhlIGZvdW5kYXRpb24gbmVjZXNzYXJ5IHRvIGhhdmUgYSBjbGVhciB2aXNpb24gb2Yg\ndGhlIGZpZWxkLCB0byBjb250aW51ZSBoaXMvaGVyIG93biB0cmFpbmluZyBpbmRlcGVuZGVudGx5\nIGFuZCBhc3Nlc3MgdGhlIHN5c3RlbXMgbmVjZXNzYXJ5IHRvIHJlYWxpemUgdGhlaXIgYXJ0aXN0\naWMgcHJvamVjdHMuPC9wPg0KPGRpdj48c3Ryb25nPjxlbT5JbnN0cnVjdGlvbiBpbiBGcmVuY2g8\nL2VtPjwvc3Ryb25nPjwvZGl2PnEiVQJpZHEjigEBVQxpc19wdWJsaXNoZWRxJIl1YlUNX2F1dGhf\ndXNlcl9pZHEligEbVRJfYXV0aF91c2VyX2JhY2tlbmRxJlUpZGphbmdvLmNvbnRyaWIuYXV0aC5i\nYWNrZW5kcy5Nb2RlbEJhY2tlbmRxJ3Uu\n"
+        }
+    }, 
+    {
         "pk": "09d039887e266c8745159a0be52b4456", 
         "model": "sessions.session", 
         "fields": {
@@ -769,14 +781,6 @@
         }
     }, 
     {
-        "pk": "669b9ee4ec533cf3b1b1236a808ca0de", 
-        "model": "sessions.session", 
-        "fields": {
-            "expire_date": "2011-05-31 18:54:03", 
-            "session_data": "Yzk1ZjJhNDc3YmFmOWNhMjkzNTYyYTNjOGQ3MmU0Mjk0MTA4NWVkNTqAAn1xAShVEmFjdGl2ZV9j\nb21wZXRpdGlvbnECY2RqYW5nby5kYi5tb2RlbHMuYmFzZQptb2RlbF91bnBpY2tsZQpxA2Njb21w\nZXRpdGlvbnMubW9kZWxzCkNvbXBldGl0aW9uCnEEXWNkamFuZ28uZGIubW9kZWxzLmJhc2UKc2lt\ncGxlX2NsYXNzX2ZhY3RvcnkKcQWHUnEGfXEHKFUIc3VidGl0bGVxCFglAAAAUHJhY3RpY2FsIFRy\nYWluaW5nIGZvciBDb21wdXRlciBNdXNpY3EJVQV0aXRsZXEKWBAAAABJcmNhbSAtIEN1cnN1cyAx\ncQtVA3VybHEMWA0AAABpcmNhbS1jdXJzdXMxcQ1VC2lzX2FyY2hpdmVkcQ6JVQZfc3RhdGVxD2Nk\namFuZ28uZGIubW9kZWxzLmJhc2UKTW9kZWxTdGF0ZQpxECmBcRF9cRIoVQZhZGRpbmdxE4lVAmRi\ncRRVB2RlZmF1bHRxFXViVRBpbmZvcm1hdGlvbl9kYXRlcRZjZGF0ZXRpbWUKZGF0ZQpxF1UEB9sE\nG4VScRhVE21hbmFnaW5nX3BhcnRuZXJfaWRxGYoBAVUMY2xvc2luZ19kYXRlcRpoF1UEB9sEG4VS\ncRtVB2lzX29wZW5xHIlVDG9wZW5pbmdfZGF0ZXEdaBdVBAfbBBuFUnEeVQtyZXN1bHRfZGF0ZXEf\naBdVBAfbBBuFUnEgVQxwcmVzZW50YXRpb25xIVi7AwAAPHA+Jm5ic3A7PC9wPg0KPHA+RmlmdGVl\nbiBjb21wb3NlcnMgdW5kZXIgdGhlIGFnZSBvZiAzNSBhcmUgc2VsZWN0ZWQgdG8gdGFrZSBwYXJ0\nIGluIHRoaXMgcHJvZ3JhbSB3aGVyZSB0aGV5IGNhbiBiZWNvbWUgZmFtaWxpYXIgYW5kIGdhaW4g\nYSBkZWVwZXIgdW5kZXJzdGFuZGluZyBvZiB0aGUgdGhlb3JldGljYWwgYW5kIGNvbXBvc2l0aW9u\nYWwgaXNzdWVzIHN1cnJvdW5kaW5nIGNvbXB1dGVyIG11c2ljLjwvcD4NCjxwPlRoaXMgaW50ZW5z\nZSBmdWxsLXRpbWUgcHJvZ3JhbSBpbnRyb2R1Y2VzIHRoZSBjb25jZXB0cyBvZiBjb21wdXRlci1h\nc3Npc3RlZCBjb21wb3NpdGlvbiwgc2lnbmFsIHByb2Nlc3NpbmcsIHNvdW5kIHN5bnRoZXNpcywg\nYW5kIHdyaXRpbmcgZm9yIGludGVyYWN0aW9uLiBTZW1pbmFycyBieSBndWVzdCBjb21wb3NlcnMg\nYWNjb21wYW55IHRlY2huaWNhbCBjb3Vyc2VzIHRhdWdodCBmcm9tIGEgY29tcG9zaXRpb25hbCBw\nb2ludCBvZiB2aWV3LiBUaGUgeWVhciBlbmRzIHdpdGggdGhlIGNyZWF0aW9uIG9mIGEgc3R1ZHkg\nZm9yIGEgc29sbyBpbnN0cnVtZW50IGFuZCBlbGVjdHJvbmljcyBwZXJmb3JtZWQgZHVyaW5nIGEg\nd29ya3Nob3Agd2l0aCBtdXNpYyBwcm9mZXNzaW9uYWxzLiBVcG9uIGNvbXBsZXRpb24gb2YgdGhl\nIGZpcnN0IHllYXIgb2YgdGhlIEN1cnN1cyBwcm9ncmFtLCBzdHVkZW50cyB3aWxsIGhhdmUgYWNx\ndWlyZWQgdGhlIGZvdW5kYXRpb24gbmVjZXNzYXJ5IHRvIGhhdmUgYSBjbGVhciB2aXNpb24gb2Yg\ndGhlIGZpZWxkLCB0byBjb250aW51ZSBoaXMvaGVyIG93biB0cmFpbmluZyBpbmRlcGVuZGVudGx5\nIGFuZCBhc3Nlc3MgdGhlIHN5c3RlbXMgbmVjZXNzYXJ5IHRvIHJlYWxpemUgdGhlaXIgYXJ0aXN0\naWMgcHJvamVjdHMuPC9wPg0KPGRpdj48c3Ryb25nPjxlbT5JbnN0cnVjdGlvbiBpbiBGcmVuY2g8\nL2VtPjwvc3Ryb25nPjwvZGl2PnEiVQJpZHEjigEBVQxpc19wdWJsaXNoZWRxJIl1YlUNX2F1dGhf\ndXNlcl9pZHEligEiVRJfYXV0aF91c2VyX2JhY2tlbmRxJlUpZGphbmdvLmNvbnRyaWIuYXV0aC5i\nYWNrZW5kcy5Nb2RlbEJhY2tlbmRxJ3Uu\n"
-        }
-    }, 
-    {
         "pk": "6b3b879695bae01e51ca5b114ece02a9", 
         "model": "sessions.session", 
         "fields": {
@@ -806,6 +810,14 @@
         "fields": {
             "expire_date": "2011-05-28 22:37:30", 
             "session_data": "NTVlN2VmODg3N2EwNTMxNzM4MjBhMjk2MTI3MTVjZTRjZDdlYzJhNDqAAn1xAShVEmFjdGl2ZV9j\nb21wZXRpdGlvbnECY2RqYW5nby5kYi5tb2RlbHMuYmFzZQptb2RlbF91bnBpY2tsZQpxA2Njb21w\nZXRpdGlvbnMubW9kZWxzCkNvbXBldGl0aW9uCnEEXWNkamFuZ28uZGIubW9kZWxzLmJhc2UKc2lt\ncGxlX2NsYXNzX2ZhY3RvcnkKcQWHUnEGfXEHKFUIc3VidGl0bGVxCFglAAAAUHJhY3RpY2FsIFRy\nYWluaW5nIGZvciBDb21wdXRlciBNdXNpY3EJVQV0aXRsZXEKWBAAAABJcmNhbSAtIEN1cnN1cyAx\ncQtVA3VybHEMWA0AAABpcmNhbS1jdXJzdXMxcQ1VC2lzX2FyY2hpdmVkcQ6JVQZfc3RhdGVxD2Nk\namFuZ28uZGIubW9kZWxzLmJhc2UKTW9kZWxTdGF0ZQpxECmBcRF9cRIoVQZhZGRpbmdxE4lVAmRi\ncRRVB2RlZmF1bHRxFXViVRBpbmZvcm1hdGlvbl9kYXRlcRZjZGF0ZXRpbWUKZGF0ZQpxF1UEB9sE\nG4VScRhVE21hbmFnaW5nX3BhcnRuZXJfaWRxGYoBAVUMY2xvc2luZ19kYXRlcRpoF1UEB9sEG4VS\ncRtVB2lzX29wZW5xHIlVDG9wZW5pbmdfZGF0ZXEdaBdVBAfbBBuFUnEeVQtyZXN1bHRfZGF0ZXEf\naBdVBAfbBBuFUnEgVQxwcmVzZW50YXRpb25xIVi7AwAAPHA+Jm5ic3A7PC9wPg0KPHA+RmlmdGVl\nbiBjb21wb3NlcnMgdW5kZXIgdGhlIGFnZSBvZiAzNSBhcmUgc2VsZWN0ZWQgdG8gdGFrZSBwYXJ0\nIGluIHRoaXMgcHJvZ3JhbSB3aGVyZSB0aGV5IGNhbiBiZWNvbWUgZmFtaWxpYXIgYW5kIGdhaW4g\nYSBkZWVwZXIgdW5kZXJzdGFuZGluZyBvZiB0aGUgdGhlb3JldGljYWwgYW5kIGNvbXBvc2l0aW9u\nYWwgaXNzdWVzIHN1cnJvdW5kaW5nIGNvbXB1dGVyIG11c2ljLjwvcD4NCjxwPlRoaXMgaW50ZW5z\nZSBmdWxsLXRpbWUgcHJvZ3JhbSBpbnRyb2R1Y2VzIHRoZSBjb25jZXB0cyBvZiBjb21wdXRlci1h\nc3Npc3RlZCBjb21wb3NpdGlvbiwgc2lnbmFsIHByb2Nlc3NpbmcsIHNvdW5kIHN5bnRoZXNpcywg\nYW5kIHdyaXRpbmcgZm9yIGludGVyYWN0aW9uLiBTZW1pbmFycyBieSBndWVzdCBjb21wb3NlcnMg\nYWNjb21wYW55IHRlY2huaWNhbCBjb3Vyc2VzIHRhdWdodCBmcm9tIGEgY29tcG9zaXRpb25hbCBw\nb2ludCBvZiB2aWV3LiBUaGUgeWVhciBlbmRzIHdpdGggdGhlIGNyZWF0aW9uIG9mIGEgc3R1ZHkg\nZm9yIGEgc29sbyBpbnN0cnVtZW50IGFuZCBlbGVjdHJvbmljcyBwZXJmb3JtZWQgZHVyaW5nIGEg\nd29ya3Nob3Agd2l0aCBtdXNpYyBwcm9mZXNzaW9uYWxzLiBVcG9uIGNvbXBsZXRpb24gb2YgdGhl\nIGZpcnN0IHllYXIgb2YgdGhlIEN1cnN1cyBwcm9ncmFtLCBzdHVkZW50cyB3aWxsIGhhdmUgYWNx\ndWlyZWQgdGhlIGZvdW5kYXRpb24gbmVjZXNzYXJ5IHRvIGhhdmUgYSBjbGVhciB2aXNpb24gb2Yg\ndGhlIGZpZWxkLCB0byBjb250aW51ZSBoaXMvaGVyIG93biB0cmFpbmluZyBpbmRlcGVuZGVudGx5\nIGFuZCBhc3Nlc3MgdGhlIHN5c3RlbXMgbmVjZXNzYXJ5IHRvIHJlYWxpemUgdGhlaXIgYXJ0aXN0\naWMgcHJvamVjdHMuPC9wPg0KPGRpdj48c3Ryb25nPjxlbT5JbnN0cnVjdGlvbiBpbiBGcmVuY2g8\nL2VtPjwvc3Ryb25nPjwvZGl2PnEiVQJpZHEjigEBVQxpc19wdWJsaXNoZWRxJIl1YlUNX2F1dGhf\ndXNlcl9pZHEligEbVRJfYXV0aF91c2VyX2JhY2tlbmRxJlUpZGphbmdvLmNvbnRyaWIuYXV0aC5i\nYWNrZW5kcy5Nb2RlbEJhY2tlbmRxJ3Uu\n"
+        }
+    }, 
+    {
+        "pk": "bdc374cd704de1e946b8653e026fedaf", 
+        "model": "sessions.session", 
+        "fields": {
+            "expire_date": "2011-06-01 22:13:24", 
+            "session_data": "NmYwYmMzYjYzZjI5YWFlZjA0ODYyMzU2MWE4OTA3NGYxZTY2MzFlMzqAAn1xAShVEmFjdGl2ZV9j\nb21wZXRpdGlvbnECY2RqYW5nby5kYi5tb2RlbHMuYmFzZQptb2RlbF91bnBpY2tsZQpxA2Njb21w\nZXRpdGlvbnMubW9kZWxzCkNvbXBldGl0aW9uCnEEXWNkamFuZ28uZGIubW9kZWxzLmJhc2UKc2lt\ncGxlX2NsYXNzX2ZhY3RvcnkKcQWHUnEGfXEHKFUIc3VidGl0bGVxCFglAAAAUHJhY3RpY2FsIFRy\nYWluaW5nIGZvciBDb21wdXRlciBNdXNpY3EJVQV0aXRsZXEKWBAAAABJcmNhbSAtIEN1cnN1cyAx\ncQtVA3VybHEMWA0AAABpcmNhbS1jdXJzdXMxcQ1VC2lzX2FyY2hpdmVkcQ6JVQZfc3RhdGVxD2Nk\namFuZ28uZGIubW9kZWxzLmJhc2UKTW9kZWxTdGF0ZQpxECmBcRF9cRIoVQZhZGRpbmdxE4lVAmRi\ncRRVB2RlZmF1bHRxFXViVRBpbmZvcm1hdGlvbl9kYXRlcRZjZGF0ZXRpbWUKZGF0ZQpxF1UEB9sE\nG4VScRhVE21hbmFnaW5nX3BhcnRuZXJfaWRxGYoBAVUMY2xvc2luZ19kYXRlcRpoF1UEB9sEG4VS\ncRtVB2lzX29wZW5xHIlVDG9wZW5pbmdfZGF0ZXEdaBdVBAfbBBuFUnEeVQtyZXN1bHRfZGF0ZXEf\naBdVBAfbBBuFUnEgVQxwcmVzZW50YXRpb25xIVi7AwAAPHA+Jm5ic3A7PC9wPg0KPHA+RmlmdGVl\nbiBjb21wb3NlcnMgdW5kZXIgdGhlIGFnZSBvZiAzNSBhcmUgc2VsZWN0ZWQgdG8gdGFrZSBwYXJ0\nIGluIHRoaXMgcHJvZ3JhbSB3aGVyZSB0aGV5IGNhbiBiZWNvbWUgZmFtaWxpYXIgYW5kIGdhaW4g\nYSBkZWVwZXIgdW5kZXJzdGFuZGluZyBvZiB0aGUgdGhlb3JldGljYWwgYW5kIGNvbXBvc2l0aW9u\nYWwgaXNzdWVzIHN1cnJvdW5kaW5nIGNvbXB1dGVyIG11c2ljLjwvcD4NCjxwPlRoaXMgaW50ZW5z\nZSBmdWxsLXRpbWUgcHJvZ3JhbSBpbnRyb2R1Y2VzIHRoZSBjb25jZXB0cyBvZiBjb21wdXRlci1h\nc3Npc3RlZCBjb21wb3NpdGlvbiwgc2lnbmFsIHByb2Nlc3NpbmcsIHNvdW5kIHN5bnRoZXNpcywg\nYW5kIHdyaXRpbmcgZm9yIGludGVyYWN0aW9uLiBTZW1pbmFycyBieSBndWVzdCBjb21wb3NlcnMg\nYWNjb21wYW55IHRlY2huaWNhbCBjb3Vyc2VzIHRhdWdodCBmcm9tIGEgY29tcG9zaXRpb25hbCBw\nb2ludCBvZiB2aWV3LiBUaGUgeWVhciBlbmRzIHdpdGggdGhlIGNyZWF0aW9uIG9mIGEgc3R1ZHkg\nZm9yIGEgc29sbyBpbnN0cnVtZW50IGFuZCBlbGVjdHJvbmljcyBwZXJmb3JtZWQgZHVyaW5nIGEg\nd29ya3Nob3Agd2l0aCBtdXNpYyBwcm9mZXNzaW9uYWxzLiBVcG9uIGNvbXBsZXRpb24gb2YgdGhl\nIGZpcnN0IHllYXIgb2YgdGhlIEN1cnN1cyBwcm9ncmFtLCBzdHVkZW50cyB3aWxsIGhhdmUgYWNx\ndWlyZWQgdGhlIGZvdW5kYXRpb24gbmVjZXNzYXJ5IHRvIGhhdmUgYSBjbGVhciB2aXNpb24gb2Yg\ndGhlIGZpZWxkLCB0byBjb250aW51ZSBoaXMvaGVyIG93biB0cmFpbmluZyBpbmRlcGVuZGVudGx5\nIGFuZCBhc3Nlc3MgdGhlIHN5c3RlbXMgbmVjZXNzYXJ5IHRvIHJlYWxpemUgdGhlaXIgYXJ0aXN0\naWMgcHJvamVjdHMuPC9wPg0KPGRpdj48c3Ryb25nPjxlbT5JbnN0cnVjdGlvbiBpbiBGcmVuY2g8\nL2VtPjwvc3Ryb25nPjwvZGl2PnEiVQJpZHEjigEBVQxpc19wdWJsaXNoZWRxJIl1YlUNX2F1dGhf\ndXNlcl9pZHEligEcVRJfYXV0aF91c2VyX2JhY2tlbmRxJlUpZGphbmdvLmNvbnRyaWIuYXV0aC5i\nYWNrZW5kcy5Nb2RlbEJhY2tlbmRxJ3Uu\n"
         }
     }, 
     {
@@ -886,6 +898,318 @@
         "fields": {
             "domain": "example.com", 
             "name": "example.com"
+        }
+    }, 
+    {
+        "pk": 240, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-20 08:22:12", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "50", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 239, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 17:59:17", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "50", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 238, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 17:58:51", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "48", 
+            "change_message": "No fields changed.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 237, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 17:58:38", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "49", 
+            "change_message": "No fields changed.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 236, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 17:57:06", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "50", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 235, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 17:51:36", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "50", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 234, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 17:19:51", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "50", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 233, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 16:18:40", 
+            "object_repr": "Madlener, Frank", 
+            "object_id": "4", 
+            "change_message": "Changed competitions.", 
+            "user": 27, 
+            "content_type": 17
+        }
+    }, 
+    {
+        "pk": 232, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 16:18:35", 
+            "object_repr": "Durieux, Fr\u00e9d\u00e9ric", 
+            "object_id": "5", 
+            "change_message": "Changed competitions.", 
+            "user": 27, 
+            "content_type": 17
+        }
+    }, 
+    {
+        "pk": 231, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 14:46:24", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "46", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 230, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 14:45:57", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "46", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 229, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 12:32:03", 
+            "object_repr": "Streich, Lisa", 
+            "object_id": "13", 
+            "change_message": "Deleted candidat / jury allocation \"CandidateJuryAllocation object\". Deleted candidat / jury allocation \"CandidateJuryAllocation object\".", 
+            "user": 27, 
+            "content_type": 19
+        }
+    }, 
+    {
+        "pk": 228, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 12:31:54", 
+            "object_repr": "Wang, Ying", 
+            "object_id": "15", 
+            "change_message": "Deleted candidat / jury allocation \"CandidateJuryAllocation object\". Deleted candidat / jury allocation \"CandidateJuryAllocation object\".", 
+            "user": 27, 
+            "content_type": 19
+        }
+    }, 
+    {
+        "pk": 227, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 12:31:45", 
+            "object_repr": "Soh, Diana Li Ling", 
+            "object_id": "11", 
+            "change_message": "Deleted candidat / jury allocation \"CandidateJuryAllocation object\".", 
+            "user": 27, 
+            "content_type": 19
+        }
+    }, 
+    {
+        "pk": 226, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 11:47:04", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "40", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 225, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 11:44:03", 
+            "object_repr": "Evaluation object", 
+            "object_id": "3", 
+            "change_message": "Changed status.", 
+            "user": 27, 
+            "content_type": 27
+        }
+    }, 
+    {
+        "pk": 224, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 11:31:53", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "40", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 223, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 10:16:48", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "43", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 222, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 09:52:12", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "42", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 221, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-18 09:50:48", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "39", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 220, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-17 22:37:53", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "39", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 219, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-17 22:37:44", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "40", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 218, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-17 22:33:15", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "39", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 217, 
+        "model": "admin.logentry", 
+        "fields": {
+            "action_flag": 2, 
+            "action_time": "2011-05-17 22:25:35", 
+            "object_repr": "CandidateJuryAllocation object", 
+            "object_id": "40", 
+            "change_message": "Changed jury_members.", 
+            "user": 27, 
+            "content_type": 23
         }
     }, 
     {
@@ -4100,7 +4424,9 @@
         "pk": 4, 
         "model": "competitions.jurymember", 
         "fields": {
-            "competitions": [], 
+            "competitions": [
+                1
+            ], 
             "phone": "", 
             "user": 24, 
             "groups": []
@@ -4110,7 +4436,9 @@
         "pk": 5, 
         "model": "competitions.jurymember", 
         "fields": {
-            "competitions": [], 
+            "competitions": [
+                1
+            ], 
             "phone": "", 
             "user": 25, 
             "groups": []
@@ -4322,7 +4650,7 @@
                 2, 
                 3
             ], 
-            "is_valid": false, 
+            "is_valid": true, 
             "competition": 1, 
             "composer": 10
         }
@@ -4412,12 +4740,40 @@
         }
     }, 
     {
-        "pk": 29, 
+        "pk": 50, 
         "model": "competitions.candidatejuryallocation", 
         "fields": {
-            "step": 2, 
-            "jury_members": [], 
-            "candidate": 15
+            "step": 1, 
+            "jury_members": [
+                5, 
+                6, 
+                7
+            ], 
+            "candidate": 10
+        }
+    }, 
+    {
+        "pk": 49, 
+        "model": "competitions.candidatejuryallocation", 
+        "fields": {
+            "step": 1, 
+            "jury_members": [
+                4, 
+                5
+            ], 
+            "candidate": 11
+        }
+    }, 
+    {
+        "pk": 48, 
+        "model": "competitions.candidatejuryallocation", 
+        "fields": {
+            "step": 1, 
+            "jury_members": [
+                4, 
+                5
+            ], 
+            "candidate": 12
         }
     }, 
     {
@@ -4427,42 +4783,6 @@
             "step": 2, 
             "jury_members": [], 
             "candidate": 14
-        }
-    }, 
-    {
-        "pk": 31, 
-        "model": "competitions.candidatejuryallocation", 
-        "fields": {
-            "step": 2, 
-            "jury_members": [], 
-            "candidate": 13
-        }
-    }, 
-    {
-        "pk": 38, 
-        "model": "competitions.candidatejuryallocation", 
-        "fields": {
-            "step": 1, 
-            "jury_members": [], 
-            "candidate": 15
-        }
-    }, 
-    {
-        "pk": 39, 
-        "model": "competitions.candidatejuryallocation", 
-        "fields": {
-            "step": 1, 
-            "jury_members": [], 
-            "candidate": 13
-        }
-    }, 
-    {
-        "pk": 40, 
-        "model": "competitions.candidatejuryallocation", 
-        "fields": {
-            "step": 1, 
-            "jury_members": [], 
-            "candidate": 11
         }
     }, 
     {
@@ -4487,6 +4807,76 @@
         "fields": {
             "url": "completed", 
             "name": "completed"
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "competitions.evaluation", 
+        "fields": {
+            "status": 4, 
+            "jury_member": 5, 
+            "candidate": 11, 
+            "competition_step": 1
+        }
+    }, 
+    {
+        "pk": 19, 
+        "model": "competitions.evaluation", 
+        "fields": {
+            "status": 4, 
+            "jury_member": 5, 
+            "candidate": 12, 
+            "competition_step": 1
+        }
+    }, 
+    {
+        "pk": 33, 
+        "model": "competitions.evaluation", 
+        "fields": {
+            "status": 4, 
+            "jury_member": 4, 
+            "candidate": 11, 
+            "competition_step": 1
+        }
+    }, 
+    {
+        "pk": 34, 
+        "model": "competitions.evaluation", 
+        "fields": {
+            "status": 4, 
+            "jury_member": 4, 
+            "candidate": 12, 
+            "competition_step": 1
+        }
+    }, 
+    {
+        "pk": 35, 
+        "model": "competitions.evaluation", 
+        "fields": {
+            "status": 4, 
+            "jury_member": 7, 
+            "candidate": 10, 
+            "competition_step": 1
+        }
+    }, 
+    {
+        "pk": 36, 
+        "model": "competitions.evaluation", 
+        "fields": {
+            "status": 4, 
+            "jury_member": 5, 
+            "candidate": 10, 
+            "competition_step": 1
+        }
+    }, 
+    {
+        "pk": 37, 
+        "model": "competitions.evaluation", 
+        "fields": {
+            "status": 4, 
+            "jury_member": 6, 
+            "candidate": 10, 
+            "competition_step": 1
         }
     }, 
     {
@@ -4616,6 +5006,15 @@
             "applied": "2011-05-17 16:17:10", 
             "app_name": "competitions", 
             "migration": "0011_auto__add_candidatejuryallocationnotification__add_notificationstatus"
+        }
+    }, 
+    {
+        "pk": 34, 
+        "model": "south.migrationhistory", 
+        "fields": {
+            "applied": "2011-05-18 12:36:35", 
+            "app_name": "competitions", 
+            "migration": "0012_auto__add_unique_candidatejuryallocation_step_candidate"
         }
     }
 ]
