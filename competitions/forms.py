@@ -152,6 +152,13 @@ class CandidateJuryAllocationForm(forms.ModelForm):
     class Meta:
         model = CandidateJuryAllocation
 
+    def __init__(self, *args, **kwargs):
+        super(CandidateJuryAllocationForm, self).__init__(*args, **kwargs)
+        if self.instance.pk: # we can't filter if we're adding
+            competition = self.instance.step.competition
+            self.fields['jury_members'].queryset = competition.jurymember_set.all()
+            self.fields['candidate'].queryset = competition.candidate_set.all()
+
     def save(self, *args, **kwargs):
         obj = super(CandidateJuryAllocationForm, self).save(*args, **kwargs)
         eval_status = EvaluationStatus.objects.get(name='to process')
