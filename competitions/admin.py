@@ -295,7 +295,7 @@ class CandidateJuryAllocationAdmin(CompetitionModelAdmin):
     form = CandidateJuryAllocationForm
     list_display = ['last_name','first_name','jury_']
     list_filter = ['jury_members']
-    readonly_fields = ['step']
+    readonly_fields = ['candidate', 'step']
     
     def last_name(self, obj):
       return obj.candidate.composer.user.last_name
