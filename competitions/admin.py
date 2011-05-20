@@ -65,7 +65,7 @@ def remove_candidate_from_step(modeladmin, request, queryset):
     remove_all_jury_members_from_candidates(modeladmin, request, queryset)
     # then remove the CandidateJuryAllocation (un-import the candidates)
     queryset.delete()
-remove_candidate_from_step.short_description = _(u"Remove selected candidate from this step")
+remove_candidate_from_step.short_description = _(u"Remove selected candidates from this step")
 
 def manage_jury_members(modeladmin, request, queryset):
     selected = '&cja='.join(map(str, queryset.values_list('pk', flat=True)))
